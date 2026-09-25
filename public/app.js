@@ -116,10 +116,11 @@ function showRegisterResult(department) {
   selectedRegister = department.id;
   renderRegisterList();
   const ageText = department.age === 'child' ? '1 至 17 岁' : department.age === 'all' ? '所有年龄' : '18 岁及以上';
-  $('#register-result').innerHTML = `<div class="register-card"><div class="register-card-head"><span class="register-tag">挂号指引</span><h2>${escape(department.name)}</h2></div><p class="register-path">${escape(locationText(department))} · ${escape(department.zone)} 区</p><p class="register-line">${escape(department.summary)}</p><dl class="register-facts"><div><dt>接诊范围</dt><dd>${escape(ageText)}</dd></div><div><dt>相关症状</dt><dd>${escape(department.keywords.join('、'))}</dd></div><div><dt>怎么挂号</dt><dd>本原型没有接入真实号源，请通过医院官方渠道挂号</dd></div></dl><div class="banner notice"><span class="notice-mark" aria-hidden="true">i</span><div>科室与位置均为虚构示例；真实挂号与就诊安排请以医院官方渠道为准。</div></div><div class="register-actions"><button type="button" class="button secondary" id="register-again">再看其他科室</button><button type="button" class="button secondary" id="register-to-guide">不确定，帮我导诊</button></div></div>`;
+  $('#register-result').innerHTML = `<div class="register-card"><div class="register-card-head"><span class="register-tag">挂号指引</span><h2>${escape(department.name)}</h2></div><p class="register-path">${escape(locationText(department))} · ${escape(department.zone)} 区</p><p class="register-line">${escape(department.summary)}</p><dl class="register-facts"><div><dt>接诊范围</dt><dd>${escape(ageText)}</dd></div><div><dt>相关症状</dt><dd>${escape(department.keywords.join('、'))}</dd></div><div><dt>怎么挂号</dt><dd>本原型没有接入真实号源，请通过医院官方渠道挂号</dd></div></dl><div class="banner notice"><span class="notice-mark" aria-hidden="true">i</span><div>科室与位置均为虚构示例；真实挂号与就诊安排请以医院官方渠道为准。</div></div><div class="register-actions"><button type="button" class="button secondary" id="register-again">再看其他科室</button><button type="button" class="button secondary" id="register-to-guide">不确定，帮我导诊</button><button type="button" class="button primary" id="register-book">确认挂该科室</button></div></div>`;
   $('#register-result').hidden = false;
   $('#register-again').onclick = () => { selectedRegister = ''; $('#register-result').hidden = true; renderRegisterList(); $('#register-search').focus(); };
   $('#register-to-guide').onclick = () => { showGuide(); $('#chief').focus(); };
+  $('#register-book').onclick = () => openBooking(department);
   $('#register-result').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
@@ -230,12 +231,14 @@ function showResult(data) {
   const department = config.departments.find(d => d.id === data.department);
   const names = { recommendation: '就诊参考', emergency: '优先处理', human: '人工协助', uncertain: '存疑弃权' };
   const block = document.createElement('article'); block.className = `result ${data.status}`; block.tabIndex = -1;
-  block.innerHTML = `<div class="result-title"><h3>${escape(data.title)}</h3><span class="result-badge">${names[data.status]}</span></div><p class="result-reason">${escape(data.reason)}</p>${department ? `<div class="result-location"><strong>${escape(department.name)}</strong><span>示例位置：${escape(department.floor)} · ${escape(department.room)}</span></div>` : ''}<h4>判断依据</h4><ul>${data.evidence.map(x => `<li>${escape(x)}</li>`).join('')}</ul><p class="result-next">${escape(data.next)}</p><div class="sources-links">${data.sources.map(id => `<a href="#sources">${escape(config.sources.find(s => s.id === id)?.title || id)} ↗</a>`).join('')}</div>${data.model.note ? `<p class="model-note">${escape(data.model.note)}</p>` : ''}`;
+  block.innerHTML = `<div class="result-title"><h3>${escape(data.title)}</h3><span class="result-badge">${names[data.status]}</span></div><p class="result-reason">${escape(data.reason)}</p>${department ? `<div class="result-location"><strong>${escape(department.name)}</strong><span>示例位置：${escape(department.floor)} · ${escape(department.room)}</span></div>` : ''}<h4>判断依据</h4><ul>${data.evidence.map(x => `<li>${escape(x)}</li>`).join('')}</ul><p class="result-next">${escape(data.next)}</p>${data.status === 'recommendation' && department ? '<div class="result-book"><button type="button" class="button primary" id="result-book">确认挂该科室</button></div>' : ''}<div class="sources-links">${data.sources.map(id => `<a href="#sources">${escape(config.sources.find(s => s.id === id)?.title || id)} ↗</a>`).join('')}</div>${data.model.note ? `<p class="model-note">${escape(data.model.note)}</p>` : ''}`;
   if (data.model.used) {
     const trace = document.createElement('p'); trace.className = 'model-note';
     trace.textContent = `本次模型调用：${data.model.name} · ${(data.model.elapsedMs / 1000).toFixed(1)}秒` + (data.model.matches.length ? ` · ${data.model.matches.map(m => `“${m.evidence}” → ${m.keyword}`).join('；')}` : ' · 未提取到额外症状');
     block.append(trace);
   }
+  const bookButton = block.querySelector('#result-book');
+  if (bookButton) bookButton.onclick = () => openBooking(department);
   $('#messages').append(block); $('#result-actions').hidden = false; updateStep(2); block.focus({ preventScroll: true });
 }
 
@@ -353,6 +356,113 @@ $('#care-dialog-close').onclick = () => { markCareSeen(); $('#care-dialog').clos
 // Esc 关闭等同拒绝：记住选择，不再重复打扰。
 $('#care-dialog').addEventListener('cancel', markCareSeen);
 applyCareMode(careMode);
+
+// ---- 模拟挂号流程（纯前端演示：确认科室 → 号别 → 60秒支付 → 成功/超时/取消） ----
+// 明确不接入真实支付、不产生真实订单；急诊与弃权结局没有挂号入口。
+const BOOKING_LEVELS = {
+  general: { label: '普通号', fee: 10, desc: '普通门诊诊查费（模拟）' },
+  expert: { label: '专家号', fee: 30, desc: '专家门诊诊查费（模拟）' },
+};
+const BOOKING_COUNTDOWN = 60;
+let booking = null;
+let bookingTimer = null;
+const bookingLocation = d => `${d.floor} · ${roomText(d)} · ${d.zone} 区`;
+function clearBookingTimer() {
+  if (bookingTimer !== null) { clearInterval(bookingTimer); bookingTimer = null; }
+}
+function bookingMockOrderNo() {
+  const tail = String(Date.now()).slice(-8);
+  const rand = String(Math.floor(Math.random() * 90) + 10);
+  return `HG${tail}${rand}（模拟单号）`;
+}
+function openBooking(department) {
+  booking = { department, level: null, remain: BOOKING_COUNTDOWN, orderNo: null };
+  $('#booking-dialog').showModal();
+  renderBookingConfirm();
+}
+function bookingMockBanner() {
+  return '<div class="banner notice"><span class="notice-mark" aria-hidden="true">i</span><div><strong>模拟挂号流程</strong> 不产生真实订单与支付，科室和费用均为虚构演示；真实挂号请通过医院官方渠道。</div></div>';
+}
+function renderBookingConfirm() {
+  clearBookingTimer();
+  const d = booking.department;
+  $('#booking-title').textContent = '确认挂号科室';
+  $('#booking-body').innerHTML = `${bookingMockBanner()}
+    <div class="booking-dept"><h3>${escape(d.name)}</h3><p>示例位置：${escape(bookingLocation(d))}</p><p class="booking-ask">是否确认挂该科室的号？</p></div>
+    <div class="booking-actions"><button type="button" class="button secondary" id="booking-confirm-no">再想想</button><button type="button" class="button primary" id="booking-confirm-yes">确认挂该科室</button></div>`;
+  $('#booking-confirm-no').onclick = () => $('#booking-dialog').close();
+  $('#booking-confirm-yes').onclick = renderBookingLevel;
+}
+function renderBookingLevel() {
+  clearBookingTimer();
+  $('#booking-title').textContent = '选择号别';
+  $('#booking-body').innerHTML = `${bookingMockBanner()}
+    <p class="booking-ask">请选择本次要挂的号别：</p>
+    <div class="booking-options">
+      <button type="button" class="booking-option" data-level="general"><strong>普通号</strong><span>${escape(BOOKING_LEVELS.general.desc)}</span><span class="booking-fee">¥${BOOKING_LEVELS.general.fee}</span></button>
+      <button type="button" class="booking-option" data-level="expert"><strong>专家号</strong><span>${escape(BOOKING_LEVELS.expert.desc)}</span><span class="booking-fee">¥${BOOKING_LEVELS.expert.fee}</span></button>
+    </div>
+    <div class="booking-actions"><button type="button" class="button secondary" id="booking-level-back">返回上一步</button></div>`;
+  $$('#booking-body .booking-option').forEach(button => {
+    button.onclick = () => { booking.level = button.dataset.level; renderBookingPayment(); };
+  });
+  $('#booking-level-back').onclick = renderBookingConfirm;
+}
+function renderBookingPayment() {
+  const d = booking.department;
+  const level = BOOKING_LEVELS[booking.level];
+  booking.remain = BOOKING_COUNTDOWN;
+  $('#booking-title').textContent = '模拟支付';
+  $('#booking-body').innerHTML = `${bookingMockBanner()}
+    <div class="booking-pay-head"><h3>${escape(d.name)} · ${escape(level.label)}</h3><p>应付诊查费（模拟）：<strong class="booking-fee">¥${level.fee}</strong></p></div>
+    <div class="booking-pay-box"><div class="booking-pay-amount">¥${level.fee}</div><p>模拟支付通道，不会产生真实扣费</p><p class="booking-countdown-line">请在 <strong id="booking-countdown">${BOOKING_COUNTDOWN}</strong> 秒内完成支付，超时需重新挂号</p></div>
+    <div class="booking-actions"><button type="button" class="button secondary" id="booking-unpaid">未付款</button><button type="button" class="button primary" id="booking-paid">我已付款成功</button></div>`;
+  const countdown = $('#booking-countdown');
+  $('#booking-paid').onclick = () => { booking.orderNo = bookingMockOrderNo(); renderBookingSuccess(); };
+  $('#booking-unpaid').onclick = renderBookingCancelled;
+  clearBookingTimer();
+  bookingTimer = setInterval(() => {
+    booking.remain -= 1;
+    if (booking.remain <= 0) { clearBookingTimer(); renderBookingTimeout(); return; }
+    countdown.textContent = String(booking.remain);
+  }, 1000);
+}
+function renderBookingSuccess() {
+  clearBookingTimer();
+  const d = booking.department;
+  const level = BOOKING_LEVELS[booking.level];
+  $('#booking-title').textContent = '挂号成功';
+  $('#booking-body').innerHTML = `<div class="booking-result booking-ok"><div class="booking-result-icon" aria-hidden="true">✓</div><h3>模拟挂号成功</h3>
+    <dl class="booking-facts">
+      <div><dt>就诊科室</dt><dd>${escape(d.name)}</dd></div>
+      <div><dt>就诊位置</dt><dd>${escape(bookingLocation(d))}</dd></div>
+      <div><dt>号别</dt><dd>${escape(level.label)}</dd></div>
+      <div><dt>诊查费</dt><dd>¥${level.fee}（模拟）</dd></div>
+      <div><dt>挂号单号</dt><dd>${escape(booking.orderNo)}</dd></div>
+    </dl>
+    <p>请按医院官方渠道的实际叫号安排就诊；以上信息均为虚构演示，不能用于真实就诊。</p>
+    <div class="booking-actions"><button type="button" class="button primary" id="booking-done">完成</button></div></div>`;
+  $('#booking-done').onclick = () => $('#booking-dialog').close();
+}
+function renderBookingTimeout() {
+  $('#booking-title').textContent = '挂号失败';
+  $('#booking-body').innerHTML = `<div class="booking-result booking-fail"><div class="booking-result-icon" aria-hidden="true">!</div><h3>支付超时，本次挂号失败</h3>
+    <p>超过 60 秒未完成支付，号源已释放。如需就诊请重新挂号。</p>
+    <div class="booking-actions"><button type="button" class="button secondary" id="booking-fail-close">关闭</button><button type="button" class="button primary" id="booking-retry">重新挂号</button></div></div>`;
+  $('#booking-fail-close').onclick = () => $('#booking-dialog').close();
+  $('#booking-retry').onclick = renderBookingConfirm;
+}
+function renderBookingCancelled() {
+  clearBookingTimer();
+  $('#booking-title').textContent = '已取消支付';
+  $('#booking-body').innerHTML = `<div class="booking-result booking-fail"><div class="booking-result-icon" aria-hidden="true">!</div><h3>未完成支付，挂号未成功</h3>
+    <p>你选择了“未付款”，本次模拟挂号已取消。</p>
+    <div class="booking-actions"><button type="button" class="button secondary" id="booking-cancel-close">关闭</button><button type="button" class="button primary" id="booking-cancel-retry">重新挂号</button></div></div>`;
+  $('#booking-cancel-close').onclick = () => $('#booking-dialog').close();
+  $('#booking-cancel-retry').onclick = renderBookingConfirm;
+}
+$('#booking-close').onclick = () => $('#booking-dialog').close();
+$('#booking-dialog').addEventListener('close', clearBookingTimer);
 $('#reset').onclick = reset; $('#new-session').onclick = reset;
 $('#download').onclick = () => {
   if (!result || result.status === 'question') return;
