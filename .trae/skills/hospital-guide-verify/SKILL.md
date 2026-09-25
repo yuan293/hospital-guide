@@ -5,8 +5,8 @@ description: 院内智导导诊项目改动后的标准验证闭环，含单测�
 
 # 院内智导 · 改动后验证闭环
 
-项目根（路径含全角冒号，必须原样使用、加引号）：
-`c:\Users\punchline\Desktop\院内智导：基于开源大模型的可解释医院导诊系统`
+项目根（无空格、无全角字符，仍建议命令中加引号）：
+`C:\Users\punchline\Documents\Codex\hospital-guide`
 该目录不在注册工作区 `c:\CloudMusic` 内，用户已明确授权读写。Node ≥20、零 npm 依赖、服务端口 3210。
 
 ## 何时使用
@@ -71,7 +71,7 @@ npm run verify:full    # 完整（约数分钟，需 .runtime 里 Ollama 就绪�
    $enc = New-Object System.Text.UTF8Encoding($false)
    [System.IO.File]::WriteAllText($path, $text, $enc)
    ```
-3. 路径含全角"："，所有命令里加引号。复杂逻辑不要塞进 `node -e`（引号转义极易炸），写成临时 .mjs 或现有 npm scripts。
+3. 路径含空格或特殊字符时所有命令里加引号。复杂逻辑不要塞进 `node -e`（引号转义极易炸），写成临时 .mjs 或现有 npm scripts。
 
 ## 服务重启（完整链通过后必做）
 
