@@ -12,8 +12,37 @@ try { preferredModel = localStorage.getItem('hospital-guide.model'); } catch { /
 const labels = { risk: '紧急表现', age: '年龄段', duration: '持续时间', severity: '日常影响' };
 const answerLabels = { no: '均没有', yes: '有紧急表现', unknown: '不确定', adult: '18岁及以上', child: '1至17岁', infant: '未满1岁', short: '少于24小时', days: '1至7天', long: '超过7天', mild: '影响较小', moderate: '影响日常活动', severe: '严重或迅速加重' };
 // 动态鉴别问题（probes）的选项标签随 /api/config 下发，不在前端维护全局词表。
+// “65岁及以上”只是前端展示细分：提交给导诊引擎时仍按 adult（老年按成人科室适用），
+// 不改变 triage 规则、数据结构与评测口径；ageDisplay 仅用于界面回显。
+let ageDisplay = null;
 const slotLabel = key => labels[key] || config?.probes?.find(p => p.id === key)?.title || key;
-const optionLabel = (key, value) => answerLabels[value] || config?.probes?.find(p => p.id === key)?.options.find(([id]) => id === value)?.[1] || value;
+const optionLabel = (key, value) => {
+  if (key === 'age' && value === 'adult' && ageDisplay === 'senior') return '65岁及以上';
+  return answerLabels[value] || config?.probes?.find(p => p.id === key)?.options.find(([id]) => id === value)?.[1] || value;
+};
+
+// ---- 关怀模式（适老化展示层）：大字号 / 高对比 / 宽触控，只作用于界面，不参与导诊逻辑 ----
+const CARE_KEY = 'hospital-guide.care';
+const CARE_SEEN_KEY = 'hospital-guide.care-seen';
+const storageGet = key => { try { return localStorage.getItem(key); } catch { return null; } };
+const storageSet = (key, value) => { try { localStorage.setItem(key, value); } catch { /* 隐私模式下禁用存储时，本次会话设置仍然生效。 */ } };
+let careMode = storageGet(CARE_KEY) === '1';
+function applyCareMode(on) {
+  careMode = on;
+  document.body.classList.toggle('care-mode', on);
+  const toggle = $('#care-toggle');
+  if (toggle) {
+    toggle.setAttribute('aria-pressed', String(on));
+    toggle.textContent = on ? '关怀模式：开' : '关怀模式';
+  }
+}
+function setCareMode(on) { storageSet(CARE_KEY, on ? '1' : '0'); applyCareMode(on); }
+// 用户主动操作过开关，或在知情同意弹窗里做过选择后，不再自动询问。
+function markCareSeen() { storageSet(CARE_SEEN_KEY, '1'); }
+function maybeOfferCareMode() {
+  if (careMode || storageGet(CARE_SEEN_KEY) === '1') return;
+  $('#care-dialog').showModal();
+}
 
 async function api(path, options = {}) {
   const response = await fetch(path, options);
@@ -185,7 +214,7 @@ function updateStep(step) {
 // 清空本次会话（不动入口选择）。演示脚本与“重新开始”共用。
 function resetSession() {
   demoActive = false; programmaticSubmit = false; programmaticClick = false; setDemoBanner(false);
-  generation++; controller?.abort(); chief = ''; answers = {}; result = null;
+  generation++; controller?.abort(); chief = ''; answers = {}; ageDisplay = null; result = null;
   $('#messages').replaceChildren(); $('#request-error').hidden = true; $('#samples').hidden = false;
   $('#chief-form').hidden = false; $('#result-actions').hidden = true; $('#chief').value = ''; $('#char-count').textContent = '0 / 1200';
   setBusy(false); updateStep(0); facts();
@@ -228,7 +257,14 @@ function probeRationale(q) {
 function showQuestion(data) {
   const q = data.question;
   const message = document.createElement('div'); message.className = 'message assistant-message'; message.dataset.question = q.id;
-  message.innerHTML = `<div class="message-label">导诊助手</div><h3>${escape(q.title)}</h3><p>${escape(q.description)}</p>${probeRationale(q)}<div class="options">${q.options.map(([value, label]) => `<button type="button" data-answer="${escape(value)}" data-question="${q.id}">${escape(label)}</button>`).join('')}</div>`;
+  // 年龄问题在展示层把“18岁及以上”细分为 18–64 岁 / 65 岁及以上；
+  // 两者提交给导诊引擎的值都是 adult，65+ 额外携带 data-age-display 供界面回显与关怀提示。
+  const optionsHtml = q.id === 'age'
+    ? q.options.map(([value, label]) => value === 'adult'
+      ? `<button type="button" data-answer="adult" data-question="age">18–64岁</button><button type="button" data-answer="adult" data-age-display="senior" data-question="age">65岁及以上</button>`
+      : `<button type="button" data-answer="${escape(value)}" data-question="age">${escape(label)}</button>`).join('')
+    : q.options.map(([value, label]) => `<button type="button" data-answer="${escape(value)}" data-question="${q.id}">${escape(label)}</button>`).join('');
+  message.innerHTML = `<div class="message-label">导诊助手</div><h3>${escape(q.title)}</h3><p>${escape(q.description)}</p>${probeRationale(q)}<div class="options">${optionsHtml}</div>`;
   $('#messages').append(message);
   updateStep(1);
 }
@@ -287,7 +323,11 @@ $('#samples').addEventListener('click', event => {
 $('#messages').addEventListener('click', event => {
   const button = event.target.closest('[data-answer]'); if (!button || busy) return;
   if (!programmaticClick) stopDemo();
-  answers[button.dataset.question] = button.dataset.answer; request();
+  const question = button.dataset.question;
+  if (question === 'age') ageDisplay = button.dataset.ageDisplay === 'senior' ? 'senior' : null;
+  answers[question] = button.dataset.answer;
+  if (question === 'age' && ageDisplay === 'senior') maybeOfferCareMode();
+  request();
 });
 $('#entry-cards').onclick = event => {
   const card = event.target.closest('[data-entry]');
@@ -305,6 +345,14 @@ $('#register-list').onclick = event => {
 };
 $('#demo-30s').onclick = runDemo;
 $('#demo-stop').onclick = stopDemo;
+// 关怀模式：顶部手动开关始终可用；用户手动操作过即视为已知晓，不再弹知情同意提示。
+$('#care-toggle').addEventListener('click', () => { markCareSeen(); setCareMode(!careMode); });
+$('#care-accept').onclick = () => { markCareSeen(); setCareMode(true); $('#care-dialog').close(); };
+$('#care-decline').onclick = () => { markCareSeen(); $('#care-dialog').close(); };
+$('#care-dialog-close').onclick = () => { markCareSeen(); $('#care-dialog').close(); };
+// Esc 关闭等同拒绝：记住选择，不再重复打扰。
+$('#care-dialog').addEventListener('cancel', markCareSeen);
+applyCareMode(careMode);
 $('#reset').onclick = reset; $('#new-session').onclick = reset;
 $('#download').onclick = () => {
   if (!result || result.status === 'question') return;
