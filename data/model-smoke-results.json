@@ -1,0 +1,80 @@
+{
+  "recordedAt": "2026-09-24T07:20:52.852Z",
+  "note": "Six synthetic integration checks only, not clinical accuracy or independent evaluation.",
+  "rows": [
+    {
+      "model": "qwen2.5:1.5b",
+      "chief": "肚子疼了两天",
+      "matches": [
+        {
+          "keyword": "腹痛",
+          "evidence": "肚子疼了两天"
+        }
+      ],
+      "department": "digestive",
+      "expected": "digestive",
+      "passed": true,
+      "elapsedMs": 127
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "chief": "脑袋疼了两天",
+      "matches": [
+        {
+          "keyword": "头痛",
+          "evidence": "脑袋疼了两天"
+        }
+      ],
+      "department": "neurology",
+      "expected": "neurology",
+      "passed": true,
+      "elapsedMs": 127
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "chief": "没有咳嗽，也没有胃痛",
+      "matches": [],
+      "department": null,
+      "expected": null,
+      "passed": true,
+      "elapsedMs": 103
+    },
+    {
+      "model": "qwen2.5:7b",
+      "chief": "肚子疼了两天",
+      "matches": [
+        {
+          "keyword": "腹痛",
+          "evidence": "肚子疼了两天"
+        }
+      ],
+      "department": "digestive",
+      "expected": "digestive",
+      "passed": true,
+      "elapsedMs": 42333
+    },
+    {
+      "model": "qwen2.5:7b",
+      "chief": "脑袋疼了两天",
+      "matches": [
+        {
+          "keyword": "头痛",
+          "evidence": "脑袋疼了两天"
+        }
+      ],
+      "department": "neurology",
+      "expected": "neurology",
+      "passed": true,
+      "elapsedMs": 337
+    },
+    {
+      "model": "qwen2.5:7b",
+      "chief": "没有咳嗽，也没有胃痛",
+      "matches": [],
+      "department": null,
+      "expected": null,
+      "passed": true,
+      "elapsedMs": 132
+    }
+  ]
+}

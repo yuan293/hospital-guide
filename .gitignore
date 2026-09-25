@@ -1,0 +1,8 @@
+node_modules/
+.env
+*.log
+coverage/
+evaluation-results.json
+.runtime/
+data/evaluation/runs/
+data/evaluation/*.tmp

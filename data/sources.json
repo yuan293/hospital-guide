@@ -1,0 +1,32 @@
+[
+  {
+    "id": "DEMO-DEPTS",
+    "title": "演示医院科室配置",
+    "kind": "团队示例配置",
+    "location": "data/hospital.json",
+    "date": "2026-09-24",
+    "description": "虚构科室、接诊范围和位置，不能作为真实医院就诊依据。",
+    "rights": "团队合成示例数据，随本仓库以 Apache-2.0 公开",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "id": "DEMO-TRIAGE",
+    "title": "原型导诊流程规则",
+    "kind": "待专业审核",
+    "location": "lib/triage.js",
+    "date": "2026-09-24",
+    "description": "用于验证追问、风险分流与科室约束的工程流程，未经临床验证，不是医学指南。",
+    "rights": "团队合成示例数据，随本仓库以 Apache-2.0 公开",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "id": "DEMO-PATHWAY",
+    "title": "上腹痛安全确认（演示配置）",
+    "kind": "待专业审核",
+    "location": "data/hospital.json",
+    "date": "2026-09-25",
+    "description": "上腹痛主诉的红旗征筛查问题，按公开分级与分诊资料的危急征象整理，用于在推荐科室之前排除需要尽快处理的情况；未经临床审核，不是诊疗指南。",
+    "rights": "团队合成示例数据，随本仓库以 Apache-2.0 公开",
+    "reviewStatus": "unreviewed"
+  }
+]

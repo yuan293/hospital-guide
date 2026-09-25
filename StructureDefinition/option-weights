@@ -1,0 +1,284 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "option-weights",
+  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+  "version": "demo-2026.09-v5",
+  "name": "OptionWeights",
+  "title": "选项科室权重",
+  "status": "draft",
+  "experimental": true,
+  "date": "2026-09-25",
+  "publisher": "院内智导项目团队",
+  "description": "挂在答案选项上，声明选中该选项后向各科室累加的工程权重；仅含 weight/<科室代码> 子扩展。",
+  "fhirVersion": "4.0.1",
+  "kind": "complex-type",
+  "abstract": false,
+  "context": [
+    {
+      "type": "element",
+      "expression": "Questionnaire.item.answerOption"
+    }
+  ],
+  "type": "Extension",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Extension",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Extension",
+        "path": "Extension",
+        "short": "选项科室权重"
+      },
+      {
+        "id": "Extension.url",
+        "path": "Extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights"
+      },
+      {
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "max": "0"
+      },
+      {
+        "id": "Extension.extension:dermatology",
+        "path": "Extension.extension",
+        "sliceName": "dermatology",
+        "short": "科室 dermatology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:dermatology.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/dermatology"
+      },
+      {
+        "id": "Extension.extension:dermatology.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 dermatology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:digestive",
+        "path": "Extension.extension",
+        "sliceName": "digestive",
+        "short": "科室 digestive 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:digestive.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/digestive"
+      },
+      {
+        "id": "Extension.extension:digestive.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 digestive 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:ent",
+        "path": "Extension.extension",
+        "sliceName": "ent",
+        "short": "科室 ent 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:ent.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/ent"
+      },
+      {
+        "id": "Extension.extension:ent.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 ent 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:eye",
+        "path": "Extension.extension",
+        "sliceName": "eye",
+        "short": "科室 eye 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:eye.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/eye"
+      },
+      {
+        "id": "Extension.extension:eye.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 eye 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:neurology",
+        "path": "Extension.extension",
+        "sliceName": "neurology",
+        "short": "科室 neurology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:neurology.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/neurology"
+      },
+      {
+        "id": "Extension.extension:neurology.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 neurology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:orthopedics",
+        "path": "Extension.extension",
+        "sliceName": "orthopedics",
+        "short": "科室 orthopedics 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:orthopedics.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/orthopedics"
+      },
+      {
+        "id": "Extension.extension:orthopedics.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 orthopedics 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:respiratory",
+        "path": "Extension.extension",
+        "sliceName": "respiratory",
+        "short": "科室 respiratory 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:respiratory.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/respiratory"
+      },
+      {
+        "id": "Extension.extension:respiratory.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 respiratory 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:urology",
+        "path": "Extension.extension",
+        "sliceName": "urology",
+        "short": "科室 urology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:urology.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology"
+      },
+      {
+        "id": "Extension.extension:urology.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 urology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      }
+    ]
+  }
+}

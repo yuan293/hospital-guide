@@ -1,0 +1,74 @@
+/* 入口选择（直接挂号 / 不确定挂哪科）与科室选择面板。 */
+
+/* ---------- 入口两张卡片 ---------- */
+.entry-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.entry-card{position:relative;display:flex;flex-direction:column;gap:16px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 28px 22px;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.entry-card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--teal),#4fb3a5);opacity:0;transition:opacity .18s ease}
+.entry-card:hover,.entry-card:focus-visible{transform:translateY(-3px);border-color:#a4d3ca;box-shadow:0 14px 34px #1d3b3219}
+.entry-card:hover::before,.entry-card:focus-visible::before{opacity:1}
+.entry-head{display:flex;align-items:center;gap:16px}
+.entry-icon{flex:0 0 auto;width:56px;height:56px;border-radius:17px;display:grid;place-items:center;background:#eaf6f3;color:var(--teal);transition:background .18s ease}
+.entry-card-guide .entry-icon{background:#eef3f9;color:#3f6d92}
+.entry-card:hover .entry-icon{background:#dcf0eb}
+.entry-card-guide:hover .entry-icon{background:#e3edf7}
+.entry-icon svg{width:27px;height:27px;display:block}
+.entry-text{display:grid;gap:6px;min-width:0}
+.entry-title{font-size:20px;font-weight:650;color:var(--ink);letter-spacing:.2px}
+.entry-desc{font-size:12.5px;line-height:1.8;color:var(--muted)}
+.entry-points{display:grid;gap:9px}
+.entry-points span{position:relative;padding-left:19px;font-size:12px;line-height:1.65;color:#6d8178}
+.entry-points span::before{content:"";position:absolute;left:1px;top:7px;width:7px;height:7px;border-radius:50%;background:#bfe0d8}
+.entry-card-guide .entry-points span::before{background:#c9dced}
+.entry-foot{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--teal)}
+.entry-card-guide .entry-foot{color:#3f6d92}
+.entry-foot span{display:inline-block;transition:transform .18s ease}
+.entry-card:hover .entry-foot span{transform:translateX(5px)}
+
+/* ---------- 科室选择面板 ---------- */
+.register-panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:26px 26px 24px;box-shadow:0 2px 10px #1d3b320a}
+.register-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.register-head h2{font-size:18px;color:var(--ink)}
+.register-head p{font-size:12px;line-height:1.8;color:var(--muted);margin:7px 0 0}
+.register-search{margin:20px 0 4px;max-width:520px;border-radius:9px;padding:12px 15px}
+.register-search input{font-size:13px}
+.register-list{margin-top:6px}
+.register-group{margin-top:24px}
+.register-group h3{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:12px;font-weight:600;color:#7d8d86}
+.register-group h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.register-group h3 span{font-size:10px;font-weight:400;color:#9fada5}
+.register-rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.register-row{display:flex;align-items:flex-start;gap:14px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px 17px;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
+.register-row:hover{transform:translateY(-2px);border-color:#a4d3ca;box-shadow:0 8px 20px #1d3b3214}
+.register-row[aria-pressed="true"]{border-color:var(--teal);box-shadow:0 0 0 3px #d8efeb}
+.register-floor{flex:0 0 auto;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;background:#eff6f4;color:#3f7d72;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.register-body{display:grid;gap:5px;min-width:0}
+.register-name{font-size:15px;font-weight:620;color:#1e3a34}
+.register-summary{font-size:11.5px;line-height:1.7;color:#7d8f88}
+.register-meta{font-size:11px;color:#5d8a80;font-variant-numeric:tabular-nums}
+
+/* ---------- 挂号指引 ---------- */
+.register-result{margin:20px 0 4px}
+.register-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--teal);border-radius:12px;padding:24px 26px;box-shadow:0 10px 30px #1d3b3214;animation:rise .22s ease}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.register-card-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.register-tag{font-size:10px;font-weight:600;color:#1f857b;background:#e6f4f1;border-radius:5px;padding:3px 8px}
+.register-card h2{font-size:22px;color:#12433c;letter-spacing:.3px}
+.register-path{margin:16px 0 8px;font-size:21px;font-weight:650;color:var(--teal);font-variant-numeric:tabular-nums;letter-spacing:.4px}
+.register-line{font-size:12.5px;line-height:1.9;color:#6d8173;margin:0}
+.register-facts{display:grid;gap:15px;margin:20px 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.register-facts>div{display:grid;grid-template-columns:84px 1fr;gap:14px;font-size:12.5px}
+.register-facts dt{color:#8b9990}
+.register-facts dd{margin:0;color:#39544c;line-height:1.8}
+.register-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
+
+@media(max-width:940px){.entry-cards{grid-template-columns:1fr}.register-rows{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.register-card{animation:none}}
+@media(max-width:660px){
+  .entry-card{padding:20px;gap:14px}
+  .entry-icon{width:46px;height:46px;border-radius:13px}
+  .entry-title{font-size:17px}
+  .register-panel{padding:20px 16px}
+  .register-card{padding:20px 16px}
+  .register-path{font-size:19px}
+  .register-facts>div{grid-template-columns:1fr;gap:4px}
+}

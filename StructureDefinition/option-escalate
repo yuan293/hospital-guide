@@ -1,0 +1,60 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "option-escalate",
+  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate",
+  "version": "demo-2026.09-v5",
+  "name": "OptionEscalate",
+  "title": "选项升级目标",
+  "status": "draft",
+  "experimental": true,
+  "date": "2026-09-25",
+  "publisher": "院内智导项目团队",
+  "description": "挂在答案选项上，声明该选项触发的升级处置：emergency=急症分流；human=转人工导诊。",
+  "fhirVersion": "4.0.1",
+  "kind": "complex-type",
+  "abstract": false,
+  "context": [
+    {
+      "type": "element",
+      "expression": "Questionnaire.item.answerOption"
+    }
+  ],
+  "type": "Extension",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Extension",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Extension",
+        "path": "Extension",
+        "short": "选项升级目标"
+      },
+      {
+        "id": "Extension.url",
+        "path": "Extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate"
+      },
+      {
+        "id": "Extension.extension",
+        "path": "Extension.extension",
+        "max": "0"
+      },
+      {
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "short": "选项升级目标",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "description": "emergency（急症分流，与红旗征阳性同级，模型不可覆盖）/ human（转人工导诊）"
+        }
+      }
+    ]
+  }
+}

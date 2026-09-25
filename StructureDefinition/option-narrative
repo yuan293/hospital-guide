@@ -1,0 +1,56 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "option-narrative",
+  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative",
+  "version": "demo-2026.09-v5",
+  "name": "OptionNarrative",
+  "title": "选项叙述措辞",
+  "status": "draft",
+  "experimental": true,
+  "date": "2026-09-25",
+  "publisher": "院内智导项目团队",
+  "description": "挂在答案选项上，供会话摘要与评测轨迹使用的客观叙述措辞。",
+  "fhirVersion": "4.0.1",
+  "kind": "complex-type",
+  "abstract": false,
+  "context": [
+    {
+      "type": "element",
+      "expression": "Questionnaire.item.answerOption"
+    }
+  ],
+  "type": "Extension",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Extension",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Extension",
+        "path": "Extension",
+        "short": "选项叙述措辞"
+      },
+      {
+        "id": "Extension.url",
+        "path": "Extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative"
+      },
+      {
+        "id": "Extension.extension",
+        "path": "Extension.extension",
+        "max": "0"
+      },
+      {
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "short": "选项叙述措辞",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      }
+    ]
+  }
+}

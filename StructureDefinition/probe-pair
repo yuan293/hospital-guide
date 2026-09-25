@@ -1,0 +1,104 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "probe-pair",
+  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair",
+  "version": "demo-2026.09-v5",
+  "name": "ProbePair",
+  "title": "鉴别科室对",
+  "status": "draft",
+  "experimental": true,
+  "date": "2026-09-25",
+  "publisher": "院内智导项目团队",
+  "description": "声明该问题用于鉴别的一对科室；可重复以声明多对鉴别关系。仅含 pair-dept-a / pair-dept-b 两个子扩展，科室代码取自本科室目录 code。",
+  "fhirVersion": "4.0.1",
+  "kind": "complex-type",
+  "abstract": false,
+  "context": [
+    {
+      "type": "element",
+      "expression": "Questionnaire.item"
+    }
+  ],
+  "type": "Extension",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Extension",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Extension",
+        "path": "Extension",
+        "short": "鉴别科室对"
+      },
+      {
+        "id": "Extension.url",
+        "path": "Extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair"
+      },
+      {
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "max": "0"
+      },
+      {
+        "id": "Extension.extension:pair-dept-a",
+        "path": "Extension.extension",
+        "sliceName": "pair-dept-a",
+        "short": "鉴别科室 A",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:pair-dept-a.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a"
+      },
+      {
+        "id": "Extension.extension:pair-dept-a.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "鉴别科室 A",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "code"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:pair-dept-b",
+        "path": "Extension.extension",
+        "sliceName": "pair-dept-b",
+        "short": "鉴别科室 B",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:pair-dept-b.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b"
+      },
+      {
+        "id": "Extension.extension:pair-dept-b.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "鉴别科室 B",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "code"
+          }
+        ]
+      }
+    ]
+  }
+}

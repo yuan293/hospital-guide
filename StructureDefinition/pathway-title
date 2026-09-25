@@ -1,0 +1,55 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "pathway-title",
+  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-title",
+  "version": "demo-2026.09-v5",
+  "name": "PathwayTitle",
+  "title": "路径标题",
+  "status": "draft",
+  "experimental": true,
+  "date": "2026-09-25",
+  "publisher": "院内智导项目团队",
+  "description": "路径的中文显示名称。",
+  "fhirVersion": "4.0.1",
+  "kind": "complex-type",
+  "abstract": false,
+  "context": [
+    {
+      "type": "element"
+    }
+  ],
+  "type": "Extension",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Extension",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Extension",
+        "path": "Extension",
+        "short": "路径标题"
+      },
+      {
+        "id": "Extension.url",
+        "path": "Extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-title"
+      },
+      {
+        "id": "Extension.extension",
+        "path": "Extension.extension",
+        "max": "0"
+      },
+      {
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "short": "路径标题",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,588 @@
+{
+  "schemaVersion": 1,
+  "hospital": {
+    "name": "示例综合医院",
+    "version": "demo-2026.09-v3",
+    "notice": "虚构院区与科室资料，仅用于项目演示，不对应真实医院。",
+    "updatedAt": "2026-09-25",
+    "dataType": "synthetic",
+    "sourceIds": [
+      "DEMO-DEPTS"
+    ]
+  },
+  "ruleSourceIds": [
+    "DEMO-TRIAGE"
+  ],
+  "questionnaire": {
+    "resourceType": "Questionnaire",
+    "id": "hospital-guide-probes",
+    "url": "https://github.com/yuan293/hospital-guide/blob/main/Questionnaire/hospital-guide-probes",
+    "version": "demo-2026.09-v5",
+    "name": "HospitalGuideProbes",
+    "title": "院内智导鉴别追问库",
+    "status": "draft",
+    "experimental": true,
+    "date": "2026-09-25",
+    "publisher": "院内智导项目团队",
+    "description": "动态鉴别追问与安全确认问题库，结构对齐 HL7 FHIR R4 Questionnaire。问题类型（location/differential/redflag）、安全确认路径归属与提问顺序、科室权重、锚点症状、科室对、红旗征升级目标与来源等工程参数通过扩展字段表达，扩展 URL 前缀为 https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/ 。演示配置，未经临床审核，不是诊疗指南。",
+    "extension": [
+      { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pathway-definition", "extension": [
+        { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-id", "valueCode": "pw_epigastric" },
+        { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-title", "valueString": "上腹痛安全确认" },
+        { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor", "valueString": "上腹" },
+        { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor", "valueString": "剑突下" },
+        { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor", "valueString": "胃痛" },
+        { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor", "valueString": "胃部" },
+        { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor", "valueString": "反酸" }
+      ] }
+    ],
+    "item": [
+      {
+        "linkId": "p_location",
+        "text": "主要是哪个部位不舒服？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "location" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "刚才的描述还没有定位到具体科室，请选择一个最接近的部位；这不会代替急症判断。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-TRIAGE" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "head_neck", "display": "头面、咽喉或颈部" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/neurology", "valueInteger": 1 },
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/ent", "valueInteger": 1 },
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/eye", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "chest", "display": "胸口、咳嗽或发热" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/respiratory", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "belly", "display": "肚子或消化相关" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/digestive", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "skin", "display": "皮肤" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/dermatology", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "bones", "display": "腰背、关节或四肢" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/orthopedics", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "urinary", "display": "排尿相关" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "多处都不舒服 / 说不清" } }
+        ]
+      },
+      {
+        "linkId": "p_fever_resp",
+        "text": "是否还有咳嗽、咳痰、鼻塞、流涕或咽痛等呼吸道表现？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "differential" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "发热伴头痛或咽痛时，需要鉴别呼吸道问题与其他科室问题。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "发热" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair", "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a", "valueCode": "neurology" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b", "valueCode": "respiratory" }
+          ] },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair", "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a", "valueCode": "ent" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b", "valueCode": "respiratory" }
+          ] },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-TRIAGE" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "有这些表现" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/respiratory", "valueInteger": 2 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "no", "display": "没有" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/neurology", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定" } }
+        ]
+      },
+      {
+        "linkId": "p_abdomen_urine",
+        "text": "肚子不舒服时，排尿是否有异常？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "differential" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "例如尿频、尿急、排尿疼痛；用于鉴别消化内科与泌尿外科。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "腹痛" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "胃痛" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "腹泻" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "恶心" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "反酸" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "尿频" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "尿急" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "尿痛" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair", "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a", "valueCode": "digestive" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b", "valueCode": "urology" }
+          ] },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-TRIAGE" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "排尿有异常" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology", "valueInteger": 2 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "no", "display": "排尿正常" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/digestive", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定" } }
+        ]
+      },
+      {
+        "linkId": "p_back_urine",
+        "text": "腰痛时，排尿是否有异常（如尿频、尿急、尿痛或血尿）？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "differential" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "用于鉴别腰背骨骼问题与泌尿系统问题；两者都可能表现为腰痛。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "腰痛" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair", "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a", "valueCode": "orthopedics" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b", "valueCode": "urology" }
+          ] },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-TRIAGE" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "排尿有异常" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology", "valueInteger": 2 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "no", "display": "排尿正常" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/orthopedics", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定" } }
+        ]
+      },
+      {
+        "linkId": "p_dizzy_ent",
+        "text": "头晕时是否伴有耳鸣或天旋地转的眩晕？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "differential" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "用于鉴别神经内科问题与耳源性眩晕（耳鼻喉科）。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "头晕" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair", "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a", "valueCode": "neurology" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b", "valueCode": "ent" }
+          ] },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-TRIAGE" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "有耳鸣或眩晕" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/ent", "valueInteger": 2 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "no", "display": "没有" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/neurology", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定" } }
+        ]
+      },
+      {
+        "linkId": "p_allergy",
+        "text": "眼睛是否也有明显的发红、发痒或流泪？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "differential" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "皮肤与眼部同时不适时，用于鉴别皮肤科问题与眼部过敏等眼科问题。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "皮疹" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "瘙痒" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "眼痒" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "眼红" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "流泪" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair", "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a", "valueCode": "dermatology" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b", "valueCode": "eye" }
+          ] },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-TRIAGE" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "眼部症状明显" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/eye", "valueInteger": 2 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "no", "display": "主要是皮肤问题" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/dermatology", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定" } }
+        ]
+      },
+      {
+        "linkId": "rf_gi_bleed",
+        "text": "最近有没有出现呕血、吐血、黑便或便血？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "redflag" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pathway", "valueString": "pw_epigastric" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-order", "valueInteger": 1 },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "消化道出血征象是上腹痛最重要的红旗征之一；回答不确定时也需要人工判断。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-PATHWAY" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "有" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate", "valueCode": "emergency" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "筛查到呕血或黑便等消化道出血征象" }
+          ] },
+          { "valueCoding": { "code": "no", "display": "没有" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "未出现呕血、黑便或便血" }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定 / 记不清" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate", "valueCode": "human" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "消化道出血征象无法确认" }
+          ] }
+        ]
+      },
+      {
+        "linkId": "rf_epigastric_cardiac",
+        "text": "是否同时有胸闷、胸痛、左臂或下颌放射痛，或者出冷汗？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "redflag" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pathway", "valueString": "pw_epigastric" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-order", "valueInteger": 2 },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "上腹痛也可能是心源性问题，必须先排除这类征象再问到消化内科就诊。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-PATHWAY" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "有" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate", "valueCode": "emergency" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "筛查到可能的心源性胸痛征象" }
+          ] },
+          { "valueCoding": { "code": "no", "display": "没有" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "未出现胸闷、放射痛或冷汗" }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定 / 说不清" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate", "valueCode": "human" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "心源性征象无法确认" }
+          ] }
+        ]
+      },
+      {
+        "linkId": "rf_epigastric_acute",
+        "text": "腹痛是否持续剧烈加重，或者腹部僵硬、按压时明显疼痛？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "redflag" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pathway", "valueString": "pw_epigastric" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-order", "valueInteger": 3 },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "持续性剧痛伴腹膜刺激征提示需要尽快由医护人员评估。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-PATHWAY" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "有" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate", "valueCode": "emergency" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "筛查到持续剧痛或腹部僵硬征象" }
+          ] },
+          { "valueCoding": { "code": "no", "display": "没有" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "未出现持续加重或腹部僵硬" }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定 / 说不清" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate", "valueCode": "human" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative", "valueString": "腹痛严重程度无法确认" }
+          ] }
+        ]
+      }
+    ]
+  },
+  "departments": [
+    {
+      "id": "respiratory",
+      "name": "呼吸内科",
+      "floor": "2F",
+      "room": "201",
+      "zone": "A",
+      "keywords": [
+        "咳嗽",
+        "咳痰",
+        "发热",
+        "气喘"
+      ],
+      "summary": "呼吸道相关不适的门诊咨询",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "digestive",
+      "name": "消化内科",
+      "floor": "2F",
+      "room": "203",
+      "zone": "A",
+      "keywords": [
+        "腹痛",
+        "胃痛",
+        "腹泻",
+        "恶心",
+        "反酸"
+      ],
+      "summary": "胃肠道相关不适的门诊咨询",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "neurology",
+      "name": "神经内科",
+      "floor": "2F",
+      "room": "205",
+      "zone": "A",
+      "keywords": [
+        "头痛",
+        "头晕",
+        "手麻",
+        "失眠"
+      ],
+      "summary": "头部及神经系统相关不适的门诊咨询",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "dermatology",
+      "name": "皮肤科",
+      "floor": "3F",
+      "room": "301",
+      "zone": "B",
+      "keywords": [
+        "皮疹",
+        "瘙痒",
+        "起疹",
+        "痘痘",
+        "皮肤痒"
+      ],
+      "summary": "皮肤相关不适的门诊咨询",
+      "group": "专科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "orthopedics",
+      "name": "骨科",
+      "floor": "3F",
+      "room": "303",
+      "zone": "B",
+      "keywords": [
+        "腰痛",
+        "膝盖痛",
+        "关节痛",
+        "扭伤",
+        "肩痛",
+        "膝痛"
+      ],
+      "summary": "骨关节与运动系统相关不适的门诊咨询",
+      "group": "外科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "ent",
+      "name": "耳鼻喉科",
+      "floor": "3F",
+      "room": "305",
+      "zone": "B",
+      "keywords": [
+        "耳痛",
+        "耳鸣",
+        "鼻塞",
+        "咽痛",
+        "喉咙痛",
+        "嗓子痛"
+      ],
+      "summary": "耳、鼻、咽喉相关不适的门诊咨询",
+      "group": "专科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "eye",
+      "name": "眼科",
+      "floor": "3F",
+      "room": "307",
+      "zone": "B",
+      "keywords": [
+        "眼痒",
+        "眼干",
+        "眼红",
+        "流泪"
+      ],
+      "summary": "眼部相关不适的门诊咨询",
+      "group": "专科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "urology",
+      "name": "泌尿外科",
+      "floor": "3F",
+      "room": "309",
+      "zone": "B",
+      "keywords": [
+        "尿频",
+        "尿急",
+        "尿痛"
+      ],
+      "summary": "泌尿系统相关不适的门诊咨询",
+      "group": "外科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "pediatrics",
+      "name": "儿科",
+      "floor": "1F",
+      "room": "105",
+      "zone": "C",
+      "keywords": [
+        "儿童",
+        "宝宝",
+        "小孩"
+      ],
+      "summary": "演示接诊范围：1至17岁；婴儿转人工评估",
+      "group": "专科",
+      "age": "child",
+      "ageRangeMonths": {
+        "min": 12,
+        "max": 215
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "general",
+      "name": "全科门诊",
+      "floor": "1F",
+      "room": "103",
+      "zone": "C",
+      "keywords": [
+        "综合咨询"
+      ],
+      "summary": "由现场导诊人员协助安排综合评估",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "emergency",
+      "name": "急诊科",
+      "floor": "1F",
+      "room": "急诊入口",
+      "zone": "D",
+      "keywords": [
+        "急诊"
+      ],
+      "summary": "出现严重或迅速加重的不适时优先寻求帮助",
+      "group": "急诊",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    }
+  ]
+}

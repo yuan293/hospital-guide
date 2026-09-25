@@ -1,0 +1,43 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import { createApp } from '../server.js';
+
+test('HTTP routes, input validation, emergency precedence and origin protection', async t => {
+  const server = createApp();
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  t.after(() => new Promise(resolve => server.close(resolve)));
+  const url = `http://127.0.0.1:${server.address().port}`;
+  const get = await fetch(url + '/api/config');
+  assert.equal(get.status, 200);
+  const config = await get.json();
+  assert.equal(config.departments.length, 11);
+  assert.equal(config.probes.length, 9);
+  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.4.0');
+  assert.equal(config.dataInfo.validation.valid, true);
+  assert.deepEqual(config.dataInfo.files, ['data/hospital.json', 'data/sources.json']);
+  assert.match(get.headers.get('content-security-policy'), /frame-ancestors 'none'/);
+  const page = await fetch(url);
+  assert.match(await page.text(), /院内智导/);
+  const asset = await fetch(url + '/assets/campus.png');
+  assert.equal(asset.headers.get('content-type'), 'image/png');
+  assert.ok((await asset.arrayBuffer()).byteLength > 1000);
+  const post = (body, headers = {}) => fetch(url + '/api/triage', { method: 'POST', headers: { 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(body) });
+  assert.equal((await post({ chief: '' })).status, 400);
+  assert.equal((await post({ chief: 'a'.repeat(9000) })).status, 413);
+  assert.equal((await post({ chief: '咳嗽' }, { Origin: 'https://example.com' })).status, 403);
+  const invalidHost = await new Promise((resolve, reject) => {
+    const req = http.get(url + '/api/config', { headers: { Host: 'attacker.example' } }, res => { res.resume(); resolve(res.statusCode); });
+    req.on('error', reject);
+  });
+  assert.equal(invalidHost, 403);
+  const urgent = await post({ chief: '现在胸痛', model: 'missing-model', answers: {} });
+  assert.equal((await urgent.json()).status, 'emergency');
+  assert.equal((await fetch(url + '/lib/triage.js')).status, 404);
+  assert.equal((await fetch(url + '/evaluation.js')).status, 200);
+  assert.equal((await fetch(url + '/evaluation.css')).status, 200);
+  const evaluation = await fetch(url + '/api/evaluation');
+  assert.equal(evaluation.status, 200);
+  assert.equal(typeof (await evaluation.json()).available, 'boolean');
+  assert.equal((await fetch(url + '/data/evaluation/cases.json')).status, 404);
+});

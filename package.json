@@ -1,0 +1,24 @@
+{
+  "name": "hospital-guide-prototype",
+  "version": "0.4.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "description": "Local hospital guidance demonstration with optional Ollama assistance",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test",
+    "evaluate": "node scripts/evaluate.js",
+    "evaluate:models": "node scripts/evaluate.js --models=qwen2.5:7b,qwen2.5:1.5b",
+    "redteam": "node scripts/redteam.js",
+    "redteam:models": "node scripts/redteam.js --models=qwen2.5:7b,qwen2.5:1.5b",
+    "verify": "powershell -ExecutionPolicy Bypass -File .trae/skills/hospital-guide-verify/scripts/verify-chain.ps1",
+    "verify:full": "powershell -ExecutionPolicy Bypass -File .trae/skills/hospital-guide-verify/scripts/verify-chain.ps1 -Full",
+    "data:validate": "node scripts/validate-data.js",
+    "fhir:export": "node scripts/export-fhir-resources.js",
+    "models:setup": "node scripts/setup-runtime.js",
+    "models:pull": "node scripts/pull-models.js",
+    "models:check": "node scripts/check-models.js"
+  }
+}

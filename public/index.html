@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#087f85"><title>院内智导 · 就诊服务</title>
+  <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/evaluation.css"><link rel="stylesheet" href="/flow.css"><script type="module" src="/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#guide"><img src="/favicon.svg" width="38" height="38" alt=""><span>院内智导<small>HOSPITAL GUIDE</small></span></a>
+    <div class="workspace"><span class="status-dot"></span>示例综合医院<span class="mini-tag">演示</span></div>
+    <nav aria-label="主导航">
+      <a class="nav-link active" href="#guide" data-view="guide"><span aria-hidden="true">✚</span>挂号与导诊</a>
+      <a class="nav-link" href="#departments" data-view="departments"><span aria-hidden="true">▦</span>科室目录</a>
+      <a class="nav-link" href="#sources" data-view="sources"><span aria-hidden="true">▤</span>资料与来源</a>
+      <a class="nav-link" href="#evaluation" data-view="evaluation"><span aria-hidden="true">▥</span>效果评测</a>
+      <a class="nav-link" href="#settings" data-view="settings"><span aria-hidden="true">⚙</span>运行设置</a>
+    </nav>
+    <div class="sidebar-bottom"><span class="version">PROTOTYPE / 0.4</span><p>本机运行 · 不保存导诊记录</p><small>仅供项目演示，尚未经临床验证</small></div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar"><span id="breadcrumb">就诊服务 / 挂号与导诊</span><div class="topbar-right"><span class="dot"></span><span id="mode-label">规则演示模式</span></div></header>
+    <main id="main">
+      <div id="global-error" class="banner danger" role="alert" hidden></div>
+      <section id="view-guide" class="view">
+        <div class="page-heading"><div class="eyebrow">就诊服务</div><div class="heading-row"><div><h1 id="guide-title">今天想怎么开始？</h1><p id="guide-subtitle">知道挂哪个科就直接挂号；不确定的话，我帮你判断。</p></div><button id="reset" class="button secondary" title="回到开始" hidden>重新开始</button></div></div>
+        <div id="entry-cards" class="entry-cards">
+          <button type="button" class="entry-card" data-entry="register">
+            <span class="entry-head">
+              <span class="entry-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.2h8a2 2 0 0 1 2 2v13.6a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5.2a2 2 0 0 1 2-2Z"/><path d="M9 8.4h6M9 12.2h6M9 16h3"/></svg></span>
+              <span class="entry-text"><strong class="entry-title">我要直接挂号</strong><span class="entry-desc">已经知道要挂哪个科，直接选科室。</span></span>
+            </span>
+            <span class="entry-points"><span>楼层、诊室与院区位置</span><span>科室接诊年龄范围</span><span>怎么挂号（本原型不含号源）</span></span>
+            <span class="entry-foot">选择科室 <span aria-hidden="true">→</span></span>
+          </button>
+          <button type="button" class="entry-card entry-card-guide" data-entry="guide">
+            <span class="entry-head">
+              <span class="entry-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 11.8a7.6 7.6 0 0 1-7.6 7.6H9.3L4 22.4v-4.7a7.6 7.6 0 0 1-1-4.1 7.6 7.6 0 0 1 7.6-7.6h2.4a7.6 7.6 0 0 1 7.6 7.6Z"/><path d="M10.5 9.9a1.9 1.9 0 1 1 2.6 2c-.5.2-.8.6-.8 1.2v.4"/><circle cx="12.2" cy="16.2" r=".75" fill="currentColor" stroke="none"/></svg></span>
+              <span class="entry-text"><strong class="entry-title">不确定挂哪科</strong><span class="entry-desc">说说哪里不舒服，我帮你判断。</span></span>
+            </span>
+            <span class="entry-points"><span>只问 3–4 个问题，约 1 分钟</span><span>先确认有没有需要急诊的情况</span><span>给出科室方向与判断依据</span></span>
+            <span class="entry-foot">开始导诊 <span aria-hidden="true">→</span></span>
+          </button>
+        </div>
+        <div id="register-panel" class="register-panel" hidden>
+          <div class="register-head">
+            <div><h2>选择科室</h2><p>可以按科室名或症状搜索；不确定挂哪科，就返回让导诊帮你判断。</p></div>
+            <button type="button" id="register-back" class="button secondary">返回</button>
+          </div>
+          <label class="search register-search"><span aria-hidden="true">⌕</span><input id="register-search" type="search" placeholder="试试输入：消化内科、反酸、膝盖痛、眼睛发干" aria-label="搜索科室"></label>
+          <div id="register-result" class="register-result" hidden></div>
+          <div id="register-list" class="register-list"></div>
+        </div>
+        <div class="banner notice"><span class="notice-mark" aria-hidden="true">i</span><div><strong>演示环境</strong> 科室与位置均为虚构示例。导诊建议不能替代医生诊断，不用于真实诊疗。</div></div>
+        <div id="guide-panel" hidden>
+        <div class="guide-grid">
+          <div class="consultation">
+            <div class="section-header"><h2>本次导诊</h2><span id="step-label" class="subtle">尚未开始</span></div>
+            <ol class="steps" aria-label="导诊流程"><li class="current" data-step="0"><b>1</b>描述不适</li><li data-step="1"><b>2</b>补充信息</li><li data-step="2"><b>3</b>就诊建议</li></ol>
+            <div id="conversation" class="conversation" aria-live="polite" aria-relevant="additions text">
+              <div class="welcome"><div class="avatar" aria-hidden="true">✚</div><div><h3>你好，我是导诊助手</h3><p>请描述主要不适、具体部位和持续时间，以及是否伴随其他症状。不要填写姓名、证件号等个人信息。</p></div></div>
+                <div id="samples" class="samples"><span class="field-label">快速开始</span><div class="sample-buttons"><button type="button" id="demo-30s" class="demo-button">▶ 30秒自动演示 <small>安全提问 → 鉴别追问 → 科室建议</small></button><button type="button" data-sample="咳嗽三天，伴有发热。">咳嗽、发热 <span>↗</span></button><button type="button" data-sample="上腹痛，还有点反酸。">上腹痛、反酸 <span>↗</span></button><button type="button" data-sample="皮肤起疹子，有些瘙痒。">皮肤不适 <span>↗</span></button><button type="button" data-sample="今天持续胸痛，伴有冷汗。">紧急情况 <span>↗</span></button></div></div>
+              <div id="demo-banner" class="banner notice" hidden>自动演示进行中：系统将自动回答安全问题，并展示鉴别追问的并列科室与信息增益；你可以随时接管或<button type="button" id="demo-stop" class="demo-stop">停止演示</button>。</div>
+              <div id="messages"></div>
+              <div id="loading" class="loading" role="status" hidden><span class="spinner"></span>正在整理信息，本地模型首次加载可能稍久…</div>
+              <div id="request-error" class="banner danger" role="alert" hidden></div>
+            </div>
+              <form id="chief-form" class="composer"><label for="chief">主要不适</label><textarea id="chief" name="chief" maxlength="1200" rows="3" placeholder="例如：咳嗽三天，今天开始发热，没有呼吸困难。" required minlength="2"></textarea><div class="composer-footer"><span id="char-count">0 / 1200</span><button id="submit-chief" class="button primary" type="submit">开始导诊 <span aria-hidden="true">→</span></button></div></form>
+            <div id="result-actions" class="result-actions" hidden><button class="button primary" id="download">下载本次摘要</button><button class="button secondary" id="new-session">开始新的导诊</button></div>
+          </div>
+          <aside class="context-rail">
+            <section class="context-section"><div class="section-header"><h2>已确认信息</h2><span class="small-mark">本次</span></div><dl id="patient-facts"><div><dt>主要不适</dt><dd>待填写</dd></div><div><dt>年龄段</dt><dd>待确认</dd></div><div><dt>日常影响</dt><dd>待确认</dd></div></dl></section>
+            <section class="context-section campus"><div class="section-header"><h2>演示院区</h2><span class="small-mark">示意</span></div><img src="/assets/campus.png" alt="虚构示例院区示意：A区内科门诊、B区专科门诊、C区儿科与全科、D区急诊入口" width="800" height="480"><div class="campus-caption"><span>门诊楼 · 示例布局</span><a href="#departments">科室目录 →</a></div></section>
+            <section class="urgent-help"><div class="urgent-icon" aria-hidden="true">!</div><h3>紧急不适，优先求助</h3><p>严重胸痛、呼吸困难、意识异常等情况，请立即联系现场医护人员。</p><a href="tel:120">120 <span>中国大陆急救电话</span></a></section>
+          </aside>
+          </div>
+        </div>
+        </section>
+      <section id="view-departments" class="view" hidden><div class="page-heading"><div class="eyebrow">院内服务</div><h1>科室目录</h1><p>示例科室及位置，不对应真实医院。</p></div><div class="directory-toolbar"><label class="search"><span aria-hidden="true">⌕</span><input id="department-search" type="search" placeholder="搜索科室或相关不适" aria-label="搜索科室"></label><div id="department-filters" class="segmented" aria-label="筛选科室"><button data-filter="all" aria-pressed="true">全部</button><button data-filter="内科" aria-pressed="false">内科</button><button data-filter="外科" aria-pressed="false">外科</button><button data-filter="专科" aria-pressed="false">专科</button><button data-filter="急诊" aria-pressed="false">急诊</button></div></div><div id="department-count" class="list-count"></div><div id="department-list" class="department-list"></div></section>
+      <section id="view-sources" class="view" hidden><div class="page-heading"><div class="eyebrow">知识资料</div><h1>资料与来源</h1><p>每条科室建议都关联到明确的配置来源。</p></div><div class="banner notice">当前仅包含团队示例配置与待专业审核的规则，未接入真实医院或临床指南。</div><div id="data-status" class="data-status"></div><div id="source-list" class="source-list"></div></section>
+      <section id="view-evaluation" class="view" hidden>
+        <div class="page-heading"><div class="eyebrow">可验证效果</div><div class="heading-row"><div><h1>效果评测</h1><p>同一批合成案例，对比 legacy 固定追问、信息增益动态追问与模型辅助流程，含存疑弃权指标。</p></div><button id="refresh-evaluation" class="button secondary">刷新结果</button></div></div>
+        <div class="banner notice">这是工程回归与模型对照，尚无临床验证，也不是独立盲测。页面仅展示脚本实际运行的结果。</div>
+        <div id="evaluation-status" role="status" class="status-message"></div>
+        <div id="evaluation-content"></div>
+      </section>
+      <section id="view-settings" class="view" hidden><div class="page-heading"><div class="eyebrow">系统</div><h1>运行设置</h1><p>本地模型连接与当前运行状态。</p></div><div class="settings-layout"><section class="settings-section"><div class="section-header"><h2>模型连接</h2><button id="refresh-models" class="button secondary">检查连接</button></div><p id="model-status" class="status-message" role="status">尚未检测本地模型服务。</p><label class="field-label" for="model-select">导诊模式</label><select id="model-select"><option value="">规则演示模式</option></select><p class="field-help">选择已安装的 Ollama 模型后，症状描述将发送到本机模型服务。模型只辅助症状词标准化，无法覆盖紧急分流规则。</p><div id="model-warning" class="banner notice" hidden></div></section><section class="settings-section"><h2>数据与范围</h2><dl class="settings-facts"><div><dt>医院资料</dt><dd>虚构演示数据</dd></div><div><dt>会话存储</dt><dd>仅当前页面内存，刷新后清空</dd></div><div><dt>模型服务</dt><dd id="model-endpoint">127.0.0.1:11434</dd></div><div><dt>应用版本</dt><dd>0.4.0</dd></div><div><dt>临床验证</dt><dd>未完成，不用于真实诊疗</dd></div></dl></section></div></section>
+    </main>
+    <footer>院内智导 <span>开源导诊原型</span><span>示例数据 · 未经临床验证</span></footer>
+  </div>
+  <dialog id="department-dialog"><div class="dialog-header"><h2 id="dialog-title"></h2><button id="close-dialog" class="icon-button" aria-label="关闭科室详情" title="关闭">×</button></div><div id="dialog-content"></div></dialog>
+</body></html>

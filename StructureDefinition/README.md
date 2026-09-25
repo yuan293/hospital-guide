@@ -1,0 +1,41 @@
+# StructureDefinition（院内智导自定义 FHIR 扩展）
+
+本目录是 `data/hospital.json` 中鉴别追问与安全确认问题库（HL7 FHIR R4 Questionnaire）所引用的全部自定义扩展的结构定义，由 `scripts/export-fhir-resources.js` 从问卷资源自动生成，**不要手工编辑**；修改扩展后运行 `npm run fhir:export` 重新导出。
+
+每个文件的仓库路径与其 canonical URL 一一对应（canonical 采用 GitHub 网页 blob 形式，含 `/blob/main/` 路由段）：在问卷里直接点击扩展 URL 即可到达本目录内的定义页面，同名 raw 链接提供机器可读 JSON。FHIR canonical URL 本身只是标识符、规范不要求可解析，本仓库额外保证其可解析、可核验。
+
+- 问卷资源本体：[blob 页面](https://github.com/yuan293/hospital-guide/blob/main/Questionnaire/hospital-guide-probes) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/Questionnaire/hospital-guide-probes)
+- 扩展 canonical 前缀：https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/
+- 状态：draft / experimental，演示配置，未经临床审核，不是诊疗指南
+
+| 尾名 | canonical（blob / raw） | 形态 | 说明 |
+| --- | --- | --- | --- |
+| `option-escalate` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/option-escalate) | code 值 | 选项升级目标 |
+| `option-narrative` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/option-narrative) | string 值 | 选项叙述措辞 |
+| `option-weights` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/option-weights) | 容器扩展（含子扩展） | 选项科室权重 |
+| `pair-dept-a` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pair-dept-a) | code 值 | 鉴别科室 A |
+| `pair-dept-a` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pair-dept-a) | code 值 | 鉴别科室 A |
+| `pair-dept-b` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pair-dept-b) | code 值 | 鉴别科室 B |
+| `pair-dept-b` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pair-dept-b) | code 值 | 鉴别科室 B |
+| `pathway-anchor` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pathway-anchor) | string 值 | 路径触发锚点词 |
+| `pathway-anchor` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pathway-anchor) | string 值 | 路径触发锚点词 |
+| `pathway-id` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-id) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pathway-id) | code 值 | 路径标识 |
+| `pathway-id` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-id) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pathway-id) | code 值 | 路径标识 |
+| `pathway-title` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-title) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pathway-title) | string 值 | 路径标题 |
+| `pathway-title` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-title) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/pathway-title) | string 值 | 路径标题 |
+| `probe-description` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/probe-description) | string 值 | 问题用途说明 |
+| `probe-kind` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/probe-kind) | code 值 | 鉴别问题类型 |
+| `probe-order` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-order) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/probe-order) | integer 值 | 路径内提问顺序 |
+| `probe-pair` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/probe-pair) | 容器扩展（含子扩展） | 鉴别科室对 |
+| `probe-pathway` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pathway) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/probe-pathway) | string 值 | 安全确认路径归属 |
+| `probe-pathway-definition` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pathway-definition) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/probe-pathway-definition) | 容器扩展（含子扩展） | 安全确认路径定义 |
+| `probe-require-any` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/probe-require-any) | string 值 | 激活锚点症状 |
+| `probe-source` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/probe-source) | string 值 | 规则来源标识 |
+| `weight/dermatology` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/dermatology) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/weight/dermatology) | integer 值 | weight/dermatology |
+| `weight/digestive` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/digestive) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/weight/digestive) | integer 值 | weight/digestive |
+| `weight/ent` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/ent) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/weight/ent) | integer 值 | weight/ent |
+| `weight/eye` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/eye) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/weight/eye) | integer 值 | weight/eye |
+| `weight/neurology` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/neurology) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/weight/neurology) | integer 值 | weight/neurology |
+| `weight/orthopedics` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/orthopedics) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/weight/orthopedics) | integer 值 | weight/orthopedics |
+| `weight/respiratory` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/respiratory) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/weight/respiratory) | integer 值 | weight/respiratory |
+| `weight/urology` | [blob 页面](https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology) · [raw JSON](https://raw.githubusercontent.com/yuan293/hospital-guide/main/StructureDefinition/weight/urology) | integer 值 | weight/urology |

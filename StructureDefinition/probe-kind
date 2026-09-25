@@ -1,0 +1,60 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "probe-kind",
+  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind",
+  "version": "demo-2026.09-v5",
+  "name": "ProbeKind",
+  "title": "鉴别问题类型",
+  "status": "draft",
+  "experimental": true,
+  "date": "2026-09-25",
+  "publisher": "院内智导项目团队",
+  "description": "标识鉴别问题的工程类型：location=无候选时的部位定位；differential=在并列科室间鉴别的追问；redflag=安全确认路径内的红旗征问题。",
+  "fhirVersion": "4.0.1",
+  "kind": "complex-type",
+  "abstract": false,
+  "context": [
+    {
+      "type": "element",
+      "expression": "Questionnaire.item"
+    }
+  ],
+  "type": "Extension",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Extension",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Extension",
+        "path": "Extension",
+        "short": "鉴别问题类型"
+      },
+      {
+        "id": "Extension.url",
+        "path": "Extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind"
+      },
+      {
+        "id": "Extension.extension",
+        "path": "Extension.extension",
+        "max": "0"
+      },
+      {
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "short": "鉴别问题类型",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "description": "location（无候选时的部位定位）/ differential（并列科室鉴别追问）/ redflag（安全确认路径内的红旗征问题）"
+        }
+      }
+    ]
+  }
+}
