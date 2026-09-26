@@ -342,7 +342,7 @@ npm run verify:full   # 完整：再加双模型评测与双模型红队（需�
 - 数据版本化：医院科室（`data/hospital.json`）、问题库（`data/questions.json`）、红旗征配置（`data/redflags.json`）均为独立 JSON，与代码分离；修改数据后必须重跑 `npm run evaluate` 与 `npm test`，评测结果携带 12 个核心文件的 sha256 指纹，数据被改动时旧评测自动标记过期——可验证性随每次维护动作保鲜。
 - 红旗征与安全规则：接受有公开医学依据的勘误（欢迎通过 Issue 指出），但不接受任何"降低安全门槛"的修改；宁可多转人工，不放行可疑急症。
 
-**欢迎贡献的范围（Issue / PR）**
+**欢迎贡献的范围（Issue / PR，流程与验证要求见 [CONTRIBUTING.md](CONTRIBUTING.md)）**
 
 - 规则依据勘误：症状词表、红旗征配置中表述不当或与公开常识冲突的条目；
 - 科室数据适配：其他医院/院区的 `hospital.json` 配置样例（须为虚构或已获授权的数据）；
