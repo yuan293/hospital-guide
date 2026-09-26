@@ -13,7 +13,10 @@ const report = JSON.parse(readFileSync(reportPath, 'utf8'));
 // 再显式更新此表；不允许静默放行任何新失败。
 const allowlist = {
   rules: ['HG-039', 'HG-040', 'HG-041', 'HG-042', 'HG-043', 'HG-044', 'HG-045', 'HG-046'], // 纯规则对口语表达的基线局限
-  dynamic: [],
+  // 无模型时这 3 条口语主诉无法从“不适部位”选项里恢复语义（head_neck 同时指向神经/耳鼻喉；
+  // 部位选项没有眼部），按设计弃权转人工；同一案例在 workflow 组由模型入口介入全部通过，
+  // 这组差值是“AI 必要”的同案例集对照证据，不是待修 bug。
+  dynamic: ['HG-040', 'HG-041', 'HG-043'],
   'model:qwen2.5:7b': [],
   'workflow:qwen2.5:7b': [],
   'model:qwen2.5:1.5b': ['HG-018', 'HG-020', 'HG-041', 'HG-051'], // 1.5B 一次性组刻意保留的对照挑战

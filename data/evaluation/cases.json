@@ -913,7 +913,9 @@
       "category": "口语表达",
       "modes": [
         "rules",
-        "model"
+        "model",
+        "dynamic",
+        "workflow"
       ],
       "input": {
         "chief": "肚子疼了两天",
@@ -921,7 +923,8 @@
           "risk": "no",
           "age": "adult",
           "duration": "days",
-          "severity": "mild"
+          "severity": "mild",
+          "p_location": "belly"
         }
       },
       "expected": {
@@ -935,7 +938,9 @@
       "category": "口语表达",
       "modes": [
         "rules",
-        "model"
+        "model",
+        "dynamic",
+        "workflow"
       ],
       "input": {
         "chief": "脑袋疼了两天",
@@ -943,13 +948,15 @@
           "risk": "no",
           "age": "adult",
           "duration": "days",
-          "severity": "mild"
+          "severity": "mild",
+          "p_location": "head_neck"
         }
       },
       "expected": {
         "status": "recommendation",
         "department": "neurology"
-      }
+      },
+      "labelNote": "无模型时只能靠部位问题收敛：head_neck 同时指向神经内科与耳鼻喉科，按设计弃权转人工；有模型时主诉在入口被标准化为“头痛”，不再需要部位问题。"
     },
     {
       "id": "HG-041",
@@ -957,7 +964,9 @@
       "category": "口语表达",
       "modes": [
         "rules",
-        "model"
+        "model",
+        "dynamic",
+        "workflow"
       ],
       "input": {
         "chief": "嗓子疼，持续两天",
@@ -965,13 +974,15 @@
           "risk": "no",
           "age": "adult",
           "duration": "days",
-          "severity": "mild"
+          "severity": "mild",
+          "p_location": "head_neck"
         }
       },
       "expected": {
         "status": "recommendation",
         "department": "ent"
-      }
+      },
+      "labelNote": "同 HG-040：无模型时 head_neck 无法区分耳鼻喉科与神经内科而弃权；有模型时主诉被标准化为“咽痛/嗓子痛”后直接落入耳鼻喉科。"
     },
     {
       "id": "HG-042",
@@ -979,7 +990,9 @@
       "category": "口语表达",
       "modes": [
         "rules",
-        "model"
+        "model",
+        "dynamic",
+        "workflow"
       ],
       "input": {
         "chief": "拉肚子三天",
@@ -987,7 +1000,8 @@
           "risk": "no",
           "age": "adult",
           "duration": "days",
-          "severity": "mild"
+          "severity": "mild",
+          "p_location": "belly"
         }
       },
       "expected": {
@@ -1001,7 +1015,9 @@
       "category": "口语表达",
       "modes": [
         "rules",
-        "model"
+        "model",
+        "dynamic",
+        "workflow"
       ],
       "input": {
         "chief": "眼睛发干",
@@ -1009,13 +1025,15 @@
           "risk": "no",
           "age": "adult",
           "duration": "days",
-          "severity": "mild"
+          "severity": "mild",
+          "p_location": "head_neck"
         }
       },
       "expected": {
         "status": "recommendation",
         "department": "eye"
-      }
+      },
+      "labelNote": "部位问题当前没有眼部选项，受试者只能选最接近的 head_neck，无模型时按设计弃权；有模型时“眼睛发干”在入口被标准化为“眼干”。这条同时暴露了部位选项偏粗的配置局限。"
     },
     {
       "id": "HG-044",
@@ -1023,7 +1041,9 @@
       "category": "口语表达",
       "modes": [
         "rules",
-        "model"
+        "model",
+        "dynamic",
+        "workflow"
       ],
       "input": {
         "chief": "小便的时候疼",
@@ -1031,7 +1051,8 @@
           "risk": "no",
           "age": "adult",
           "duration": "days",
-          "severity": "mild"
+          "severity": "mild",
+          "p_location": "urinary"
         }
       },
       "expected": {
@@ -1045,7 +1066,9 @@
       "category": "口语表达",
       "modes": [
         "rules",
-        "model"
+        "model",
+        "dynamic",
+        "workflow"
       ],
       "input": {
         "chief": "腰部疼痛两天",
@@ -1053,7 +1076,8 @@
           "risk": "no",
           "age": "adult",
           "duration": "days",
-          "severity": "mild"
+          "severity": "mild",
+          "p_location": "bones"
         }
       },
       "expected": {
@@ -1067,7 +1091,9 @@
       "category": "口语表达",
       "modes": [
         "rules",
-        "model"
+        "model",
+        "dynamic",
+        "workflow"
       ],
       "input": {
         "chief": "皮肤很痒",
@@ -1075,7 +1101,8 @@
           "risk": "no",
           "age": "adult",
           "duration": "days",
-          "severity": "mild"
+          "severity": "mild",
+          "p_location": "skin"
         }
       },
       "expected": {
@@ -1597,8 +1624,7 @@
       "suite": "regression",
       "category": "安全确认",
       "modes": [
-        "dynamic",
-        "workflow"
+        "dynamic"
       ],
       "input": {
         "chief": "上腹部不舒服",
@@ -1617,7 +1643,7 @@
         "department": null,
         "question": "p_location"
       },
-      "labelNote": "锚点命中但没有任何科室关键词时，先完成安全确认，再回到部位定位。"
+      "labelNote": "锚点命中但没有任何科室关键词时，先完成安全确认，再回到部位定位。这条验证的是无模型流程的追问顺序（先安全确认、后部位定位），因此只在 dynamic 组评测；有模型时同一主诉会在入口被标准化为“腹痛”而直接给出消化内科，不再追问部位，该行为由 tests/flow.test.js 的安全顺序单测覆盖。"
     },
     {
       "id": "HG-081",
@@ -1783,6 +1809,10 @@
       "id": "HG-089",
       "suite": "challenge",
       "category": "动态追问",
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "甲状腺结节",
         "answers": {
@@ -1803,6 +1833,10 @@
       "id": "HG-090",
       "suite": "challenge",
       "category": "动态追问",
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "甲状腺结节",
         "answers": {
