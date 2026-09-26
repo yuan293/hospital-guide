@@ -1,4 +1,4 @@
-﻿# 院内智导 · 改动后标准验证链（fail-closed，兼容 Windows PowerShell 5.1+）
+﻿# 诊途 · 改动后标准验证链（fail-closed，兼容 Windows PowerShell 5.1+）
 # 用法：
 #   powershell -ExecutionPolicy Bypass -File verify-chain.ps1         快速链
 #   powershell -ExecutionPolicy Bypass -File verify-chain.ps1 -Full   完整链（约数分钟，需 Ollama 就绪）
@@ -21,7 +21,7 @@ function Find-ProjectRoot {
     if (-not $parent -or $parent -eq $dir) { break }
     $dir = $parent
   }
-  throw '未找到院内智导项目根（沿脚本向上找不到 name=hospital-guide-prototype 的 package.json）'
+  throw '未找到诊途项目根（沿脚本向上找不到 name=hospital-guide-prototype 的 package.json）'
 }
 
 # failedIds 白名单门禁由 Node 实现（PowerShell 5.1 的 ConvertFrom-Json 有长度上限，

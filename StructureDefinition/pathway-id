@@ -8,7 +8,7 @@
   "status": "draft",
   "experimental": true,
   "date": "2026-09-25",
-  "publisher": "院内智导项目团队",
+  "publisher": "诊途项目团队",
   "description": "路径唯一标识代码，如 pw_epigastric。",
   "fhirVersion": "4.0.1",
   "kind": "complex-type",

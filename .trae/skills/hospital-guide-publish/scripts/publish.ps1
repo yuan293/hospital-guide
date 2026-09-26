@@ -1,4 +1,4 @@
-﻿# 院内智导 · 标准发布脚本（fail-closed，兼容 Windows PowerShell 5.1+）
+﻿# 诊途 · 标准发布脚本（fail-closed，兼容 Windows PowerShell 5.1+）
 # 用法：
 #   publish.ps1 -Message "fix: xxx" -Files lib/a.js,public/b.html   暂存指定文件（逗号分隔）
 #   publish.ps1 -Message "fix: xxx" -Files lib/a.js public/b.html    空格分隔同样支持
@@ -38,7 +38,7 @@ function Find-ProjectRoot {
     if (-not $parent -or $parent -eq $dir) { break }
     $dir = $parent
   }
-  throw '未找到院内智导项目根（沿脚本向上找不到 name=hospital-guide-prototype 的 package.json）'
+  throw '未找到诊途项目根（沿脚本向上找不到 name=hospital-guide-prototype 的 package.json）'
 }
 
 $root = Find-ProjectRoot

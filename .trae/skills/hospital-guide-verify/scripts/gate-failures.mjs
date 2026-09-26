@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 院内智导 · failedIds 白名单门禁
+// 诊途 · failedIds 白名单门禁
 // 用法：node gate-failures.mjs [data/evaluation/latest.json]
 // 评测命令本身不因 challenge 失败返回非零，本脚本把"只允许刻意保留的可见挑战失败"
 // 变成退出码门禁：出现白名单外失败或未知评测组即退出码 1。

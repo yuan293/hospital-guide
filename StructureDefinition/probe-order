@@ -8,7 +8,7 @@
   "status": "draft",
   "experimental": true,
   "date": "2026-09-25",
-  "publisher": "院内智导项目团队",
+  "publisher": "诊途项目团队",
   "description": "问题在所属路径内的提问顺序，从 1 开始，同一路径内必须唯一。",
   "fhirVersion": "4.0.1",
   "kind": "complex-type",

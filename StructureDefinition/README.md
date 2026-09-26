@@ -1,4 +1,4 @@
-# StructureDefinition（院内智导自定义 FHIR 扩展）
+# StructureDefinition（诊途自定义 FHIR 扩展）
 
 本目录是 `data/hospital.json` 中鉴别追问与安全确认问题库（HL7 FHIR R4 Questionnaire）所引用的全部自定义扩展的结构定义，由 `scripts/export-fhir-resources.js` 从问卷资源自动生成，**不要手工编辑**；修改扩展后运行 `npm run fhir:export` 重新导出。
 

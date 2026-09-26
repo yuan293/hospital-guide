@@ -2,12 +2,12 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#087f85"><title>院内智导 · 就诊服务</title>
+  <meta name="theme-color" content="#087f85"><title>诊途 · 就诊服务</title>
   <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/evaluation.css"><link rel="stylesheet" href="/flow.css"><script type="module" src="/app.js"></script>
 </head>
 <body>
   <aside class="sidebar">
-    <a class="brand" href="#guide"><img src="/favicon.svg" width="38" height="38" alt=""><span>院内智导<small>HOSPITAL GUIDE</small></span></a>
+    <a class="brand" href="#guide"><img src="/favicon.svg" width="38" height="38" alt=""><span>诊途<small>HOSPITAL GUIDE</small></span></a>
     <div class="workspace"><span class="status-dot"></span>示例综合医院<span class="mini-tag">演示</span></div>
     <nav aria-label="主导航">
       <a class="nav-link active" href="#guide" data-view="guide"><span aria-hidden="true">✚</span>挂号与导诊</a>
@@ -16,7 +16,7 @@
       <a class="nav-link" href="#evaluation" data-view="evaluation"><span aria-hidden="true">▥</span>效果评测</a>
       <a class="nav-link" href="#settings" data-view="settings"><span aria-hidden="true">⚙</span>运行设置</a>
     </nav>
-    <div class="sidebar-bottom"><span class="version">PROTOTYPE / 0.4</span><p>本机运行 · 不保存导诊记录</p><small>仅供项目演示，尚未经临床验证</small></div>
+    <div class="sidebar-bottom"><span class="version">PROTOTYPE / 0.5</span><p>本机运行 · 不保存导诊记录</p><small>仅供项目演示，尚未经临床验证</small></div>
   </aside>
   <div class="main-shell">
     <header class="topbar"><span id="breadcrumb">就诊服务 / 挂号与导诊</span><div class="topbar-right"><button id="care-toggle" class="care-toggle" type="button" aria-pressed="false" title="大字号、高对比、宽触控，适合长辈阅读和操作">关怀模式</button><span class="dot"></span><span id="mode-label">规则演示模式</span></div></header>
@@ -84,9 +84,9 @@
         <div id="evaluation-status" role="status" class="status-message"></div>
         <div id="evaluation-content"></div>
       </section>
-      <section id="view-settings" class="view" hidden><div class="page-heading"><div class="eyebrow">系统</div><h1>运行设置</h1><p>本地模型连接与当前运行状态。</p></div><div class="settings-layout"><section class="settings-section"><div class="section-header"><h2>模型连接</h2><button id="refresh-models" class="button secondary">检查连接</button></div><p id="model-status" class="status-message" role="status">尚未检测本地模型服务。</p><label class="field-label" for="model-select">导诊模式</label><select id="model-select"><option value="">规则演示模式</option></select><p class="field-help">选择已安装的 Ollama 模型后，症状描述将发送到本机模型服务。模型只辅助症状词标准化，无法覆盖紧急分流规则。</p><div id="model-warning" class="banner notice" hidden></div></section><section class="settings-section"><h2>数据与范围</h2><dl class="settings-facts"><div><dt>医院资料</dt><dd>虚构演示数据</dd></div><div><dt>会话存储</dt><dd>导诊记录仅当前页面内存；本机只记住模型与关怀模式偏好</dd></div><div><dt>模型服务</dt><dd id="model-endpoint">127.0.0.1:11434</dd></div><div><dt>应用版本</dt><dd>0.4.2</dd></div><div><dt>临床验证</dt><dd>未完成，不用于真实诊疗</dd></div></dl></section></div></section>
+      <section id="view-settings" class="view" hidden><div class="page-heading"><div class="eyebrow">系统</div><h1>运行设置</h1><p>本地模型连接与当前运行状态。</p></div><div class="settings-layout"><section class="settings-section"><div class="section-header"><h2>模型连接</h2><button id="refresh-models" class="button secondary">检查连接</button></div><p id="model-status" class="status-message" role="status">尚未检测本地模型服务。</p><label class="field-label" for="model-select">导诊模式</label><select id="model-select"><option value="">规则演示模式</option></select><p class="field-help">选择已安装的 Ollama 模型后，症状描述将发送到本机模型服务。模型只辅助症状词标准化，无法覆盖紧急分流规则。</p><div id="model-warning" class="banner notice" hidden></div></section><section class="settings-section"><h2>数据与范围</h2><dl class="settings-facts"><div><dt>医院资料</dt><dd>虚构演示数据</dd></div><div><dt>会话存储</dt><dd>导诊记录仅当前页面内存；本机只记住模型与关怀模式偏好</dd></div><div><dt>模型服务</dt><dd id="model-endpoint">127.0.0.1:11434</dd></div><div><dt>应用版本</dt><dd>0.5.0</dd></div><div><dt>临床验证</dt><dd>未完成，不用于真实诊疗</dd></div></dl></section></div></section>
     </main>
-    <footer>院内智导 <span>开源导诊原型</span><span>示例数据 · 未经临床验证</span></footer>
+    <footer>诊途 <span>开源导诊原型</span><span>示例数据 · 未经临床验证</span></footer>
   </div>
   <dialog id="department-dialog"><div class="dialog-header"><h2 id="dialog-title"></h2><button id="close-dialog" class="icon-button" aria-label="关闭科室详情" title="关闭">×</button></div><div id="dialog-content"></div></dialog>
   <dialog id="care-dialog"><div class="dialog-header"><h2>开启关怀模式？</h2><button id="care-dialog-close" class="icon-button" aria-label="关闭提示" title="关闭">×</button></div><p>您选择了 65 岁及以上。关怀模式会放大字号、提高对比度并加大按钮，方便阅读和点击。</p><p>开启后可以随时通过页面顶部的开关切回；选择只保存在本机浏览器，不会上传。</p><div class="care-dialog-actions"><button id="care-decline" class="button secondary" type="button">不用，谢谢</button><button id="care-accept" class="button primary" type="button">开启关怀模式</button></div></dialog>

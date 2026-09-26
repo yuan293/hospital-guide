@@ -8,7 +8,7 @@
   "status": "draft",
   "experimental": true,
   "date": "2026-09-25",
-  "publisher": "院内智导项目团队",
+  "publisher": "诊途项目团队",
   "description": "面向患者展示的问题用途与鉴别意图说明。",
   "fhirVersion": "4.0.1",
   "kind": "complex-type",

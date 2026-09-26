@@ -8,7 +8,7 @@
   "status": "draft",
   "experimental": true,
   "date": "2026-09-25",
-  "publisher": "院内智导项目团队",
+  "publisher": "诊途项目团队",
   "description": "挂在答案选项上，声明该选项触发的升级处置：emergency=急症分流；human=转人工导诊。",
   "fhirVersion": "4.0.1",
   "kind": "complex-type",

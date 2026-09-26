@@ -19,11 +19,11 @@
     "url": "https://github.com/yuan293/hospital-guide/blob/main/Questionnaire/hospital-guide-probes",
     "version": "demo-2026.09-v5",
     "name": "HospitalGuideProbes",
-    "title": "院内智导鉴别追问库",
+    "title": "诊途鉴别追问库",
     "status": "draft",
     "experimental": true,
     "date": "2026-09-25",
-    "publisher": "院内智导项目团队",
+    "publisher": "诊途项目团队",
     "description": "动态鉴别追问与安全确认问题库，结构对齐 HL7 FHIR R4 Questionnaire。问题类型（location/differential/redflag）、安全确认路径归属与提问顺序、科室权重、锚点症状、科室对、红旗征升级目标与来源等工程参数通过扩展字段表达，扩展 URL 前缀为 https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/ 。演示配置，未经临床审核，不是诊疗指南。",
     "extension": [
       { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pathway-definition", "extension": [

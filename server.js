@@ -38,7 +38,7 @@ export function createApp() {
       const route = new URL(req.url, `http://${host}`).pathname;
       if (req.method === 'GET' && route === '/api/config') return json(res, 200, { hospital, departments, probes, questionnaire, sources, dataInfo });
       if (req.method === 'GET' && route === '/api/evaluation') return json(res, 200, await readEvaluation());
-      if (req.method === 'GET' && route === '/api/health') return json(res, 200, { version: '0.4.2', status: 'ok', pid: process.pid, privacy: '本应用不保存导诊会话，不发送到云端。', ollama: await modelStatus() });
+      if (req.method === 'GET' && route === '/api/health') return json(res, 200, { version: '0.5.0', status: 'ok', pid: process.pid, privacy: '本应用不保存导诊会话，不发送到云端。', ollama: await modelStatus() });
       if (req.method === 'POST' && route === '/api/triage') {
         if (!req.headers['content-type']?.startsWith('application/json')) return json(res, 415, { error: '需要JSON请求。' });
         const result = await runTriage(await body(req));
@@ -61,7 +61,7 @@ export function start(port = Number(process.env.PORT || 3210)) {
     if (error.code === 'EADDRINUSE' && port < 65530) { server.close(); start(port + 1); }
     else { console.error(error.message); process.exitCode = 1; }
   });
-  server.listen(port, '127.0.0.1', () => console.log(`Hospital Guide v0.4.2\nOpen: http://127.0.0.1:${port}\nDemo only. Ctrl+C to stop.`));
+  server.listen(port, '127.0.0.1', () => console.log(`Hospital Guide v0.5.0\nOpen: http://127.0.0.1:${port}\nDemo only. Ctrl+C to stop.`));
   return server;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

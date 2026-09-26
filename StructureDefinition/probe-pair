@@ -8,7 +8,7 @@
   "status": "draft",
   "experimental": true,
   "date": "2026-09-25",
-  "publisher": "院内智导项目团队",
+  "publisher": "诊途项目团队",
   "description": "声明该问题用于鉴别的一对科室；可重复以声明多对鉴别关系。仅含 pair-dept-a / pair-dept-b 两个子扩展，科室代码取自本科室目录 code。",
   "fhirVersion": "4.0.1",
   "kind": "complex-type",

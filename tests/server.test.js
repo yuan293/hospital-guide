@@ -13,12 +13,12 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   const config = await get.json();
   assert.equal(config.departments.length, 18);
   assert.equal(config.probes.length, 10);
-  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.4.2');
+  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.5.0');
   assert.equal(config.dataInfo.validation.valid, true);
   assert.deepEqual(config.dataInfo.files, ['data/hospital.json', 'data/sources.json']);
   assert.match(get.headers.get('content-security-policy'), /frame-ancestors 'none'/);
   const page = await fetch(url);
-  assert.match(await page.text(), /院内智导/);
+  assert.match(await page.text(), /诊途/);
   const asset = await fetch(url + '/assets/campus.png');
   assert.equal(asset.headers.get('content-type'), 'image/png');
   assert.ok((await asset.arrayBuffer()).byteLength > 1000);

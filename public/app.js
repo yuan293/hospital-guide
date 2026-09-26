@@ -470,7 +470,7 @@ $('#booking-dialog').addEventListener('close', clearBookingTimer);
 $('#reset').onclick = reset; $('#new-session').onclick = reset;
 $('#download').onclick = () => {
   if (!result || result.status === 'question') return;
-  const text = ['院内智导 - 演示导诊摘要', '仅供项目演示；不是疾病诊断，不用于真实诊疗。', `导出时间：${new Date().toLocaleString('zh-CN')}`, `模型参与：${result.model.used ? result.model.name : '本次使用规则流程'}`, '', `描述：${chief}`, ...Object.entries(answers).map(([k, v]) => `${slotLabel(k)}：${optionLabel(k, v)}`), '', result.title, result.reason, ...result.evidence, result.next, '', '资料：虚构示例配置，未经临床验证。'].join('\n');
+  const text = ['诊途 - 演示导诊摘要', '仅供项目演示；不是疾病诊断，不用于真实诊疗。', `导出时间：${new Date().toLocaleString('zh-CN')}`, `模型参与：${result.model.used ? result.model.name : '本次使用规则流程'}`, '', `描述：${chief}`, ...Object.entries(answers).map(([k, v]) => `${slotLabel(k)}：${optionLabel(k, v)}`), '', result.title, result.reason, ...result.evidence, result.next, '', '资料：虚构示例配置，未经临床验证。'].join('\n');
   const url = URL.createObjectURL(new Blob(['\ufeff' + text], { type: 'text/plain;charset=utf-8' }));
   const a = document.createElement('a'); a.href = url; a.download = 'hospital-guide-summary.txt'; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
