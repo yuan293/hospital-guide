@@ -5,32 +5,32 @@
 .care-toggle[aria-pressed=true]{background:var(--teal);border-color:var(--teal);color:#fff}
 .care-dialog-actions{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;margin-top:22px}
 #care-dialog p{font-size:13px;line-height:1.9;color:#6e8976;margin:12px 0}
-body.care-mode{color:#101f1e;--muted:#3f524f;--ink:#0e201e}
-body.care-mode .topbar,body.care-mode .topbar-right{font-size:14px}
-body.care-mode .nav-link{font-size:17px;height:56px}
-body.care-mode .nav-link>span{font-size:23px;width:26px}
-body.care-mode h1{font-size:34px}
-body.care-mode h2{font-size:19px}
-body.care-mode h3{font-size:17px}
-body.care-mode .page-heading p,body.care-mode .banner,body.care-mode .welcome p,body.care-mode .assistant-message p,body.care-mode .user-message,body.care-mode .result .result-reason,body.care-mode .result ul,body.care-mode .result-next,body.care-mode .field-help,body.care-mode .status-message,body.care-mode .probe-rationale,body.care-mode .department-copy p{font-size:15px;line-height:2}
-body.care-mode .button{font-size:15px;min-height:50px;padding:12px 20px}
+body.care-mode{color:#101f1e;--muted:#3f524f;--ink:#0e201e;font-size:17px}
+body.care-mode .topbar,body.care-mode .topbar-right{font-size:17px}
+body.care-mode .nav-link{font-size:20px;height:56px}
+body.care-mode .nav-link>span{font-size:28px;width:26px}
+body.care-mode h1{font-size:39px}
+body.care-mode h2{font-size:22px}
+body.care-mode h3{font-size:20px}
+body.care-mode .page-heading p,body.care-mode .banner,body.care-mode .welcome p,body.care-mode .assistant-message p,body.care-mode .user-message,body.care-mode .result .result-reason,body.care-mode .result ul,body.care-mode .result-next,body.care-mode .field-help,body.care-mode .status-message,body.care-mode .probe-rationale,body.care-mode .department-copy p{font-size:18px;line-height:2}
+body.care-mode .button{font-size:18px;min-height:50px;padding:12px 20px}
 body.care-mode .options{gap:12px}
-body.care-mode .options button{font-size:16px;min-height:54px;padding:13px 20px}
-body.care-mode .sample-buttons button{font-size:15px;padding:12px 15px;min-height:48px}
-body.care-mode .composer textarea{font-size:16px;line-height:2}
+body.care-mode .options button{font-size:19px;min-height:54px;padding:13px 20px}
+body.care-mode .sample-buttons button{font-size:18px;padding:12px 15px;min-height:48px}
+body.care-mode .composer textarea{font-size:19px;line-height:2}
 body.care-mode .search{padding:12px 15px}
-body.care-mode .search input,body.care-mode .settings-section select{font-size:15px}
-body.care-mode .context-section dl>div,body.care-mode .settings-facts>div,body.care-mode .result-location{font-size:14px;line-height:2}
-body.care-mode dt,body.care-mode dd{font-size:14px}
-body.care-mode .eyebrow,body.care-mode .subtle,body.care-mode .field-label,body.care-mode .steps li,body.care-mode .result h4{font-size:13px}
-body.care-mode .message-label,body.care-mode .result .model-note{font-size:12px}
-body.care-mode .result-title h3{font-size:23px}
-body.care-mode .result-badge{font-size:12px}
-body.care-mode .urgent-help a{font-size:27px}
-body.care-mode footer{font-size:12px}
-body.care-mode .care-toggle{font-size:14px;min-height:40px;padding:9px 18px}
+body.care-mode .search input,body.care-mode .settings-section select{font-size:18px}
+body.care-mode .context-section dl>div,body.care-mode .settings-facts>div,body.care-mode .result-location{font-size:17px;line-height:2}
+body.care-mode dt,body.care-mode dd{font-size:17px}
+body.care-mode .eyebrow,body.care-mode .subtle,body.care-mode .field-label,body.care-mode .steps li,body.care-mode .result h4{font-size:16px}
+body.care-mode .message-label,body.care-mode .result .model-note{font-size:14px}
+body.care-mode .result-title h3{font-size:28px}
+body.care-mode .result-badge{font-size:14px}
+body.care-mode .urgent-help a{font-size:32px}
+body.care-mode footer{font-size:14px}
+body.care-mode .care-toggle{font-size:17px;min-height:40px;padding:9px 18px}
 body.care-mode button:focus-visible,body.care-mode a:focus-visible,body.care-mode input:focus-visible,body.care-mode textarea:focus-visible,body.care-mode select:focus-visible{outline-width:4px}
-@media(max-width:660px){.care-toggle{padding:6px 11px;font-size:11px;min-height:30px}body.care-mode .care-toggle{font-size:12px;min-height:34px}}
+@media(max-width:660px){.care-toggle{padding:6px 11px;font-size:13px;min-height:30px}body.care-mode .care-toggle{font-size:14px;min-height:34px}}
 /* 模拟挂号对话框（仅展示层，无真实支付） */
 #booking-dialog{width:520px}
 .register-actions,.booking-actions{display:flex;gap:10px;flex-wrap:wrap}
@@ -67,10 +67,10 @@ body.care-mode button:focus-visible,body.care-mode a:focus-visible,body.care-mod
 .booking-facts dd{margin:0;text-align:right;font-weight:600;word-break:break-all}
 .booking-result .booking-actions{justify-content:center}
 @media(max-width:660px){.booking-options{grid-template-columns:1fr}.register-actions .button,.booking-actions .button{flex:1}}
-body.care-mode .booking-dept h3,body.care-mode .booking-pay-head h3,body.care-mode .booking-result h3{font-size:20px}
-body.care-mode .booking-option strong{font-size:18px}
-body.care-mode .booking-option .booking-fee{font-size:22px}
-body.care-mode .booking-ask,body.care-mode .booking-countdown-line{font-size:17px}
+body.care-mode .booking-dept h3,body.care-mode .booking-pay-head h3,body.care-mode .booking-result h3{font-size:23px}
+body.care-mode .booking-option strong{font-size:21px}
+body.care-mode .booking-option .booking-fee{font-size:27px}
+body.care-mode .booking-ask,body.care-mode .booking-countdown-line{font-size:20px}
 body.care-mode .booking-option{min-height:88px}
-body.care-mode .booking-pay-amount{font-size:38px}
-body.care-mode .booking-facts div{font-size:15px}
+body.care-mode .booking-pay-amount{font-size:43px}
+body.care-mode .booking-facts div{font-size:18px}
