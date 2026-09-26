@@ -250,6 +250,36 @@
         ]
       },
       {
+        "linkId": "p_thyroid",
+        "text": "是否发现颈部有可以摸到的肿块或结节？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind", "valueCode": "differential" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description", "valueString": "用于鉴别甲状腺功能问题（内分泌科）与需要外科评估的甲状腺结节/肿块（普外科）。" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any", "valueString": "甲状腺" },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair", "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a", "valueCode": "endocrinology" },
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b", "valueCode": "generalsurgery" }
+          ] },
+          { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source", "valueString": "DEMO-TRIAGE" }
+        ],
+        "answerOption": [
+          { "valueCoding": { "code": "yes", "display": "有，可以摸到肿块或结节" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/generalsurgery", "valueInteger": 2 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "no", "display": "没有，主要是功能或代谢方面的不适" }, "extension": [
+            { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights", "extension": [
+              { "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/endocrinology", "valueInteger": 1 }
+            ] }
+          ] },
+          { "valueCoding": { "code": "unknown", "display": "不确定" } }
+        ]
+      },
+      {
         "linkId": "rf_gi_bleed",
         "text": "最近有没有出现呕血、吐血、黑便或便血？",
         "type": "choice",

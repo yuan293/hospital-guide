@@ -100,6 +100,36 @@
         ]
       },
       {
+        "id": "Extension.extension:endocrinology",
+        "path": "Extension.extension",
+        "sliceName": "endocrinology",
+        "short": "科室 endocrinology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:endocrinology.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/endocrinology"
+      },
+      {
+        "id": "Extension.extension:endocrinology.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 endocrinology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
         "id": "Extension.extension:ent",
         "path": "Extension.extension",
         "sliceName": "ent",
@@ -151,6 +181,36 @@
         "id": "Extension.extension:eye.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "科室 eye 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:generalsurgery",
+        "path": "Extension.extension",
+        "sliceName": "generalsurgery",
+        "short": "科室 generalsurgery 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:generalsurgery.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/generalsurgery"
+      },
+      {
+        "id": "Extension.extension:generalsurgery.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 generalsurgery 的权重",
         "min": 0,
         "max": "1",
         "type": [

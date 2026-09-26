@@ -1778,6 +1778,46 @@
         "department": "generalsurgery"
       },
       "labelNote": "新增科室：阑尾炎单独命中普外科。"
+    },
+    {
+      "id": "HG-089",
+      "suite": "challenge",
+      "category": "动态追问",
+      "input": {
+        "chief": "甲状腺结节",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild",
+          "p_thyroid": "no"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "endocrinology"
+      },
+      "labelNote": "甲状腺并列时，无颈部肿块倾向内分泌科。"
+    },
+    {
+      "id": "HG-090",
+      "suite": "challenge",
+      "category": "动态追问",
+      "input": {
+        "chief": "甲状腺结节",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild",
+          "p_thyroid": "yes"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "generalsurgery"
+      },
+      "labelNote": "甲状腺并列时，有颈部肿块倾向普外科评估。"
     }
   ]
 }

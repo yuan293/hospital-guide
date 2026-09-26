@@ -18,7 +18,7 @@ test('hospital JSON and source references validate', () => {
   const result = validateHospitalData(original, sources);
   assert.equal(result.valid, true);
   assert.equal(result.departmentCount, 18);
-  assert.equal(result.probeCount, 9);
+  assert.equal(result.probeCount, 10);
   assert.equal(result.pathwayCount, 1);
 });
 
