@@ -109,12 +109,12 @@ if ($DryRun) {
 
 # [5/6] 推送（-c 仅本条命令绕开全局失效代理，不改配置文件）
 Write-Host ''
-Write-Host '==> [5/6] 推送（临时绕开全局 7892 失效代理）' -ForegroundColor Cyan
+Write-Host '==> [5/6] 推送（临时绕开本机全局代理）' -ForegroundColor Cyan
 if ($DryRun) {
   Write-Host '    [dry-run] git -c http.proxy= -c https.proxy= push'
 } else {
   git -c http.proxy= -c https.proxy= push
-  if ($LASTEXITCODE -ne 0) { throw 'git push 失败（检查 Watt Toolkit 加速是否开启）' }
+  if ($LASTEXITCODE -ne 0) { throw 'git push 失败（检查本机能否直连 github.com，必要时开启网络加速工具）' }
 }
 
 # [6/6] 哈希核验
