@@ -583,6 +583,179 @@
       "sourceIds": [
         "DEMO-DEPTS"
       ]
+    },
+    {
+      "id": "cardiology",
+      "name": "心血管内科",
+      "floor": "2F",
+      "room": "207",
+      "zone": "A",
+      "keywords": [
+        "胸闷",
+        "胸痛",
+        "心慌",
+        "心悸",
+        "高血压",
+        "气短"
+      ],
+      "summary": "心脏与血管相关不适的门诊咨询",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "endocrinology",
+      "name": "内分泌科",
+      "floor": "2F",
+      "room": "209",
+      "zone": "A",
+      "keywords": [
+        "血糖",
+        "糖尿病",
+        "甲状腺",
+        "甲亢",
+        "甲减",
+        "肥胖",
+        "多饮多尿"
+      ],
+      "summary": "内分泌与代谢相关不适的门诊咨询",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "gynecology",
+      "name": "妇科",
+      "floor": "4F",
+      "room": "401",
+      "zone": "E",
+      "keywords": [
+        "月经",
+        "痛经",
+        "白带",
+        "下腹坠痛",
+        "孕检",
+        "更年期"
+      ],
+      "summary": "女性生殖系统相关不适的门诊咨询",
+      "group": "专科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "stomatology",
+      "name": "口腔科",
+      "floor": "4F",
+      "room": "403",
+      "zone": "E",
+      "keywords": [
+        "牙疼",
+        "牙龈出血",
+        "口腔溃疡",
+        "拔牙",
+        "智齿"
+      ],
+      "summary": "口腔与牙齿相关不适的门诊咨询",
+      "group": "专科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "tcm",
+      "name": "中医科",
+      "floor": "4F",
+      "room": "405",
+      "zone": "E",
+      "keywords": [
+        "中医调理",
+        "体质",
+        "湿气",
+        "针灸",
+        "推拿",
+        "体虚"
+      ],
+      "summary": "中医辨证调理与传统疗法咨询",
+      "group": "专科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "rehabilitation",
+      "name": "康复医学科",
+      "floor": "4F",
+      "room": "407",
+      "zone": "E",
+      "keywords": [
+        "康复",
+        "术后恢复",
+        "偏瘫",
+        "颈肩腰理疗",
+        "运动损伤"
+      ],
+      "summary": "术后及功能障碍康复评估与理疗",
+      "group": "专科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "generalsurgery",
+      "name": "普外科",
+      "floor": "3F",
+      "room": "311",
+      "zone": "B",
+      "keywords": [
+        "阑尾炎",
+        "疝气",
+        "甲状腺结节",
+        "体表肿块",
+        "胆囊炎"
+      ],
+      "summary": "普通外科常见疾病的门诊咨询",
+      "group": "外科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
     }
   ]
 }

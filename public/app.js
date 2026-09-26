@@ -17,7 +17,11 @@ const answerLabels = { no: '均没有', yes: '有紧急表现', unknown: '不确
 let ageDisplay = null;
 const slotLabel = key => labels[key] || config?.probes?.find(p => p.id === key)?.title || key;
 const optionLabel = (key, value) => {
-  if (key === 'age' && value === 'adult' && ageDisplay === 'senior') return '65岁及以上';
+  if (key === 'age' && value === 'adult') {
+    if (ageDisplay === 'senior') return '65岁及以上';
+    if (ageDisplay === 'middle') return '41–64岁';
+    if (ageDisplay === 'young') return '18–40岁';
+  }
   return answerLabels[value] || config?.probes?.find(p => p.id === key)?.options.find(([id]) => id === value)?.[1] || value;
 };
 
@@ -260,11 +264,11 @@ function probeRationale(q) {
 function showQuestion(data) {
   const q = data.question;
   const message = document.createElement('div'); message.className = 'message assistant-message'; message.dataset.question = q.id;
-  // 年龄问题在展示层把“18岁及以上”细分为 18–64 岁 / 65 岁及以上；
-  // 两者提交给导诊引擎的值都是 adult，65+ 额外携带 data-age-display 供界面回显与关怀提示。
+  // 年龄问题在展示层把“18岁及以上”细分为 18–40 岁 / 41–64 岁 / 65 岁及以上；
+  // 三档提交给导诊引擎的值都是 adult，65+ 额外携带 data-age-display 供界面回显与关怀提示。
   const optionsHtml = q.id === 'age'
     ? q.options.map(([value, label]) => value === 'adult'
-      ? `<button type="button" data-answer="adult" data-question="age">18–64岁</button><button type="button" data-answer="adult" data-age-display="senior" data-question="age">65岁及以上</button>`
+      ? `<button type="button" data-answer="adult" data-age-display="young" data-question="age">18–40岁</button><button type="button" data-answer="adult" data-age-display="middle" data-question="age">41–64岁</button><button type="button" data-answer="adult" data-age-display="senior" data-question="age">65岁及以上</button>`
       : `<button type="button" data-answer="${escape(value)}" data-question="age">${escape(label)}</button>`).join('')
     : q.options.map(([value, label]) => `<button type="button" data-answer="${escape(value)}" data-question="${q.id}">${escape(label)}</button>`).join('');
   message.innerHTML = `<div class="message-label">导诊助手</div><h3>${escape(q.title)}</h3><p>${escape(q.description)}</p>${probeRationale(q)}<div class="options">${optionsHtml}</div>`;
@@ -327,7 +331,7 @@ $('#messages').addEventListener('click', event => {
   const button = event.target.closest('[data-answer]'); if (!button || busy) return;
   if (!programmaticClick) stopDemo();
   const question = button.dataset.question;
-  if (question === 'age') ageDisplay = button.dataset.ageDisplay === 'senior' ? 'senior' : null;
+  if (question === 'age') ageDisplay = button.dataset.ageDisplay || null;
   answers[question] = button.dataset.answer;
   if (question === 'age' && ageDisplay === 'senior') maybeOfferCareMode();
   request();

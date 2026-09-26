@@ -11,7 +11,7 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   const get = await fetch(url + '/api/config');
   assert.equal(get.status, 200);
   const config = await get.json();
-  assert.equal(config.departments.length, 11);
+  assert.equal(config.departments.length, 18);
   assert.equal(config.probes.length, 9);
   assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.4.2');
   assert.equal(config.dataInfo.validation.valid, true);

@@ -17,7 +17,7 @@ const sources = JSON.parse(readFileSync(new URL('../data/sources.json', import.m
 test('hospital JSON and source references validate', () => {
   const result = validateHospitalData(original, sources);
   assert.equal(result.valid, true);
-  assert.equal(result.departmentCount, 11);
+  assert.equal(result.departmentCount, 18);
   assert.equal(result.probeCount, 9);
   assert.equal(result.pathwayCount, 1);
 });
