@@ -325,7 +325,10 @@
       "id": "HG-018",
       "suite": "challenge",
       "category": "信息不足",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "说不清楚哪里不舒服",
         "answers": {
@@ -365,7 +368,10 @@
       "id": "HG-020",
       "suite": "challenge",
       "category": "否定与历史",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "没有咳嗽没有胃痛",
         "answers": {
@@ -688,7 +694,9 @@
       "id": "HG-038",
       "suite": "regression",
       "category": "信息不足",
-      "modes": ["rules"],
+      "modes": [
+        "rules"
+      ],
       "input": {
         "chief": "咳嗽",
         "answers": {
@@ -706,7 +714,10 @@
       "id": "HG-061",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "发热，头痛",
         "answers": {
@@ -726,7 +737,10 @@
       "id": "HG-062",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "发热，头痛",
         "answers": {
@@ -746,7 +760,10 @@
       "id": "HG-063",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "腹痛，还有尿频",
         "answers": {
@@ -766,7 +783,10 @@
       "id": "HG-064",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "浑身不得劲，哪儿都难受",
         "answers": {
@@ -786,7 +806,10 @@
       "id": "HG-065",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "浑身不得劲，哪儿都难受",
         "answers": {
@@ -806,7 +829,10 @@
       "id": "HG-066",
       "suite": "challenge",
       "category": "存疑弃权",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "浑身不得劲，哪儿都难受",
         "answers": {
@@ -827,7 +853,10 @@
       "id": "HG-067",
       "suite": "challenge",
       "category": "存疑弃权",
-      "modes": ["model", "workflow"],
+      "modes": [
+        "model",
+        "workflow"
+      ],
       "input": {
         "chief": "头痛，肚子疼还拉肚子",
         "answers": {
@@ -847,7 +876,9 @@
       "id": "HG-068",
       "suite": "challenge",
       "category": "存疑弃权",
-      "modes": ["model"],
+      "modes": [
+        "model"
+      ],
       "input": {
         "chief": "整个人都不太对劲，说不上来哪里的问题，就觉得身上哪儿都别扭",
         "answers": {
@@ -862,8 +893,16 @@
         "department": null,
         "reasonCode": "unmatched",
         "anyOf": [
-          { "status": "human", "department": null, "reasonCode": "unmatched" },
-          { "status": "uncertain", "department": null, "reasonCode": "evidence_invalid" }
+          {
+            "status": "human",
+            "department": null,
+            "reasonCode": "unmatched"
+          },
+          {
+            "status": "uncertain",
+            "department": null,
+            "reasonCode": "evidence_invalid"
+          }
         ]
       },
       "labelNote": "模糊主诉的安全不变量是不推荐任何科室并升级处理：模型老实返回空症状时规则零候选转人工（7B实测），模型脑补但证据全部失验时弃权（1.5B实测）；两条均为安全非推荐结局，区别只在模型是否先产生了被拦截的提取。"
@@ -872,7 +911,10 @@
       "id": "HG-039",
       "suite": "challenge",
       "category": "口语表达",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "肚子疼了两天",
         "answers": {
@@ -891,7 +933,10 @@
       "id": "HG-040",
       "suite": "challenge",
       "category": "口语表达",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "脑袋疼了两天",
         "answers": {
@@ -910,7 +955,10 @@
       "id": "HG-041",
       "suite": "challenge",
       "category": "口语表达",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "嗓子疼，持续两天",
         "answers": {
@@ -929,7 +977,10 @@
       "id": "HG-042",
       "suite": "challenge",
       "category": "口语表达",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "拉肚子三天",
         "answers": {
@@ -948,7 +999,10 @@
       "id": "HG-043",
       "suite": "challenge",
       "category": "口语表达",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "眼睛发干",
         "answers": {
@@ -967,7 +1021,10 @@
       "id": "HG-044",
       "suite": "challenge",
       "category": "口语表达",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "小便的时候疼",
         "answers": {
@@ -986,7 +1043,10 @@
       "id": "HG-045",
       "suite": "challenge",
       "category": "口语表达",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "腰部疼痛两天",
         "answers": {
@@ -1005,7 +1065,10 @@
       "id": "HG-046",
       "suite": "challenge",
       "category": "口语表达",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "皮肤很痒",
         "answers": {
@@ -1024,7 +1087,10 @@
       "id": "HG-047",
       "suite": "challenge",
       "category": "多科室",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "肚子疼，而且脑袋疼",
         "answers": {
@@ -1097,7 +1163,10 @@
       "id": "HG-051",
       "suite": "challenge",
       "category": "信息不足",
-      "modes": ["rules", "model"],
+      "modes": [
+        "rules",
+        "model"
+      ],
       "input": {
         "chief": "感觉怪怪的，具体说不清",
         "answers": {
@@ -1281,7 +1350,10 @@
       "id": "HG-069",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "腰痛，还尿频",
         "answers": {
@@ -1301,7 +1373,10 @@
       "id": "HG-070",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "腰痛，还尿频",
         "answers": {
@@ -1321,7 +1396,10 @@
       "id": "HG-071",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "头晕还耳鸣",
         "answers": {
@@ -1341,7 +1419,10 @@
       "id": "HG-072",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "头晕还耳鸣",
         "answers": {
@@ -1361,7 +1442,10 @@
       "id": "HG-073",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "皮疹还眼痒",
         "answers": {
@@ -1381,7 +1465,10 @@
       "id": "HG-074",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "皮疹还眼痒",
         "answers": {
@@ -1401,7 +1488,10 @@
       "id": "HG-075",
       "suite": "regression",
       "category": "动态追问",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "腰痛，还尿频",
         "answers": {
@@ -1506,7 +1596,10 @@
       "id": "HG-080",
       "suite": "regression",
       "category": "安全确认",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "上腹部不舒服",
         "answers": {
@@ -1530,7 +1623,10 @@
       "id": "HG-081",
       "suite": "regression",
       "category": "安全确认",
-      "modes": ["dynamic", "workflow"],
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
       "input": {
         "chief": "上腹痛，还尿频",
         "answers": {
@@ -1549,6 +1645,139 @@
         "question": "p_abdomen_urine"
       },
       "labelNote": "安全确认与信息增益鉴别可以叠加：安全确认走完后仍平局，才进入鉴别追问。"
+    },
+    {
+      "id": "HG-082",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "心慌两天",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "cardiology"
+      },
+      "labelNote": "新增科室：心慌单独命中心血管内科。"
+    },
+    {
+      "id": "HG-083",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "多饮多尿消瘦",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "endocrinology"
+      },
+      "labelNote": "新增科室：多饮多尿单独命中内分泌科。"
+    },
+    {
+      "id": "HG-084",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "痛经",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "gynecology"
+      },
+      "labelNote": "新增科室：痛经单独命中妇科。"
+    },
+    {
+      "id": "HG-085",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "牙疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "stomatology"
+      },
+      "labelNote": "新增科室：牙疼单独命中口腔科。"
+    },
+    {
+      "id": "HG-086",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "中医调理体质",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "tcm"
+      },
+      "labelNote": "新增科室：中医调理单独命中中医科。"
+    },
+    {
+      "id": "HG-087",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "脑梗后偏瘫康复",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "rehabilitation"
+      },
+      "labelNote": "新增科室：偏瘫康复单独命中康复医学科。"
+    },
+    {
+      "id": "HG-088",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "慢性阑尾炎",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "generalsurgery"
+      },
+      "labelNote": "新增科室：阑尾炎单独命中普外科。"
     }
   ]
 }

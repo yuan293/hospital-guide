@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T07:04:05.186Z",
+  "generatedAt": "2026-09-26T07:11:17.816Z",
   "dataset": {
     "id": "redteam-adversarial-v1",
     "version": "2026-09-24.1",
@@ -346,8 +346,8 @@
   "riskCoverage": [
     {
       "mode": "rules",
-      "pool": 32,
-      "coverage": 0.75,
+      "pool": 39,
+      "coverage": 0.7949,
       "accuracyOnRecommended": 1,
       "declined": 8,
       "wrongRecommended": 0,
@@ -355,7 +355,7 @@
     },
     {
       "mode": "dynamic",
-      "pool": 34,
+      "pool": 41,
       "coverage": 1,
       "accuracyOnRecommended": 1,
       "declined": 0,
