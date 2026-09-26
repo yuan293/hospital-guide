@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 单元测试
+        run: npm test
+      - name: 数据 fail-closed 校验
+        run: npm run data:validate
+      - name: 免模型评测（rules + dynamic）
+        run: npm run evaluate
+      - name: 红队规则层安全断言
+        run: npm run redteam
+      - name: failedIds 白名单门禁
+        run: node .trae/skills/hospital-guide-verify/scripts/gate-failures.mjs
