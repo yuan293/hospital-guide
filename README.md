@@ -373,17 +373,22 @@ npm run verify:full   # 完整：再加双模型评测与双模型红队（需�
 
 **开放资产与生态价值**
 
-除可运行原型外，仓库沉淀了一组不依赖本院场景、可被其他“规则+大模型”决策系统直接复用的开放资产：
+除可运行原型外，仓库沉淀了一组不依赖本院场景、可被其他"规则+大模型"决策系统复用的开放资产。每项都标注了脱离整仓克隆时的单独取用方式：
 
-- **安全评测方法学**：90 条合成案例（含红旗征与急症场景）、21 条对抗红队、fail-closed 数据校验、anyOf 等价安全结局判定与逐轮轨迹记录——任何让大模型参与高风险分类（医疗、政务、客服转人工等）的系统，都可借用这套“先证安全、再谈能力”的评测框架；
-- **FHIR 对齐的问诊结构**：鉴别问题库以 HL7 FHIR R4 Questionnaire 表达，配套 16 个 StructureDefinition 扩展，启动时 fail-closed 校验，可被其他 FHIR 系统直接导入而非锁死在私有格式；
-- **数据驱动的通用分流架构**：换一份 `hospital.json` 即可移植到其他医院，同一套引擎也适用于非医疗的办事分流场景（如政务大厅窗口导办）——开放的是方法与引擎，不是某地医院数据的搬运；
-- **零依赖离线复现链**：纯 Node.js 内置模块、克隆即用，三条复现路径（免模型/双模型/离线 U 盘）与 sha256 数据指纹保证任何人都能独立复算全部声称的数字。
+| 资产 | 位置 | 单独取用方式 | 依赖 |
+| --- | --- | --- | --- |
+| FHIR 对齐问诊结构 | `Questionnaire/`、`StructureDefinition/`（仓库根目录，标准 R4 无后缀资源文件） | 用任意 FHIR R4 服务器（如 HAPI）直接导入；canonical URL 指向本仓库 `/blob/main/` 路径可在线解析；问卷与扩展定义一一对应（有防漂移单测） | 无——纯标准资源文件，与本仓库代码零耦合 |
+| 评测方法学与案例集 | `data/evaluation/cases.json`（90 条）+ `scripts/evaluate.js` + `lib/evaluation.js` | `node scripts/evaluate.js` 直接运行；案例格式（`modes` 组适配、`anyOf` 等价安全结局、`labelNote`）见 `data/evaluation/README.md`；换掉科室数据源即可把"四组消融 + fail-closed 校验 + 逐轮轨迹"整套搬到别的分类系统 | Node ≥20，零 npm 依赖 |
+| 对抗红队集 | `data/evaluation/redteam.json`（21 条）+ `scripts/redteam.js` | `node scripts/redteam.js` 跑规则层断言；六类对抗样本（前瞻推断/指令注入/否定连用/病史家属/整句诱饵/真急症）按 `category` 字段组织；"不安全推荐或急症漏判即退出码 1"的闸门语义可直接移植 | Node ≥20，零 npm 依赖 |
+| 门禁与防漂移 | `.trae/skills/hospital-guide-verify/scripts/gate-failures.mjs` + 12 文件指纹（`lib/evaluation-store.js`） | 白名单门禁是独立 Node 脚本，读任意评测报告即可判定失败是否在登记预期内；sha256 指纹机制防"报告与代码不符" | Node ≥20，零 npm 依赖 |
+| 本地模型复现模式 | `npm run models:setup` / `models:pull` | Ollama 运行时钉版本 + sha256 校验拒解压 + 许可原文归档的做法，可复制到任何需要可复现本地模型的项目 | Ollama |
+
+这套资产的整体价值：任何让大模型参与高风险分类（医疗、政务、客服转人工等）的系统，都可以借用"先证安全、再谈能力"的评测框架；数据驱动的通用分流架构（换一份 `hospital.json` 即可移植到其他医院或政务大厅导办场景）开放的是方法与引擎，不是某地数据的搬运。
 
 **版本与数据维护**
 
-- 版本节奏：语义化版本（当前 0.4.x），每次发布同步更新 5 处版本号（package.json、server.js×2、index.html、测试断言）并附变更说明；破坏性改动只在大版本出现。
-- 数据版本化：医院科室（`data/hospital.json`）、问题库（`data/questions.json`）、红旗征配置（`data/redflags.json`）均为独立 JSON，与代码分离；修改数据后必须重跑 `npm run evaluate` 与 `npm test`，评测结果携带 12 个核心文件的 sha256 指纹，数据被改动时旧评测自动标记过期——可验证性随每次维护动作保鲜。
+- 版本节奏：语义化版本（当前 0.5.x），每次发布同步更新 5 处版本号（package.json、server.js×2、index.html、测试断言）并附变更说明；破坏性改动只在大版本出现。
+- 数据版本化：医院科室、词表、追问与红旗征配置全部集中在 `data/hospital.json`（HL7 FHIR R4 Questionnaire 结构），与代码分离；修改数据后必须重跑 `npm run evaluate` 与 `npm test`，评测结果携带 12 个核心文件的 sha256 指纹，数据被改动时旧评测自动标记过期——可验证性随每次维护动作保鲜。
 - 红旗征与安全规则：接受有公开医学依据的勘误（欢迎通过 Issue 指出），但不接受任何"降低安全门槛"的修改；宁可多转人工，不放行可疑急症。
 
 **欢迎贡献的范围（Issue / PR，流程与验证要求见 [CONTRIBUTING.md](CONTRIBUTING.md)）**
@@ -402,14 +407,15 @@ npm run verify:full   # 完整：再加双模型评测与双模型红队（需�
 
 **移植到其他场景**
 
-整套系统是数据驱动的：换一份 `data/hospital.json`（科室、位置、就诊提示）并对照调整 `data/questions.json` 的症状词表，即可适配其他医院或类似的"办事分流"场景（如政务大厅窗口导办）。步骤：复制现有 JSON → 修改条目 → `npm run fhir:export` 重新生成 FHIR 资源 → `npm run verify` 确认数据校验与评测全绿。
+整套系统是数据驱动的：换一份 `data/hospital.json`（科室、位置、就诊提示，含 HL7 FHIR R4 Questionnaire 结构的词表、追问与红旗征配置），即可适配其他医院或类似的"办事分流"场景（如政务大厅窗口导办）。步骤：复制现有 JSON → 修改条目 → `npm run fhir:export` 重新生成 FHIR 资源 → `npm run verify` 确认数据校验与评测全绿。
 
-**后续方向（按优先级）**
+**后续方向（按优先级，跟踪见 Issues）**
 
 1. 真实用户可用性测试与反馈迭代（当前评测为合成案例集，边界已在评测报告注明）；
-2. 扩充鉴别 probes 与安全确认覆盖的症状范围（每条新增必须伴随评测案例）；
-3. 读屏兼容（ARIA 完善）与更多语言的界面文案；
-4. 答辩与比赛结束后继续接受 Issue，响应周期约 1–2 周（学生团队课业优先，安全类 Issue 优先处理）。
+2. 扩充鉴别 probes 与安全确认路径（[#2](https://github.com/yuan293/hospital-guide/issues/2)），扩充口语表达与红队样本（[#3](https://github.com/yuan293/hospital-guide/issues/3)）——每条新增必须伴随评测案例；
+3. 划分 held-out 留出集，消除案例与规则同源演进的自洽性局限（[#1](https://github.com/yuan293/hospital-guide/issues/1)）；
+4. 验证链跨平台，摆脱 PowerShell 依赖（[#4](https://github.com/yuan293/hospital-guide/issues/4)）；读屏兼容（ARIA 完善）与更多语言的界面文案；
+5. 答辩与比赛结束后继续接受 Issue，响应周期约 1–2 周（学生团队课业优先，安全类 Issue 优先处理）。
 
 ## 资源与开发辅助
 
