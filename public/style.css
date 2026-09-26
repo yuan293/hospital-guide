@@ -30,6 +30,11 @@ body.care-mode .urgent-help a{font-size:32px}
 body.care-mode footer{font-size:14px}
 body.care-mode .care-toggle{font-size:17px;min-height:40px;padding:9px 18px}
 body.care-mode button:focus-visible,body.care-mode a:focus-visible,body.care-mode input:focus-visible,body.care-mode textarea:focus-visible,body.care-mode select:focus-visible{outline-width:4px}
+body.care-mode .department-row{padding:20px 22px}
+body.care-mode .department-copy h3{font-size:24px}
+body.care-mode .department-copy small{font-size:18px}
+body.care-mode .floor-tag{font-size:18px;padding:8px 12px;min-width:48px}
+body.care-mode .department-row > button{font-size:24px;min-height:48px;min-width:48px}
 @media(max-width:660px){.care-toggle{padding:6px 11px;font-size:13px;min-height:30px}body.care-mode .care-toggle{font-size:14px;min-height:34px}}
 /* 模拟挂号对话框（仅展示层，无真实支付） */
 #booking-dialog{width:520px}

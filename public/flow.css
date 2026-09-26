@@ -72,3 +72,10 @@
   .register-path{font-size:19px}
   .register-facts>div{grid-template-columns:1fr;gap:4px}
 }
+
+/* 关怀模式：挂号页字号放大（flow.css 后加载，须在此覆盖） */
+body.care-mode .register-row{min-height:76px;padding:16px 20px}
+body.care-mode .register-floor{font-size:18px;width:52px;height:52px}
+body.care-mode .register-name{font-size:22px}
+body.care-mode .register-summary{font-size:18px;line-height:1.8}
+body.care-mode .register-meta{font-size:18px}
