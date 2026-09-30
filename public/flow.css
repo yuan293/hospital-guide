@@ -32,6 +32,16 @@
 .register-search{margin:20px 0 4px;max-width:520px;border-radius:9px;padding:12px 15px}
 .register-search input{font-size:13px}
 .register-list{margin-top:6px}
+.register-group-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.register-group-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
+.register-group-card:hover{transform:translateY(-2px);border-color:#a4d3ca;box-shadow:0 8px 20px #1d3b3214}
+.register-group-card strong{font-size:17px;font-weight:650;color:#1e3a34}
+.register-group-card>span:not(.register-group-go){font-size:12px;color:#5d8a80}
+.register-group-hint{font-size:11.5px;color:#93a29a}
+.register-group-go{position:absolute;right:18px;top:18px;color:#8bb8af;font-size:16px}
+.register-group-bar{display:flex;align-items:baseline;gap:12px;margin:2px 0 14px;flex-wrap:wrap}
+.register-group-bar strong{font-size:15px;color:#1e3a34}
+.register-group-bar span{font-size:12px;color:#7d8d86}
 .register-group{margin-top:24px}
 .register-group h3{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:12px;font-weight:600;color:#7d8d86}
 .register-group h3::after{content:"";flex:1;height:1px;background:var(--line)}
@@ -61,7 +71,7 @@
 .register-facts dd{margin:0;color:#39544c;line-height:1.8}
 .register-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
 
-@media(max-width:940px){.entry-cards{grid-template-columns:1fr}.register-rows{grid-template-columns:1fr}}
+@media(max-width:940px){.entry-cards{grid-template-columns:1fr}.register-rows,.register-group-cards{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.register-card{animation:none}}
 @media(max-width:660px){
   .entry-card{padding:20px;gap:14px}
@@ -79,3 +89,8 @@ body.care-mode .register-floor{font-size:18px;width:52px;height:52px}
 body.care-mode .register-name{font-size:22px}
 body.care-mode .register-summary{font-size:18px;line-height:1.8}
 body.care-mode .register-meta{font-size:18px}
+body.care-mode .register-group-card{min-height:84px;padding:18px 22px}
+body.care-mode .register-group-card strong{font-size:22px}
+body.care-mode .register-group-card>span:not(.register-group-go){font-size:17px}
+body.care-mode .register-group-bar strong{font-size:20px}
+body.care-mode .register-group-bar span{font-size:16px}

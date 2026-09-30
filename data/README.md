@@ -14,7 +14,7 @@
 ## 替换流程
 
 1. 备份两个 JSON 文件；以现有格式填写资料。真实医院资料需先获得适当授权，来源条目写明依据和审核情况。
-2. 每个科室填写唯一 id、name、floor、room、zone、group、summary、非空 keywords 和 sourceIds。
+2. 每个科室填写唯一 id、name、floor、room（普通门诊诊室）、可选 expertRoom（专家门诊诊室，须与 room 同楼层且全楼层房间号唯一）、zone、group、summary、非空 keywords 和 sourceIds。
 3. 来源 ID 必须存在于 sources.json；填写 rights，不能因资料可公开访问就假定可以再分发。
 4. 当前页面仅采集年龄段：adult 对应月龄 216 至不限，child 对应 12 至 215，all 对应 0 至不限。校验器拒绝其他年龄边界；真实医院有更细的接诊条件时应扩展流程和测试，不能只改数值。
 5. 保留 emergency、pediatrics、general 系统科室 ID；其他科室可增删，更新日期和版本。

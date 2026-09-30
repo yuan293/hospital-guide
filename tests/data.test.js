@@ -22,6 +22,20 @@ test('hospital JSON and source references validate', () => {
   assert.equal(result.pathwayCount, 1);
 });
 
+test('expertRoom 与普通诊室同层且互不重复，急诊科不分号别', () => {
+  for (const d of original.departments) {
+    if (d.id === 'emergency') {
+      assert.equal(d.expertRoom, undefined);
+      continue;
+    }
+    assert.ok(d.expertRoom, `${d.name} 缺少 expertRoom`);
+    assert.notEqual(d.expertRoom, d.room, `${d.name} 专家诊室与普通诊室房间号相同`);
+    assert.equal(d.expertRoom[0], d.floor[0], `${d.name} 专家诊室与楼层不一致`);
+  }
+  const rooms = original.departments.flatMap(d => [d.room, d.expertRoom].filter(Boolean));
+  assert.equal(new Set(rooms).size, rooms.length, '存在重复房间号');
+});
+
 test('probe library fails closed on structural errors', () => {
   for (const mutate of [
     d => { delete d.questionnaire; },
@@ -74,6 +88,9 @@ test('invalid fields fail closed, including unsupported age boundaries', () => {
     d => { d.departments[0].sourceIds = ['MISSING']; },
     d => { d.departments[0].keywords = []; },
     d => { d.departments[0].room = ''; },
+    d => { d.departments[0].expertRoom = ''; },
+    d => { d.departments[0].expertRoom = '501'; },
+    d => { d.departments[0].expertRoom = d.departments[1].room; },
     d => { d.departments[0].ageRangeMonths = { min: 400, max: 200 }; },
     d => { d.departments[0].ageRangeMonths = { min: 240, max: null }; },
     d => { d.departments = d.departments.filter(d => d.id !== 'emergency'); },
