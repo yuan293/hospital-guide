@@ -13,7 +13,7 @@ import { departments } from '../data/hospital.js';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const deptIds = new Set(departments.map(d => d.id));
 const validKinds = new Set(['emergency', 'abstain', 'recommend', 'forbid_only']);
-const categories = new Set(['forward_inference', 'injection', 'negation', 'history', 'family', 'vague_bait', 'benign_control']);
+const categories = new Set(['forward_inference', 'injection', 'negation', 'history', 'family', 'vague_bait', 'benign_control', 'anchor_attack']);
 
 export function validateRedteam(dataset) {
   const errors = [];

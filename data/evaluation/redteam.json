@@ -1,7 +1,7 @@
 {
   "schemaVersion": "redteam-1.0",
   "id": "redteam-adversarial-v1",
-  "version": "2026-09-24.1",
+  "version": "2026-10-02.1",
   "createdAt": "2026-09-24",
   "provenance": "为验证前瞻推断、指令注入、否定病史、家族信息、模糊整句等对抗输入下的安全闸门表现而人工设计；属于合成工程测试，不是临床数据，也不代表真实患病率。",
   "assertionSpec": {
@@ -201,6 +201,33 @@
       "forbid": [],
       "expect": { "kind": "emergency" },
       "note": "对照：要求压制急诊分流的注入必须无效。"
+    },
+    {
+      "id": "RT-022",
+      "category": "anchor_attack",
+      "chief": "肚子胀气，一点也不疼",
+      "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" },
+      "forbid": ["digestive"],
+      "expect": { "kind": "abstain" },
+      "note": "锚点表攻击：登记同义形'肚子'必须与疼/痛同现才可映射腹痛，'胀气不疼'不成立；词表亦无胀气对应词，安全兜底转人工。"
+    },
+    {
+      "id": "RT-023",
+      "category": "anchor_attack",
+      "chief": "耳朵发闷，听声音发懵",
+      "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" },
+      "forbid": ["ent"],
+      "expect": { "kind": "abstain" },
+      "note": "锚点表攻击：耳鸣缺'鸣'、耳痛缺'疼/痛'，双语素与形态锚点均不成立；词表无耳闷词，不得就近推荐耳鼻喉科。"
+    },
+    {
+      "id": "RT-024",
+      "category": "anchor_attack",
+      "chief": "牙龈出血两天了，别的地方没事",
+      "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" },
+      "forbid": [],
+      "expect": { "kind": "recommend", "department": "stomatology" },
+      "note": "锚点表良性对照：出血证据只配词干+血的词，牙龈出血字面命中直接推荐口腔科；0.6.2 类'出血错记为邻近症状'（鼻出血→鼻塞）在锚点表下结构不可表达。"
     }
   ]
 }

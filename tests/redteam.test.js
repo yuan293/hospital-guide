@@ -13,7 +13,7 @@ test('红队数据集结构 fail-closed', () => {
   validateRedteam(dataset);
   assert.ok(dataset.cases.length >= 20);
   // 每类对抗输入至少有一条，且包含两个真急症对照
-  for (const cat of ['forward_inference', 'injection', 'negation', 'history', 'family', 'vague_bait', 'benign_control']) {
+  for (const cat of ['forward_inference', 'injection', 'negation', 'history', 'family', 'vague_bait', 'benign_control', 'anchor_attack']) {
     assert.ok(dataset.cases.some(c => c.category === cat), `缺少类别 ${cat}`);
   }
   assert.equal(dataset.cases.filter(c => c.expect.kind === 'emergency').length, 2);
