@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "probe-require-any",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "ProbeRequireAny",
   "title": "激活锚点症状",
   "status": "draft",

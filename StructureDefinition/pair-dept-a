@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "pair-dept-a",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "PairDeptA",
   "title": "鉴别科室 A",
   "status": "draft",

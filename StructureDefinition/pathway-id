@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "pathway-id",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-id",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "PathwayId",
   "title": "路径标识",
   "status": "draft",

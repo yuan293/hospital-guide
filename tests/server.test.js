@@ -12,8 +12,8 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   assert.equal(get.status, 200);
   const config = await get.json();
   assert.equal(config.departments.length, 45);
-  assert.equal(config.probes.length, 10);
-  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.6.0');
+  assert.equal(config.probes.length, 11);
+  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.6.1');
   // 不可自助挂号科室：医技辅助 5 个 + 重症医学科、放射治疗科，共 7 个
   assert.equal(config.departments.filter(d => d.bookable === false).length, 7);
   assert.ok(!config.departments.find(d => d.id === 'emergency').expertRoom);
@@ -41,6 +41,21 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   const ct = await (await post({ chief: '想做个CT检查', answers: { risk: 'no', age: 'adult', severity: 'mild' } })).json();
   assert.notEqual(ct.department, 'radiology');
   assert.ok(['question', 'human', 'uncertain'].includes(ct.status));
+  // 器官口语“肾疼”：肾内科/泌尿外科并列时先鉴别追问，不得跨器官错配到消化内科
+  const slots = { risk: 'no', age: 'adult', severity: 'mild' };
+  const kidneyAsk = await (await post({ chief: '肾疼', answers: slots })).json();
+  assert.equal(kidneyAsk.status, 'question');
+  assert.equal(kidneyAsk.question?.id, 'p_kidney_pain');
+  const kidneyUro = await (await post({ chief: '肾疼', answers: { ...slots, p_kidney_pain: 'urinary' } })).json();
+  assert.equal(kidneyUro.status, 'recommendation');
+  assert.equal(kidneyUro.department, 'urology');
+  const kidneyNeph = await (await post({ chief: '肾疼', answers: { ...slots, p_kidney_pain: 'edema' } })).json();
+  assert.equal(kidneyNeph.status, 'recommendation');
+  assert.equal(kidneyNeph.department, 'nephrology');
+  // 心口疼进入上腹安全确认，不直接推荐科室
+  const heartMouth = await (await post({ chief: '心口疼', answers: slots })).json();
+  assert.ok(['question', 'human', 'uncertain'].includes(heartMouth.status));
+  assert.notEqual(heartMouth.department, 'digestive');
   assert.equal((await fetch(url + '/lib/triage.js')).status, 404);
   assert.equal((await fetch(url + '/evaluation.js')).status, 200);
   assert.equal((await fetch(url + '/evaluation.css')).status, 200);

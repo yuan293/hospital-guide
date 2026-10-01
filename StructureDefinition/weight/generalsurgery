@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "weight-generalsurgery",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/generalsurgery",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "WeightGeneralsurgery",
   "title": "weight/generalsurgery",
   "status": "draft",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "hospital-guide-synthetic-v1",
-  "version": "2026-10-01.1",
+  "version": "2026-10-01.2",
   "createdAt": "2026-09-25",
   "provenance": "AI辅助编写的合成工程案例，标签来自演示流程设计；非患者数据、非医生标注、非独立盲测。",
   "reviewStatus": "engineering-only",
@@ -905,7 +905,7 @@
           }
         ]
       },
-      "labelNote": "模糊主诉的安全不变量是不推荐任何科室并升级处理：模型老实返回空症状时规则零候选转人工，模型脑补但证据全部失验时弃权（1.5B实测保持），两条均为安全非推荐结局。2026-10-01 词表扩充至45科室后，7B 把原文短片段「身上哪儿都别扭」语义错配为「腹痛」并通过逐字核验（推荐消化内科）——证据确为原文、非否定非未然，结构核验无法识别语义错配（与红队 RT-020 同类），经核实轨迹后计入白名单作为可见挑战。"
+      "labelNote": "模糊主诉的安全不变量是不推荐任何科室并升级处理：模型老实返回空症状时规则零候选转人工，模型脑补但证据全部失验时弃权，两条均为安全非推荐结局。2026-10-01 词表扩充至45科室后，7B 一度把原文短片段“身上哪儿都别扭”语义错配为“腹痛”并通过逐字核验；同日在模型证据核验层加入“笼统感受片段”纯规则守卫（不含具体部位的不得劲/难受/别扭等证据不允许映射到局部症状）后，该错配在规则层被拦截、7B 改走 evidence_invalid 弃权，结构核验无法独立识别语义错配的缺口由守卫补上。"
     },
     {
       "id": "HG-039",
@@ -2199,6 +2199,345 @@
         "question": "p_location"
       },
       "labelNote": "守卫：交互流程对检查请求只追问不适部位，不得推荐放射科。"
+    },
+    {
+      "id": "HG-108",
+      "suite": "challenge",
+      "category": "器官口语",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "肾疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "human",
+        "department": null
+      },
+      "labelNote": "肾疼同时挂肾脏内科/泌尿外科关键词，一次性组证据并列无法定科，转人工；交互组由 p_kidney_pain 鉴别。"
+    },
+    {
+      "id": "HG-109",
+      "suite": "challenge",
+      "category": "器官口语",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "肾疼，还有血尿",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "urology"
+      },
+      "labelNote": "肾疼+血尿：泌尿外科2证据对肾脏内科1，直接推荐泌尿外科。"
+    },
+    {
+      "id": "HG-110",
+      "suite": "challenge",
+      "category": "器官口语",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "肾疼好几天了，腿水肿，还有泡沫尿",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "nephrology"
+      },
+      "labelNote": "肾疼+水肿+泡沫尿：肾脏内科3证据对泌尿外科1。"
+    },
+    {
+      "id": "HG-111",
+      "suite": "challenge",
+      "category": "器官口语",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "肝疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "digestive"
+      },
+      "labelNote": "肝疼为消化内科（肝胆胰疾病）器官口语词。"
+    },
+    {
+      "id": "HG-112",
+      "suite": "challenge",
+      "category": "器官口语",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "肺疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "respiratory"
+      },
+      "labelNote": "肺疼为呼吸与危重症医学科器官口语词。"
+    },
+    {
+      "id": "HG-113",
+      "suite": "challenge",
+      "category": "器官口语",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "眼睛疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "eye"
+      },
+      "labelNote": "眼睛疼为眼科器官口语词。"
+    },
+    {
+      "id": "HG-114",
+      "suite": "challenge",
+      "category": "器官口语",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "耳朵疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "ent"
+      },
+      "labelNote": "耳朵疼为耳鼻喉科器官口语词。"
+    },
+    {
+      "id": "HG-115",
+      "suite": "challenge",
+      "category": "器官口语",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "胃疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "digestive"
+      },
+      "labelNote": "胃疼为胃痛口语变体，消化内科。"
+    },
+    {
+      "id": "HG-116",
+      "suite": "challenge",
+      "category": "动态追问",
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
+      "input": {
+        "chief": "肾疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild",
+          "p_kidney_pain": "urinary"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "urology"
+      },
+      "labelNote": "肾疼两科并列，追问选绞痛/排尿异常/血尿后泌尿外科+2。"
+    },
+    {
+      "id": "HG-117",
+      "suite": "challenge",
+      "category": "动态追问",
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
+      "input": {
+        "chief": "肾疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild",
+          "p_kidney_pain": "edema"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "nephrology"
+      },
+      "labelNote": "肾疼两科并列，追问选水肿/尿泡沫/尿量减少后肾脏内科+2。"
+    },
+    {
+      "id": "HG-118",
+      "suite": "challenge",
+      "category": "器官口语守卫",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "肾的位置隐隐作痛",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "human",
+        "department": null,
+        "anyOf": [
+          {
+            "status": "human",
+            "department": null
+          },
+          {
+            "status": "uncertain",
+            "department": null
+          }
+        ]
+      },
+      "labelNote": "守卫：词表外肾区不适不得被跨器官错配为腹痛；规则零候选转人工，模型无原文可核验证据时同属安全非推荐结局。"
+    },
+    {
+      "id": "HG-119",
+      "suite": "challenge",
+      "category": "安全确认",
+      "modes": [
+        "rules"
+      ],
+      "input": {
+        "chief": "心口疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "human",
+        "department": null
+      },
+      "labelNote": "心口疼进入上腹安全确认锚点；规则词表零命中，一次性组直接转人工、不推荐科室。模型组行为见 HG-121。"
+    },
+    {
+      "id": "HG-120",
+      "suite": "challenge",
+      "category": "安全确认",
+      "modes": [
+        "dynamic"
+      ],
+      "input": {
+        "chief": "心口疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild",
+          "rf_gi_bleed": "no",
+          "rf_epigastric_cardiac": "no",
+          "rf_epigastric_acute": "no"
+        }
+      },
+      "expected": {
+        "status": "question",
+        "department": null,
+        "question": "p_location"
+      },
+      "labelNote": "无模型交互组：心口疼先完成三项红旗征安全确认（全阴），规则零候选后只追问不适部位，不推荐科室。模型组行为见 HG-121。"
+    },
+    {
+      "id": "HG-121",
+      "suite": "challenge",
+      "category": "安全确认",
+      "modes": [
+        "model",
+        "workflow"
+      ],
+      "input": {
+        "chief": "心口疼",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild",
+          "rf_gi_bleed": "no",
+          "rf_epigastric_cardiac": "no",
+          "rf_epigastric_acute": "no"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "cardiology"
+      },
+      "labelNote": "红旗征三项全阴（否认持续明显胸痛等急症征象）后，两个模型均把口语“心口疼”标准化为心脏症状词（7B→胸痛、1.5B→心悸）并推荐心内科门诊；属合理的器官近义映射，推荐的是门诊方向而非急诊。规则词表零命中故 rules/dynamic 组行为见 HG-119/HG-120。"
     }
   ]
 }

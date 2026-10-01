@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "weight-endocrinology",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/endocrinology",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "WeightEndocrinology",
   "title": "weight/endocrinology",
   "status": "draft",

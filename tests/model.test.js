@@ -49,6 +49,15 @@ test('Ollama adapter lists models, validates evidence, rejects malformed output 
     ] };
     const contextual = await normalize('之前拉肚子，今天好了，不喘，关节又该疼了，我爸心脏病住院，就是有点咳嗽', 'test-model');
     assert.deepEqual(contextual.matches.map(m => m.keyword), ['咳嗽']);
+    // 笼统全身感受不得被语义错配为局部症状（“浑身不得劲→心慌”“身上别扭→腹痛”）；
+    // 但含具体部位的“肚子不舒服”仍应放行
+    output = { matches: [
+      { keyword: '心慌', evidence: '浑身不得劲' },
+      { keyword: '腹痛', evidence: '身上哪儿都别扭' },
+      { keyword: '腹痛', evidence: '肚子不舒服' },
+    ] };
+    const vague = await normalize('浑身不得劲，身上哪儿都别扭，肚子不舒服', 'test-model');
+    assert.deepEqual(vague.matches.map(m => m.keyword), ['腹痛']);
     output = { invalid: true };
     await assert.rejects(normalize('肚子疼', 'test-model'));
   } finally { await new Promise(resolve => server.close(resolve)); }

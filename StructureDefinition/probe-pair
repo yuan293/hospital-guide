@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "probe-pair",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "ProbePair",
   "title": "鉴别科室对",
   "status": "draft",

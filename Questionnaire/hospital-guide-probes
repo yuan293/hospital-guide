@@ -2,7 +2,7 @@
   "resourceType": "Questionnaire",
   "id": "hospital-guide-probes",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/Questionnaire/hospital-guide-probes",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "HospitalGuideProbes",
   "title": "诊途鉴别追问库",
   "status": "draft",
@@ -41,6 +41,14 @@
         {
           "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor",
           "valueString": "反酸"
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor",
+          "valueString": "心口疼"
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor",
+          "valueString": "心口痛"
         }
       ]
     }
@@ -479,6 +487,98 @@
           "valueCoding": {
             "code": "unknown",
             "display": "不确定"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "p_kidney_pain",
+      "text": "除了腰部或肾区疼痛，还有下面哪种情况？",
+      "type": "choice",
+      "required": false,
+      "repeats": false,
+      "extension": [
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind",
+          "valueCode": "differential"
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description",
+          "valueString": "用于鉴别泌尿外科问题（结石、感染）与肾脏内科疾病；患者口语中的“肾疼”两个科都可能接诊。"
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
+          "valueString": "肾疼"
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
+          "valueString": "肾痛"
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
+          "valueString": "肾区疼"
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
+          "valueString": "肾区痛"
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair",
+          "extension": [
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a",
+              "valueCode": "nephrology"
+            },
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b",
+              "valueCode": "urology"
+            }
+          ]
+        },
+        {
+          "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source",
+          "valueString": "DEMO-TRIAGE"
+        }
+      ],
+      "answerOption": [
+        {
+          "valueCoding": {
+            "code": "urinary",
+            "display": "一侧腰腹突发绞痛，或尿频尿急尿痛、血尿"
+          },
+          "extension": [
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+              "extension": [
+                {
+                  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology",
+                  "valueInteger": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "valueCoding": {
+            "code": "edema",
+            "display": "眼皮或下肢水肿、尿中泡沫、尿量明显减少"
+          },
+          "extension": [
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+              "extension": [
+                {
+                  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/nephrology",
+                  "valueInteger": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "valueCoding": {
+            "code": "unknown",
+            "display": "不确定 / 都没有"
           }
         }
       ]

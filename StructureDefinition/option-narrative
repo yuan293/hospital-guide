@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "option-narrative",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-narrative",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "OptionNarrative",
   "title": "选项叙述措辞",
   "status": "draft",

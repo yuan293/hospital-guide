@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "probe-pathway",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pathway",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "ProbePathway",
   "title": "安全确认路径归属",
   "status": "draft",

@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "probe-order",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-order",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "ProbeOrder",
   "title": "路径内提问顺序",
   "status": "draft",

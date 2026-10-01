@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "pathway-anchor",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "PathwayAnchor",
   "title": "路径触发锚点词",
   "status": "draft",

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "hospital": {
     "name": "示例综合医院",
-    "version": "demo-2026.10-v1",
+    "version": "demo-2026.10-v3",
     "notice": "虚构院区与科室资料，仅用于项目演示，不对应真实医院。",
     "updatedAt": "2026-10-01",
     "dataType": "synthetic",
@@ -17,7 +17,7 @@
     "resourceType": "Questionnaire",
     "id": "hospital-guide-probes",
     "url": "https://github.com/yuan293/hospital-guide/blob/main/Questionnaire/hospital-guide-probes",
-    "version": "demo-2026.10-v6",
+    "version": "demo-2026.10-v8",
     "name": "HospitalGuideProbes",
     "title": "诊途鉴别追问库",
     "status": "draft",
@@ -56,6 +56,14 @@
           {
             "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor",
             "valueString": "反酸"
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor",
+            "valueString": "心口疼"
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pathway-anchor",
+            "valueString": "心口痛"
           }
         ]
       }
@@ -494,6 +502,98 @@
             "valueCoding": {
               "code": "unknown",
               "display": "不确定"
+            }
+          }
+        ]
+      },
+      {
+        "linkId": "p_kidney_pain",
+        "text": "除了腰部或肾区疼痛，还有下面哪种情况？",
+        "type": "choice",
+        "required": false,
+        "repeats": false,
+        "extension": [
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-kind",
+            "valueCode": "differential"
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-description",
+            "valueString": "用于鉴别泌尿外科问题（结石、感染）与肾脏内科疾病；患者口语中的“肾疼”两个科都可能接诊。"
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
+            "valueString": "肾疼"
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
+            "valueString": "肾痛"
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
+            "valueString": "肾区疼"
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-require-any",
+            "valueString": "肾区痛"
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair",
+            "extension": [
+              {
+                "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a",
+                "valueCode": "nephrology"
+              },
+              {
+                "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b",
+                "valueCode": "urology"
+              }
+            ]
+          },
+          {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source",
+            "valueString": "DEMO-TRIAGE"
+          }
+        ],
+        "answerOption": [
+          {
+            "valueCoding": {
+              "code": "urinary",
+              "display": "一侧腰腹突发绞痛，或尿频尿急尿痛、血尿"
+            },
+            "extension": [
+              {
+                "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+                "extension": [
+                  {
+                    "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology",
+                    "valueInteger": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "valueCoding": {
+              "code": "edema",
+              "display": "眼皮或下肢水肿、尿中泡沫、尿量明显减少"
+            },
+            "extension": [
+              {
+                "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+                "extension": [
+                  {
+                    "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/nephrology",
+                    "valueInteger": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "valueCoding": {
+              "code": "unknown",
+              "display": "不确定 / 都没有"
             }
           }
         ]
@@ -1019,7 +1119,9 @@
         "咳嗽",
         "咳痰",
         "发热",
-        "气喘"
+        "气喘",
+        "肺疼",
+        "肺痛"
       ],
       "summary": "哮喘、慢阻肺、肺血管病与呼吸重症（RICU）相关不适的门诊咨询",
       "group": "内科",
@@ -1044,7 +1146,13 @@
         "胃痛",
         "腹泻",
         "恶心",
-        "反酸"
+        "反酸",
+        "胃疼",
+        "胃胀痛",
+        "肝疼",
+        "肝痛",
+        "肝区疼",
+        "肝区痛"
       ],
       "summary": "消化内镜、肝胆胰疾病、炎症性肠病等胃肠道相关不适的门诊咨询",
       "group": "内科",
@@ -1069,7 +1177,11 @@
         "泡沫尿",
         "蛋白尿",
         "肌酐",
-        "透析"
+        "透析",
+        "肾疼",
+        "肾痛",
+        "肾区疼",
+        "肾区痛"
       ],
       "summary": "肾小球疾病、血液透析中心等肾脏疾病门诊",
       "group": "内科",
@@ -1360,7 +1472,12 @@
       "keywords": [
         "尿频",
         "尿急",
-        "尿痛"
+        "尿痛",
+        "血尿",
+        "肾疼",
+        "肾痛",
+        "肾区疼",
+        "肾区痛"
       ],
       "summary": "肾上腺外科、泌尿系肿瘤、微创外科、结石与男科门诊",
       "group": "外科",
@@ -1669,7 +1786,11 @@
         "眼痒",
         "眼干",
         "眼红",
-        "流泪"
+        "流泪",
+        "眼疼",
+        "眼痛",
+        "眼睛疼",
+        "眼睛痛"
       ],
       "summary": "白内障、青光眼、眼底病、屈光手术门诊",
       "group": "专科与五官",
@@ -1695,7 +1816,10 @@
         "鼻塞",
         "咽痛",
         "喉咙痛",
-        "嗓子痛"
+        "嗓子痛",
+        "耳疼",
+        "耳朵疼",
+        "耳朵痛"
       ],
       "summary": "耳科、鼻科、咽喉头颈肿瘤门诊",
       "group": "专科与五官",

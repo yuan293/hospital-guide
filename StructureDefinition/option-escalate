@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "option-escalate",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-escalate",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "OptionEscalate",
   "title": "选项升级目标",
   "status": "draft",

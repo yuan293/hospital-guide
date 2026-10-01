@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "weight-eye",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/eye",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "WeightEye",
   "title": "weight/eye",
   "status": "draft",

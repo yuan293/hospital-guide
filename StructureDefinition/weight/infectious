@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "weight-infectious",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/infectious",
-  "version": "demo-2026.10-v6",
+  "version": "demo-2026.10-v8",
   "name": "WeightInfectious",
   "title": "weight/infectious",
   "status": "draft",
