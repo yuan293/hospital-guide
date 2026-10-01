@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "hospital-guide-synthetic-v1",
-  "version": "2026-09-25.5",
+  "version": "2026-10-01.1",
   "createdAt": "2026-09-25",
   "provenance": "AI辅助编写的合成工程案例，标签来自演示流程设计；非患者数据、非医生标注、非独立盲测。",
   "reviewStatus": "engineering-only",
@@ -905,7 +905,7 @@
           }
         ]
       },
-      "labelNote": "模糊主诉的安全不变量是不推荐任何科室并升级处理：模型老实返回空症状时规则零候选转人工（7B实测），模型脑补但证据全部失验时弃权（1.5B实测）；两条均为安全非推荐结局，区别只在模型是否先产生了被拦截的提取。"
+      "labelNote": "模糊主诉的安全不变量是不推荐任何科室并升级处理：模型老实返回空症状时规则零候选转人工，模型脑补但证据全部失验时弃权（1.5B实测保持），两条均为安全非推荐结局。2026-10-01 词表扩充至45科室后，7B 把原文短片段「身上哪儿都别扭」语义错配为「腹痛」并通过逐字核验（推荐消化内科）——证据确为原文、非否定非未然，结构核验无法识别语义错配（与红队 RT-020 同类），经核实轨迹后计入白名单作为可见挑战。"
     },
     {
       "id": "HG-039",
@@ -1852,6 +1852,353 @@
         "department": "generalsurgery"
       },
       "labelNote": "甲状腺并列时，有颈部肿块倾向普外科评估。"
+    },
+    {
+      "id": "HG-091",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "水肿，泡沫尿",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "nephrology"
+      },
+      "labelNote": "新增科室：水肿、泡沫尿命中肾脏内科。"
+    },
+    {
+      "id": "HG-092",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "贫血，面色苍白",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "hematology"
+      },
+      "labelNote": "新增科室：贫血、面色苍白命中血液内科。"
+    },
+    {
+      "id": "HG-093",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "关节肿痛，晨僵",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "rheumatology"
+      },
+      "labelNote": "新增科室：关节肿痛、晨僵命中风湿免疫科。"
+    },
+    {
+      "id": "HG-094",
+      "suite": "challenge",
+      "category": "动态追问",
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
+      "input": {
+        "chief": "持续发热两周",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild",
+          "p_fever_resp": "no"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "infectious"
+      },
+      "labelNote": "新增科室：发热与持续发热并列时，无呼吸道表现倾向感染内科。"
+    },
+    {
+      "id": "HG-095",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "荨麻疹反复发作",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "allergy"
+      },
+      "labelNote": "新增科室：荨麻疹命中变态反应科。"
+    },
+    {
+      "id": "HG-096",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "体检发现肺结节",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "thoracicsurgery"
+      },
+      "labelNote": "新增科室：肺结节命中胸外科。"
+    },
+    {
+      "id": "HG-097",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "心脏瓣膜病",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "cardiacsurgery"
+      },
+      "labelNote": "新增科室：心脏瓣膜命中心脏外科。"
+    },
+    {
+      "id": "HG-098",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "下肢静脉曲张多年",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "vascularsurgery"
+      },
+      "labelNote": "新增科室：静脉曲张命中血管外科。"
+    },
+    {
+      "id": "HG-099",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "疤痕增生想处理",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "plasticsurgery"
+      },
+      "labelNote": "新增科室：疤痕命中整形外科。"
+    },
+    {
+      "id": "HG-100",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "该做产检了，想约个号",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "obstetrics"
+      },
+      "labelNote": "新增科室：产检命中产科；未触发孕产期转人工（怀孕/孕期/妊娠/产后）。"
+    },
+    {
+      "id": "HG-101",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "不孕不育三年",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "reproduction"
+      },
+      "labelNote": "新增科室：不孕不育命生殖医学中心。"
+    },
+    {
+      "id": "HG-102",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "确诊胃癌，准备化疗",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "oncology"
+      },
+      "labelNote": "新增科室：化疗命中肿瘤内科。"
+    },
+    {
+      "id": "HG-103",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "焦虑，情绪低落",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "psychology"
+      },
+      "labelNote": "新增科室：焦虑、情绪低落命中心理医学科。"
+    },
+    {
+      "id": "HG-104",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "想做个营养咨询",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "nutrition"
+      },
+      "labelNote": "新增科室：营养咨询命中临床营养科。"
+    },
+    {
+      "id": "HG-105",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "想做个避孕咨询",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "familyplanning"
+      },
+      "labelNote": "新增科室：避孕咨询命中计划生育科。"
+    },
+    {
+      "id": "HG-106",
+      "suite": "challenge",
+      "category": "医技科室守卫",
+      "modes": [
+        "rules",
+        "model"
+      ],
+      "input": {
+        "chief": "想做个CT检查",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "human",
+        "department": null,
+        "anyOf": [
+          {
+            "status": "human",
+            "department": null
+          },
+          {
+            "status": "uncertain",
+            "department": null
+          }
+        ]
+      },
+      "labelNote": "守卫：放射科不可自助挂号，一次性判定不得推荐任何科室。"
+    },
+    {
+      "id": "HG-107",
+      "suite": "challenge",
+      "category": "医技科室守卫",
+      "modes": [
+        "dynamic",
+        "workflow"
+      ],
+      "input": {
+        "chief": "想做个CT检查",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "question",
+        "department": null,
+        "question": "p_location"
+      },
+      "labelNote": "守卫：交互流程对检查请求只追问不适部位，不得推荐放射科。"
     }
   ]
 }

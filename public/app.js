@@ -109,9 +109,11 @@ const locationText = department => `${floorZh(department.floor)} · ${department
 const bookingLocation = (department, level) => `${floorZh(department.floor)} · ${roomText(department, level)} · ${department.zone} 区`;
 
 // 大类顺序按门诊大厅常见导视排列。
-const REGISTER_GROUPS = ['内科', '外科', '专科', '急诊'];
+const REGISTER_GROUPS = ['内科', '外科', '妇产与生殖', '儿科', '专科与五官', '急重症与肿瘤', '精神康复与中医', '医技辅助'];
+// 医生开单/转诊科室（bookable:false）不进入自助挂号流程，只出现在科室目录中。
+const bookableDepartments = () => config.departments.filter(department => department.bookable !== false);
 function registerGroups() {
-  const present = new Set(config.departments.map(department => department.group));
+  const present = new Set(bookableDepartments().map(department => department.group));
   return [...REGISTER_GROUPS.filter(group => present.has(group)),
     ...[...present].filter(group => !REGISTER_GROUPS.includes(group))];
 }
@@ -123,7 +125,7 @@ function renderRegisterList() {
   const text = $('#register-search').value.trim().toLowerCase();
   // 搜索时跨大类平铺，保证直接搜科室名或症状能一步命中。
   if (text) {
-    const list = config.departments.filter(department => `${department.name}${department.summary}${department.keywords.join(' ')}${department.group}`.toLowerCase().includes(text));
+    const list = bookableDepartments().filter(department => `${department.name}${department.summary}${department.keywords.join(' ')}${department.group}`.toLowerCase().includes(text));
     if (!list.length) {
       $('#register-list').innerHTML = '<p class="empty">没有匹配的科室。换个关键词试试，或者返回让导诊帮你判断。</p>';
       return;
@@ -135,14 +137,14 @@ function renderRegisterList() {
   if (!registerGroup) {
     const groups = registerGroups();
     $('#register-list').innerHTML = `<div class="register-group-cards">${groups.map(group => {
-      const members = config.departments.filter(department => department.group === group);
+      const members = bookableDepartments().filter(department => department.group === group);
       const hint = members.slice(0, 3).map(department => department.name).join('、') + (members.length > 3 ? ' 等' : '');
       return `<button type="button" class="register-group-card" data-group="${escape(group)}"><strong>${escape(group)}</strong><span>${members.length} 个科室</span><span class="register-group-hint">${escape(hint)}</span><span class="register-group-go" aria-hidden="true">→</span></button>`;
     }).join('')}</div>`;
     return;
   }
   // 第二步：展开所选大类下的科室。
-  const members = config.departments.filter(department => department.group === registerGroup);
+  const members = bookableDepartments().filter(department => department.group === registerGroup);
   $('#register-list').innerHTML = `<div class="register-group-bar"><button type="button" class="button secondary" id="register-group-back">← 返回大类</button><strong>${escape(registerGroup)}</strong><span>${members.length} 个科室</span></div><div class="register-rows">${members.map(registerRowHtml).join('')}</div>`;
 }
 
@@ -150,11 +152,15 @@ function showRegisterResult(department) {
   selectedRegister = department.id;
   renderRegisterList();
   const ageText = department.age === 'child' ? '1 至 17 岁' : department.age === 'all' ? '所有年龄' : '18 岁及以上';
-  $('#register-result').innerHTML = `<div class="register-card"><div class="register-card-head"><span class="register-tag">挂号指引</span><h2>${escape(department.name)}</h2></div><p class="register-path">该科室位于 <strong>${escape(floorZh(department.floor))} · ${escape(department.zone)} 区</strong></p><p class="register-line">${escape(department.summary)}</p><dl class="register-facts"><div><dt>门诊诊室</dt><dd>${escape(roomsText(department))}</dd></div><div><dt>接诊范围</dt><dd>${escape(ageText)}</dd></div><div><dt>相关症状</dt><dd>${escape(department.keywords.join('、'))}</dd></div><div><dt>怎么挂号</dt><dd>本原型没有接入真实号源，请通过医院官方渠道挂号</dd></div></dl><div class="banner notice"><span class="notice-mark" aria-hidden="true">i</span><div>科室与位置均为虚构示例；真实挂号与就诊安排请以医院官方渠道为准。</div></div><div class="register-actions"><button type="button" class="button secondary" id="register-again">再看其他科室</button><button type="button" class="button secondary" id="register-to-guide">不确定，帮我导诊</button><button type="button" class="button primary" id="register-book">确认挂该科室</button></div></div>`;
+  const bookAction = department.bookable === false
+    ? '<p class="register-line">该科室需医生开单或转诊，不支持自助挂号。</p>'
+    : '<button type="button" class="button primary" id="register-book">确认挂该科室</button>';
+  $('#register-result').innerHTML = `<div class="register-card"><div class="register-card-head"><span class="register-tag">挂号指引</span><h2>${escape(department.name)}</h2></div><p class="register-path">该科室位于 <strong>${escape(floorZh(department.floor))} · ${escape(department.zone)} 区</strong></p><p class="register-line">${escape(department.summary)}</p><dl class="register-facts"><div><dt>门诊诊室</dt><dd>${escape(roomsText(department))}</dd></div><div><dt>接诊范围</dt><dd>${escape(ageText)}</dd></div><div><dt>相关症状</dt><dd>${escape(department.keywords.join('、'))}</dd></div><div><dt>怎么挂号</dt><dd>本原型没有接入真实号源，请通过医院官方渠道挂号</dd></div></dl><div class="banner notice"><span class="notice-mark" aria-hidden="true">i</span><div>科室与位置均为虚构示例；真实挂号与就诊安排请以医院官方渠道为准。</div></div><div class="register-actions"><button type="button" class="button secondary" id="register-again">再看其他科室</button><button type="button" class="button secondary" id="register-to-guide">不确定，帮我导诊</button>${bookAction}</div></div>`;
   $('#register-result').hidden = false;
   $('#register-again').onclick = () => { selectedRegister = ''; $('#register-result').hidden = true; renderRegisterList(); $('#register-search').focus(); };
   $('#register-to-guide').onclick = () => { showGuide(); $('#chief').focus(); };
-  $('#register-book').onclick = () => openBooking(department);
+  const bookButton = $('#register-book');
+  if (bookButton) bookButton.onclick = () => openBooking(department);
   $('#register-result').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
@@ -265,15 +271,23 @@ function reset() {
 function showResult(data) {
   const department = config.departments.find(d => d.id === data.department);
   const names = { recommendation: '就诊参考', emergency: '优先处理', human: '人工协助', uncertain: '存疑弃权' };
+  // 入口介入直出结论时，介入卡同样插进对话流（否则模型最关键的一次出手不可见）；
+  // 结果块内原有的两行小字说明在入口阶段省略，避免与卡片重复。
+  const entryCard = data.model?.attempted && data.model?.phase === 'entry' ? modelCard(data.model) : '';
   const block = document.createElement('article'); block.className = `result ${data.status}`; block.tabIndex = -1;
-  block.innerHTML = `<div class="result-title"><h3>${escape(data.title)}</h3><span class="result-badge">${names[data.status]}</span></div><p class="result-reason">${escape(data.reason)}</p>${department ? `<div class="result-location"><strong>${escape(department.name)}</strong><span>示例位置：${escape(locationText(department))}（${escape(roomsText(department))}）</span></div>` : ''}<h4>判断依据</h4><ul>${data.evidence.map(x => `<li>${escape(x)}</li>`).join('')}</ul><p class="result-next">${escape(data.next)}</p>${data.status === 'recommendation' && department ? '<div class="result-book"><button type="button" class="button primary" id="result-book">确认挂该科室</button></div>' : ''}<div class="sources-links">${data.sources.map(id => `<a href="#sources">${escape(config.sources.find(s => s.id === id)?.title || id)} ↗</a>`).join('')}</div>${data.model.note ? `<p class="model-note">${escape(data.model.note)}</p>` : ''}`;
-  if (data.model.used) {
+  block.innerHTML = `<div class="result-title"><h3>${escape(data.title)}</h3><span class="result-badge">${names[data.status]}</span></div><p class="result-reason">${escape(data.reason)}</p>${department ? `<div class="result-location"><strong>${escape(department.name)}</strong><span>示例位置：${escape(locationText(department))}（${escape(roomsText(department))}）</span></div>` : ''}<h4>判断依据</h4><ul>${data.evidence.map(x => `<li>${escape(x)}</li>`).join('')}</ul><p class="result-next">${escape(data.next)}</p>${data.status === 'recommendation' && department && department.bookable !== false ? '<div class="result-book"><button type="button" class="button primary" id="result-book">确认挂该科室</button></div>' : ''}<div class="sources-links">${data.sources.map(id => `<a href="#sources">${escape(config.sources.find(s => s.id === id)?.title || id)} ↗</a>`).join('')}</div>${!entryCard && data.model.note ? `<p class="model-note">${escape(data.model.note)}</p>` : ''}`;
+  if (!entryCard && data.model.used) {
     const trace = document.createElement('p'); trace.className = 'model-note';
     trace.textContent = `本次模型调用：${data.model.name} · ${(data.model.elapsedMs / 1000).toFixed(1)}秒` + (data.model.matches.length ? ` · ${data.model.matches.map(m => `“${m.evidence}” → ${m.keyword}`).join('；')}` : ' · 未提取到额外症状');
     block.append(trace);
   }
   const bookButton = block.querySelector('#result-book');
   if (bookButton) bookButton.onclick = () => openBooking(department);
+  if (entryCard) {
+    const holder = document.createElement('div');
+    holder.innerHTML = entryCard;
+    $('#messages').append(holder.firstElementChild);
+  }
   $('#messages').append(block); $('#result-actions').hidden = false; updateStep(2); block.focus({ preventScroll: true });
 }
 
@@ -292,8 +306,24 @@ function probeRationale(q) {
   return '';
 }
 
+// 模型介入卡：入口介入发生时让本地开源模型的工作可见——它从口语主诉里核验出了哪些
+// 症状线索（证据 → 标准词），或如实告知“尝试了但没拿到可用线索/模型不可用”。
+function modelCard(m) {
+  if (!m || !m.attempted) return '';
+  const head = `<div class="model-card-head"><span class="model-card-badge">本地开源模型 · ${m.phase === 'entry' ? '入口介入' : '终态介入'}</span><span class="model-card-meta">${escape(m.name || '')} · ${(m.elapsedMs / 1000).toFixed(1)}秒</span></div>`;
+  if (!m.used || !m.matches?.length) return `<div class="model-card">${head}<p class="model-card-note">${escape(m.note || '')}</p></div>`;
+  const rows = m.matches.map(x => `<li><span class="model-card-quote">“${escape(x.evidence)}”</span> → <strong>${escape(x.keyword)}</strong></li>`).join('');
+  return `<div class="model-card">${head}<p class="model-card-lead">您的主诉偏口语，规则词表没有直接命中；本地模型从原文中核验出症状线索：</p><ul class="model-card-matches">${rows}</ul><p class="model-card-note">${escape(m.note || '')}</p></div>`;
+}
+
 function showQuestion(data) {
   const q = data.question;
+  const card = modelCard(data.model);
+  if (card) {
+    const holder = document.createElement('div');
+    holder.innerHTML = card;
+    $('#messages').append(holder.firstElementChild);
+  }
   const message = document.createElement('div'); message.className = 'message assistant-message'; message.dataset.question = q.id;
   // 年龄问题在展示层把“18岁及以上”细分为 18–40 岁 / 41–64 岁 / 65 岁及以上；
   // 三档提交给导诊引擎的值都是 adult，65+ 额外携带 data-age-display 供界面回显与关怀提示。
@@ -522,7 +552,7 @@ function renderDepartments() {
   const text = $('#department-search').value.trim().toLowerCase();
   const list = config.departments.filter(d => (filter === 'all' || d.group === filter) && `${d.name}${d.summary}${d.keywords.join(' ')}`.toLowerCase().includes(text));
   $('#department-count').textContent = `共 ${list.length} 个科室 · 虚构示例`;
-  $('#department-list').innerHTML = list.length ? list.map(d => `<article class="department-row"><div class="floor-tag">${escape(d.floor)}</div><div class="department-copy"><h3>${escape(d.name)}</h3><p>${escape(d.summary)}</p><small>${escape(d.zone)}区 · ${escape(roomsText(d))} · ${d.age === 'child' ? '1至17岁' : d.age === 'all' ? '所有年龄' : '18岁及以上'}</small></div><button type="button" data-department="${d.id}" aria-label="查看${escape(d.name)}详情" title="查看科室详情">→</button></article>`).join('') : '<p class="empty">没有匹配的科室，请尝试其他关键词。</p>';
+  $('#department-list').innerHTML = list.length ? list.map(d => `<article class="department-row"><div class="floor-tag">${escape(d.floor)}</div><div class="department-copy"><h3>${escape(d.name)}${d.bookable === false ? '<span class="department-tag">医生开单/转诊</span>' : ''}</h3><p>${escape(d.summary)}</p><small>${escape(d.zone)}区 · ${escape(roomsText(d))} · ${d.age === 'child' ? '1至17岁' : d.age === 'all' ? '所有年龄' : '18岁及以上'}</small></div><button type="button" data-department="${d.id}" aria-label="查看${escape(d.name)}详情" title="查看科室详情">→</button></article>`).join('') : '<p class="empty">没有匹配的科室，请尝试其他关键词。</p>';
 }
 $('#department-search').oninput = renderDepartments;
 $('#department-filters').onclick = event => {
@@ -533,7 +563,7 @@ $('#department-list').onclick = event => {
   const button = event.target.closest('[data-department]'); if (!button) return;
   const d = config.departments.find(x => x.id === button.dataset.department);
   $('#dialog-title').textContent = d.name;
-  $('#dialog-content').innerHTML = `<p class="dialog-location">示例位置：${escape(locationText(d))}</p><p>门诊诊室：${escape(roomsText(d))}</p><p>${escape(d.summary)}</p><p>关联条目：${escape(d.keywords.join('、'))}</p><p>资料更新：${escape(config.hospital.updatedAt)}</p><div class="banner notice">这是虚构配置。真实就诊请向实际医院核实位置与接诊要求。</div><a href="#sources" id="dialog-source">查看资料来源 →</a>`;
+  $('#dialog-content').innerHTML = `<p class="dialog-location">示例位置：${escape(locationText(d))}</p><p>门诊诊室：${escape(roomsText(d))}</p>${d.bookable === false ? '<p>该科室需医生开单或转诊，不支持自助挂号。</p>' : ''}<p>${escape(d.summary)}</p><p>关联条目：${escape(d.keywords.join('、'))}</p><p>资料更新：${escape(config.hospital.updatedAt)}</p><div class="banner notice">这是虚构配置。真实就诊请向实际医院核实位置与接诊要求。</div><a href="#sources" id="dialog-source">查看资料来源 →</a>`;
   $('#dialog-source').onclick = () => $('#department-dialog').close(); $('#department-dialog').showModal();
 };
 $('#close-dialog').onclick = () => $('#department-dialog').close();

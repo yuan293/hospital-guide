@@ -4,7 +4,7 @@
     "title": "演示医院科室配置",
     "kind": "团队示例配置",
     "location": "data/hospital.json",
-    "date": "2026-09-24",
+    "date": "2026-10-01",
     "description": "虚构科室、接诊范围和位置，不能作为真实医院就诊依据。",
     "rights": "团队合成示例数据，随本仓库以 Apache-2.0 公开",
     "reviewStatus": "unreviewed"

@@ -17,14 +17,14 @@ const sources = JSON.parse(readFileSync(new URL('../data/sources.json', import.m
 test('hospital JSON and source references validate', () => {
   const result = validateHospitalData(original, sources);
   assert.equal(result.valid, true);
-  assert.equal(result.departmentCount, 18);
+  assert.equal(result.departmentCount, 45);
   assert.equal(result.probeCount, 10);
   assert.equal(result.pathwayCount, 1);
 });
 
-test('expertRoom 与普通诊室同层且互不重复，急诊科不分号别', () => {
+test('expertRoom 与普通诊室同层且互不重复，急诊科与不可挂号科室不分号别', () => {
   for (const d of original.departments) {
-    if (d.id === 'emergency') {
+    if (d.id === 'emergency' || d.bookable === false) {
       assert.equal(d.expertRoom, undefined);
       continue;
     }
@@ -94,6 +94,8 @@ test('invalid fields fail closed, including unsupported age boundaries', () => {
     d => { d.departments[0].ageRangeMonths = { min: 400, max: 200 }; },
     d => { d.departments[0].ageRangeMonths = { min: 240, max: null }; },
     d => { d.departments = d.departments.filter(d => d.id !== 'emergency'); },
+    d => { d.departments[0].bookable = 'no'; },
+    d => { d.departments.find(x => x.id === 'icu').expertRoom = '602'; },
     d => { d.hospital.updatedAt = '2026-02-31'; },
     d => { d.ruleSourceIds = ['MISSING']; },
   ]) {

@@ -2,12 +2,12 @@
   "resourceType": "StructureDefinition",
   "id": "option-weights",
   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
-  "version": "demo-2026.09-v5",
+  "version": "demo-2026.10-v6",
   "name": "OptionWeights",
   "title": "选项科室权重",
   "status": "draft",
   "experimental": true,
-  "date": "2026-09-25",
+  "date": "2026-10-01",
   "publisher": "诊途项目团队",
   "description": "挂在答案选项上，声明选中该选项后向各科室累加的工程权重；仅含 weight/<科室代码> 子扩展。",
   "fhirVersion": "4.0.1",
@@ -211,6 +211,36 @@
         "id": "Extension.extension:generalsurgery.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "科室 generalsurgery 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:infectious",
+        "path": "Extension.extension",
+        "sliceName": "infectious",
+        "short": "科室 infectious 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:infectious.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/infectious"
+      },
+      {
+        "id": "Extension.extension:infectious.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 infectious 的权重",
         "min": 0,
         "max": "1",
         "type": [

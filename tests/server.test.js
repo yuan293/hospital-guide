@@ -11,9 +11,13 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   const get = await fetch(url + '/api/config');
   assert.equal(get.status, 200);
   const config = await get.json();
-  assert.equal(config.departments.length, 18);
+  assert.equal(config.departments.length, 45);
   assert.equal(config.probes.length, 10);
-  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.5.1');
+  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.6.0');
+  // 不可自助挂号科室：医技辅助 5 个 + 重症医学科、放射治疗科，共 7 个
+  assert.equal(config.departments.filter(d => d.bookable === false).length, 7);
+  assert.ok(!config.departments.find(d => d.id === 'emergency').expertRoom);
+  assert.ok(config.departments.filter(d => d.bookable !== false && d.id !== 'emergency').every(d => d.expertRoom));
   assert.equal(config.dataInfo.validation.valid, true);
   assert.deepEqual(config.dataInfo.files, ['data/hospital.json', 'data/sources.json']);
   assert.match(get.headers.get('content-security-policy'), /frame-ancestors 'none'/);
@@ -33,6 +37,10 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   assert.equal(invalidHost, 403);
   const urgent = await post({ chief: '现在胸痛', model: 'missing-model', answers: {} });
   assert.equal((await urgent.json()).status, 'emergency');
+  // 医技科室不可挂号守卫：CT 检查需求不得推荐放射科（bookable:false 不参与导诊评分）
+  const ct = await (await post({ chief: '想做个CT检查', answers: { risk: 'no', age: 'adult', severity: 'mild' } })).json();
+  assert.notEqual(ct.department, 'radiology');
+  assert.ok(['question', 'human', 'uncertain'].includes(ct.status));
   assert.equal((await fetch(url + '/lib/triage.js')).status, 404);
   assert.equal((await fetch(url + '/evaluation.js')).status, 200);
   assert.equal((await fetch(url + '/evaluation.css')).status, 200);

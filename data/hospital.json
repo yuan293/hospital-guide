@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "hospital": {
     "name": "示例综合医院",
-    "version": "demo-2026.09-v3",
+    "version": "demo-2026.10-v1",
     "notice": "虚构院区与科室资料，仅用于项目演示，不对应真实医院。",
-    "updatedAt": "2026-09-25",
+    "updatedAt": "2026-10-01",
     "dataType": "synthetic",
     "sourceIds": [
       "DEMO-DEPTS"
@@ -17,12 +17,12 @@
     "resourceType": "Questionnaire",
     "id": "hospital-guide-probes",
     "url": "https://github.com/yuan293/hospital-guide/blob/main/Questionnaire/hospital-guide-probes",
-    "version": "demo-2026.09-v5",
+    "version": "demo-2026.10-v6",
     "name": "HospitalGuideProbes",
     "title": "诊途鉴别追问库",
     "status": "draft",
     "experimental": true,
-    "date": "2026-09-25",
+    "date": "2026-10-01",
     "publisher": "诊途项目团队",
     "description": "动态鉴别追问与安全确认问题库，结构对齐 HL7 FHIR R4 Questionnaire。问题类型（location/differential/redflag）、安全确认路径归属与提问顺序、科室权重、锚点症状、科室对、红旗征升级目标与来源等工程参数通过扩展字段表达，扩展 URL 前缀为 https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/ 。演示配置，未经临床审核，不是诊疗指南。",
     "extension": [
@@ -246,6 +246,19 @@
             ]
           },
           {
+            "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-pair",
+            "extension": [
+              {
+                "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-a",
+                "valueCode": "infectious"
+              },
+              {
+                "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/pair-dept-b",
+                "valueCode": "respiratory"
+              }
+            ]
+          },
+          {
             "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/probe-source",
             "valueString": "DEMO-TRIAGE"
           }
@@ -279,6 +292,10 @@
                 "extension": [
                   {
                     "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/neurology",
+                    "valueInteger": 1
+                  },
+                  {
+                    "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/infectious",
                     "valueInteger": 1
                   }
                 ]
@@ -966,8 +983,34 @@
   },
   "departments": [
     {
+      "id": "cardiology",
+      "name": "心血管内科",
+      "floor": "2F",
+      "room": "207",
+      "expertRoom": "208",
+      "zone": "A",
+      "keywords": [
+        "胸闷",
+        "胸痛",
+        "心慌",
+        "心悸",
+        "高血压",
+        "气短"
+      ],
+      "summary": "冠心病、心律失常、高血压、心力衰竭门诊（设重症监护组CCU）",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
       "id": "respiratory",
-      "name": "呼吸内科",
+      "name": "呼吸与危重症医学科",
       "floor": "2F",
       "room": "201",
       "expertRoom": "202",
@@ -978,7 +1021,7 @@
         "发热",
         "气喘"
       ],
-      "summary": "呼吸道相关不适的门诊咨询",
+      "summary": "哮喘、慢阻肺、肺血管病与呼吸重症（RICU）相关不适的门诊咨询",
       "group": "内科",
       "age": "adult",
       "ageRangeMonths": {
@@ -1003,7 +1046,157 @@
         "恶心",
         "反酸"
       ],
-      "summary": "胃肠道相关不适的门诊咨询",
+      "summary": "消化内镜、肝胆胰疾病、炎症性肠病等胃肠道相关不适的门诊咨询",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "nephrology",
+      "name": "肾脏内科",
+      "floor": "2F",
+      "room": "211",
+      "expertRoom": "212",
+      "zone": "A",
+      "keywords": [
+        "水肿",
+        "泡沫尿",
+        "蛋白尿",
+        "肌酐",
+        "透析"
+      ],
+      "summary": "肾小球疾病、血液透析中心等肾脏疾病门诊",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "hematology",
+      "name": "血液内科",
+      "floor": "2F",
+      "room": "213",
+      "expertRoom": "214",
+      "zone": "A",
+      "keywords": [
+        "贫血",
+        "面色苍白",
+        "瘀斑",
+        "淋巴结肿大"
+      ],
+      "summary": "血液肿瘤、造血干细胞移植、出凝血疾病门诊",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "endocrinology",
+      "name": "内分泌代谢科",
+      "floor": "2F",
+      "room": "209",
+      "expertRoom": "210",
+      "zone": "A",
+      "keywords": [
+        "血糖",
+        "糖尿病",
+        "甲状腺",
+        "甲亢",
+        "甲减",
+        "肥胖",
+        "多饮多尿"
+      ],
+      "summary": "糖尿病、甲状腺疾病、肾上腺及骨质疏松等内分泌与代谢疾病门诊",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "rheumatology",
+      "name": "风湿免疫科",
+      "floor": "2F",
+      "room": "215",
+      "expertRoom": "216",
+      "zone": "A",
+      "keywords": [
+        "关节肿痛",
+        "晨僵",
+        "红斑狼疮",
+        "类风湿"
+      ],
+      "summary": "系统性红斑狼疮、类风湿关节炎、罕见免疫病门诊",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "infectious",
+      "name": "感染内科",
+      "floor": "2F",
+      "room": "217",
+      "expertRoom": "218",
+      "zone": "A",
+      "keywords": [
+        "持续发热",
+        "发热不退",
+        "传染病",
+        "肝炎",
+        "结核"
+      ],
+      "summary": "传染病、不明原因发热、严重感染的门诊咨询",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "allergy",
+      "name": "变态反应科",
+      "floor": "2F",
+      "room": "219",
+      "expertRoom": "220",
+      "zone": "A",
+      "keywords": [
+        "过敏",
+        "过敏性鼻炎",
+        "打喷嚏",
+        "荨麻疹",
+        "花粉"
+      ],
+      "summary": "特异性过敏原诊治与脱敏治疗门诊",
       "group": "内科",
       "age": "adult",
       "ageRangeMonths": {
@@ -1039,21 +1232,65 @@
       ]
     },
     {
-      "id": "dermatology",
-      "name": "皮肤科",
+      "id": "geriatrics",
+      "name": "老年医学科",
+      "floor": "1F",
+      "room": "103",
+      "expertRoom": "104",
+      "zone": "D",
+      "keywords": [
+        "多病共存",
+        "老年综合征",
+        "衰弱"
+      ],
+      "summary": "老年综合征、多病共存与衰弱的综合评估门诊",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "general",
+      "name": "全科医学科",
+      "floor": "1F",
+      "room": "101",
+      "expertRoom": "102",
+      "zone": "D",
+      "keywords": [
+        "综合咨询"
+      ],
+      "summary": "由现场导诊人员协助安排综合评估",
+      "group": "内科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "generalsurgery",
+      "name": "基本外科（普通外科）",
       "floor": "3F",
-      "room": "301",
-      "expertRoom": "302",
+      "room": "311",
+      "expertRoom": "312",
       "zone": "B",
       "keywords": [
-        "皮疹",
-        "瘙痒",
-        "起疹",
-        "痘痘",
-        "皮肤痒"
+        "阑尾炎",
+        "疝气",
+        "甲状腺结节",
+        "体表肿块",
+        "胆囊炎"
       ],
-      "summary": "皮肤相关不适的门诊咨询",
-      "group": "专科",
+      "summary": "胃肠外科、肝胆外科、胰腺外科、甲状腺外科、乳腺外科、疝与腹壁外科门诊",
+      "group": "外科",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1078,7 +1315,7 @@
         "肩痛",
         "膝痛"
       ],
-      "summary": "骨关节与运动系统相关不适的门诊咨询",
+      "summary": "脊柱外科、关节外科、创伤骨科、运动医学科、骨肿瘤科门诊",
       "group": "外科",
       "age": "adult",
       "ageRangeMonths": {
@@ -1090,46 +1327,20 @@
       ]
     },
     {
-      "id": "ent",
-      "name": "耳鼻喉科",
+      "id": "neurosurgery",
+      "name": "神经外科",
       "floor": "3F",
-      "room": "305",
-      "expertRoom": "306",
+      "room": "301",
+      "expertRoom": "302",
       "zone": "B",
       "keywords": [
-        "耳痛",
-        "耳鸣",
-        "鼻塞",
-        "咽痛",
-        "喉咙痛",
-        "嗓子痛"
+        "脑肿瘤",
+        "脑出血",
+        "颅脑损伤",
+        "头部外伤"
       ],
-      "summary": "耳、鼻、咽喉相关不适的门诊咨询",
-      "group": "专科",
-      "age": "adult",
-      "ageRangeMonths": {
-        "min": 216,
-        "max": null
-      },
-      "sourceIds": [
-        "DEMO-DEPTS"
-      ]
-    },
-    {
-      "id": "eye",
-      "name": "眼科",
-      "floor": "3F",
-      "room": "307",
-      "expertRoom": "308",
-      "zone": "B",
-      "keywords": [
-        "眼痒",
-        "眼干",
-        "眼红",
-        "流泪"
-      ],
-      "summary": "眼部相关不适的门诊咨询",
-      "group": "专科",
+      "summary": "脑肿瘤、脑血管病、功能神经外科、脊柱脊髓亚专业门诊",
+      "group": "外科",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1151,7 +1362,7 @@
         "尿急",
         "尿痛"
       ],
-      "summary": "泌尿系统相关不适的门诊咨询",
+      "summary": "肾上腺外科、泌尿系肿瘤、微创外科、结石与男科门诊",
       "group": "外科",
       "age": "adult",
       "ageRangeMonths": {
@@ -1163,40 +1374,20 @@
       ]
     },
     {
-      "id": "pediatrics",
-      "name": "儿科",
-      "floor": "1F",
-      "room": "105",
-      "expertRoom": "106",
-      "zone": "C",
+      "id": "thoracicsurgery",
+      "name": "胸外科",
+      "floor": "3F",
+      "room": "305",
+      "expertRoom": "306",
+      "zone": "B",
       "keywords": [
-        "儿童",
-        "宝宝",
-        "小孩"
+        "肺结节",
+        "肺癌",
+        "食管癌",
+        "纵隔"
       ],
-      "summary": "演示接诊范围：1至17岁；婴儿转人工评估",
-      "group": "专科",
-      "age": "child",
-      "ageRangeMonths": {
-        "min": 12,
-        "max": 215
-      },
-      "sourceIds": [
-        "DEMO-DEPTS"
-      ]
-    },
-    {
-      "id": "general",
-      "name": "全科门诊",
-      "floor": "1F",
-      "room": "103",
-      "expertRoom": "104",
-      "zone": "C",
-      "keywords": [
-        "综合咨询"
-      ],
-      "summary": "由现场导诊人员协助安排综合评估",
-      "group": "内科",
+      "summary": "肺癌、食管及纵隔肿瘤外科门诊",
+      "group": "外科",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1207,42 +1398,19 @@
       ]
     },
     {
-      "id": "emergency",
-      "name": "急诊科",
-      "floor": "1F",
-      "room": "急诊入口",
-      "zone": "D",
+      "id": "cardiacsurgery",
+      "name": "心脏外科",
+      "floor": "3F",
+      "room": "307",
+      "expertRoom": "308",
+      "zone": "B",
       "keywords": [
-        "急诊"
+        "心脏搭桥",
+        "心脏瓣膜",
+        "先心病"
       ],
-      "summary": "出现严重或迅速加重的不适时优先寻求帮助",
-      "group": "急诊",
-      "age": "all",
-      "ageRangeMonths": {
-        "min": 0,
-        "max": null
-      },
-      "sourceIds": [
-        "DEMO-DEPTS"
-      ]
-    },
-    {
-      "id": "cardiology",
-      "name": "心血管内科",
-      "floor": "2F",
-      "room": "207",
-      "expertRoom": "208",
-      "zone": "A",
-      "keywords": [
-        "胸闷",
-        "胸痛",
-        "心慌",
-        "心悸",
-        "高血压",
-        "气短"
-      ],
-      "summary": "心脏与血管相关不适的门诊咨询",
-      "group": "内科",
+      "summary": "冠脉搭桥、瓣膜外科、先心病外科门诊",
+      "group": "外科",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1253,23 +1421,44 @@
       ]
     },
     {
-      "id": "endocrinology",
-      "name": "内分泌科",
-      "floor": "2F",
-      "room": "209",
-      "expertRoom": "210",
-      "zone": "A",
+      "id": "vascularsurgery",
+      "name": "血管外科",
+      "floor": "3F",
+      "room": "313",
+      "expertRoom": "314",
+      "zone": "B",
       "keywords": [
-        "血糖",
-        "糖尿病",
-        "甲状腺",
-        "甲亢",
-        "甲减",
-        "肥胖",
-        "多饮多尿"
+        "静脉曲张",
+        "下肢肿胀",
+        "动脉瘤"
       ],
-      "summary": "内分泌与代谢相关不适的门诊咨询",
-      "group": "内科",
+      "summary": "主动脉瘤/主动脉夹层、外周血管及静脉曲张门诊",
+      "group": "外科",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "plasticsurgery",
+      "name": "整形外科",
+      "floor": "3F",
+      "room": "315",
+      "expertRoom": "316",
+      "zone": "B",
+      "keywords": [
+        "疤痕",
+        "瘢痕",
+        "整形",
+        "腋臭",
+        "烫伤"
+      ],
+      "summary": "整形外科与烧伤外科：瘢痕修复、整形美容、烧烫伤门诊",
+      "group": "外科",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1294,8 +1483,222 @@
         "孕检",
         "更年期"
       ],
-      "summary": "女性生殖系统相关不适的门诊咨询",
-      "group": "专科",
+      "summary": "普通妇科、妇科肿瘤中心、微创妇科",
+      "group": "妇产与生殖",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "obstetrics",
+      "name": "产科",
+      "floor": "4F",
+      "room": "403",
+      "expertRoom": "404",
+      "zone": "E",
+      "keywords": [
+        "产检",
+        "胎心",
+        "待产"
+      ],
+      "summary": "高危妊娠、胎儿医学中心，产检与待产",
+      "group": "妇产与生殖",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "reproduction",
+      "name": "生殖医学中心",
+      "floor": "4F",
+      "room": "405",
+      "expertRoom": "406",
+      "zone": "E",
+      "keywords": [
+        "不孕",
+        "不育",
+        "试管婴儿",
+        "备孕"
+      ],
+      "summary": "妇科内分泌与生殖中心：辅助生殖（试管婴儿）、不孕不育诊治",
+      "group": "妇产与生殖",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "familyplanning",
+      "name": "计划生育科",
+      "floor": "4F",
+      "room": "407",
+      "expertRoom": "408",
+      "zone": "E",
+      "keywords": [
+        "计划生育",
+        "避孕咨询",
+        "节育"
+      ],
+      "summary": "计划生育与避孕咨询门诊",
+      "group": "妇产与生殖",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "pediatrics",
+      "name": "小儿内科",
+      "floor": "1F",
+      "room": "111",
+      "expertRoom": "112",
+      "zone": "C",
+      "keywords": [
+        "儿童",
+        "宝宝",
+        "小孩"
+      ],
+      "summary": "儿科呼吸、儿科消化、儿科神经、小儿罕见病；演示接诊范围：1至17岁，婴儿转人工评估",
+      "group": "儿科",
+      "age": "child",
+      "ageRangeMonths": {
+        "min": 12,
+        "max": 215
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "pedsurgery",
+      "name": "小儿外科",
+      "floor": "1F",
+      "room": "113",
+      "expertRoom": "114",
+      "zone": "C",
+      "keywords": [
+        "小儿疝气",
+        "包茎",
+        "隐睾",
+        "先天性畸形"
+      ],
+      "summary": "小儿普外、小儿骨科、先天畸形矫治",
+      "group": "儿科",
+      "age": "child",
+      "ageRangeMonths": {
+        "min": 12,
+        "max": 215
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "neonatology",
+      "name": "新生儿科",
+      "floor": "1F",
+      "room": "115",
+      "expertRoom": "116",
+      "zone": "C",
+      "keywords": [
+        "新生儿",
+        "新生儿黄疸",
+        "早产儿"
+      ],
+      "summary": "新生儿重症监护（NICU）与新生儿随访",
+      "group": "儿科",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "childhealth",
+      "name": "儿童保健科",
+      "floor": "1F",
+      "room": "117",
+      "expertRoom": "118",
+      "zone": "C",
+      "keywords": [
+        "生长发育",
+        "长不高",
+        "性早熟",
+        "儿童体检"
+      ],
+      "summary": "生长发育评估、儿童营养与儿童保健门诊",
+      "group": "儿科",
+      "age": "child",
+      "ageRangeMonths": {
+        "min": 12,
+        "max": 215
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "eye",
+      "name": "眼科",
+      "floor": "4F",
+      "room": "425",
+      "expertRoom": "426",
+      "zone": "F",
+      "keywords": [
+        "眼痒",
+        "眼干",
+        "眼红",
+        "流泪"
+      ],
+      "summary": "白内障、青光眼、眼底病、屈光手术门诊",
+      "group": "专科与五官",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "ent",
+      "name": "耳鼻咽喉头颈外科",
+      "floor": "4F",
+      "room": "423",
+      "expertRoom": "424",
+      "zone": "F",
+      "keywords": [
+        "耳痛",
+        "耳鸣",
+        "鼻塞",
+        "咽痛",
+        "喉咙痛",
+        "嗓子痛"
+      ],
+      "summary": "耳科、鼻科、咽喉头颈肿瘤门诊",
+      "group": "专科与五官",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1309,9 +1712,9 @@
       "id": "stomatology",
       "name": "口腔科",
       "floor": "4F",
-      "room": "403",
-      "expertRoom": "404",
-      "zone": "E",
+      "room": "427",
+      "expertRoom": "428",
+      "zone": "F",
       "keywords": [
         "牙疼",
         "牙龈出血",
@@ -1319,8 +1722,8 @@
         "拔牙",
         "智齿"
       ],
-      "summary": "口腔与牙齿相关不适的门诊咨询",
-      "group": "专科",
+      "summary": "口腔内科、口腔颌面外科、正畸科、牙体牙髓科",
+      "group": "专科与五官",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1331,22 +1734,133 @@
       ]
     },
     {
-      "id": "tcm",
-      "name": "中医科",
+      "id": "dermatology",
+      "name": "皮肤性病科",
       "floor": "4F",
-      "room": "405",
-      "expertRoom": "406",
-      "zone": "E",
+      "room": "421",
+      "expertRoom": "422",
+      "zone": "F",
       "keywords": [
-        "中医调理",
-        "体质",
-        "湿气",
-        "针灸",
-        "推拿",
-        "体虚"
+        "皮疹",
+        "瘙痒",
+        "起疹",
+        "痘痘",
+        "皮肤痒"
       ],
-      "summary": "中医辨证调理与传统疗法咨询",
-      "group": "专科",
+      "summary": "皮肤外科、变态反应性皮肤病、皮肤美容门诊",
+      "group": "专科与五官",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "emergency",
+      "name": "急诊科",
+      "floor": "1F",
+      "room": "急诊入口",
+      "zone": "A",
+      "keywords": [
+        "急诊"
+      ],
+      "summary": "急诊抢救室、急诊留观、急诊内/外科；出现严重或迅速加重的不适时优先寻求帮助",
+      "group": "急重症与肿瘤",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "oncology",
+      "name": "肿瘤内科",
+      "floor": "5F",
+      "room": "501",
+      "expertRoom": "502",
+      "zone": "G",
+      "keywords": [
+        "癌症",
+        "化疗",
+        "恶性肿瘤"
+      ],
+      "summary": "消化道肿瘤、胸部肿瘤、妇科及罕见肿瘤综合治疗",
+      "group": "急重症与肿瘤",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "icu",
+      "name": "重症医学科",
+      "floor": "6F",
+      "room": "重症病区（医生评估转入）",
+      "zone": "H",
+      "keywords": [
+        "重症监护",
+        "ICU"
+      ],
+      "summary": "ICU/MICU/SICU 重症监护；由医生评估转入，不可自助挂号",
+      "group": "急重症与肿瘤",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "bookable": false,
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "radiotherapy",
+      "name": "放射治疗科",
+      "floor": "6F",
+      "room": "放疗中心（凭医嘱治疗）",
+      "zone": "H",
+      "keywords": [
+        "放疗",
+        "放射治疗"
+      ],
+      "summary": "肿瘤精确放疗中心；凭医嘱治疗，不可自助挂号",
+      "group": "急重症与肿瘤",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "bookable": false,
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "psychology",
+      "name": "心理医学科·精神科",
+      "floor": "5F",
+      "room": "511",
+      "expertRoom": "512",
+      "zone": "G",
+      "keywords": [
+        "焦虑",
+        "抑郁",
+        "情绪低落",
+        "心理咨询",
+        "睡眠障碍"
+      ],
+      "summary": "睡眠障碍、心身疾病、焦虑抑郁诊治",
+      "group": "精神康复与中医",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1359,10 +1873,10 @@
     {
       "id": "rehabilitation",
       "name": "康复医学科",
-      "floor": "4F",
-      "room": "407",
-      "expertRoom": "408",
-      "zone": "E",
+      "floor": "5F",
+      "room": "513",
+      "expertRoom": "514",
+      "zone": "G",
       "keywords": [
         "康复",
         "术后恢复",
@@ -1370,8 +1884,8 @@
         "颈肩腰理疗",
         "运动损伤"
       ],
-      "summary": "术后及功能障碍康复评估与理疗",
-      "group": "专科",
+      "summary": "神经康复、骨科术后康复、运动康复",
+      "group": "精神康复与中医",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
@@ -1382,26 +1896,165 @@
       ]
     },
     {
-      "id": "generalsurgery",
-      "name": "普外科",
-      "floor": "3F",
-      "room": "311",
-      "expertRoom": "312",
-      "zone": "B",
+      "id": "tcm",
+      "name": "中医科·中西医结合",
+      "floor": "5F",
+      "room": "515",
+      "expertRoom": "516",
+      "zone": "G",
       "keywords": [
-        "阑尾炎",
-        "疝气",
-        "甲状腺结节",
-        "体表肿块",
-        "胆囊炎"
+        "中医调理",
+        "体质",
+        "湿气",
+        "针灸",
+        "推拿",
+        "体虚"
       ],
-      "summary": "普通外科常见疾病的门诊咨询",
-      "group": "外科",
+      "summary": "中医辨证调理与中西医结合治疗",
+      "group": "精神康复与中医",
       "age": "adult",
       "ageRangeMonths": {
         "min": 216,
         "max": null
       },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "nutrition",
+      "name": "临床营养科",
+      "floor": "5F",
+      "room": "517",
+      "expertRoom": "518",
+      "zone": "G",
+      "keywords": [
+        "营养咨询",
+        "医学减重",
+        "营养不良"
+      ],
+      "summary": "肠内肠外营养支持、代谢疾病营养干预",
+      "group": "精神康复与中医",
+      "age": "adult",
+      "ageRangeMonths": {
+        "min": 216,
+        "max": null
+      },
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "radiology",
+      "name": "放射科·医学影像科",
+      "floor": "1F",
+      "room": "影像检查区（医生开单）",
+      "zone": "医技",
+      "keywords": [
+        "CT",
+        "核磁共振",
+        "拍片",
+        "X光"
+      ],
+      "summary": "X光、CT、核磁共振（MRI）诊断；医生开单检查，不可自助挂号",
+      "group": "医技辅助",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "bookable": false,
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "ultrasound",
+      "name": "超声医学科",
+      "floor": "1F",
+      "room": "超声检查区（医生开单）",
+      "zone": "医技",
+      "keywords": [
+        "超声检查",
+        "B超"
+      ],
+      "summary": "心血管超声、腹部及浅表器官超声；医生开单检查，不可自助挂号",
+      "group": "医技辅助",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "bookable": false,
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "nuclear",
+      "name": "核医学科",
+      "floor": "1F",
+      "room": "核医学检查区（医生开单）",
+      "zone": "医技",
+      "keywords": [
+        "PET-CT",
+        "核素",
+        "SPECT"
+      ],
+      "summary": "PET-CT、SPECT显像、核素治疗；医生开单检查，不可自助挂号",
+      "group": "医技辅助",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "bookable": false,
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "lab",
+      "name": "检验科·病理科·输血科",
+      "floor": "1F",
+      "room": "检验采样区（医生开单）",
+      "zone": "医技",
+      "keywords": [
+        "化验",
+        "抽血检查",
+        "病理检查"
+      ],
+      "summary": "检验、病理与输血服务；医生开单检查，不可自助挂号",
+      "group": "医技辅助",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "bookable": false,
+      "sourceIds": [
+        "DEMO-DEPTS"
+      ]
+    },
+    {
+      "id": "pharmacy",
+      "name": "药剂科·PIVAS",
+      "floor": "1F",
+      "room": "药房取药区（凭处方）",
+      "zone": "医技",
+      "keywords": [
+        "取药",
+        "药房",
+        "静脉用药"
+      ],
+      "summary": "门诊药房与静脉用药调配中心（PIVAS）；凭处方取药，不可自助挂号",
+      "group": "医技辅助",
+      "age": "all",
+      "ageRangeMonths": {
+        "min": 0,
+        "max": null
+      },
+      "bookable": false,
       "sourceIds": [
         "DEMO-DEPTS"
       ]
