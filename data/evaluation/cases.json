@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "hospital-guide-synthetic-v1",
-  "version": "2026-10-01.2",
+  "version": "2026-10-01.3",
   "createdAt": "2026-09-25",
   "provenance": "AI辅助编写的合成工程案例，标签来自演示流程设计；非患者数据、非医生标注、非独立盲测。",
   "reviewStatus": "engineering-only",
@@ -2538,6 +2538,32 @@
         "department": "cardiology"
       },
       "labelNote": "红旗征三项全阴（否认持续明显胸痛等急症征象）后，两个模型均把口语“心口疼”标准化为心脏症状词（7B→胸痛、1.5B→心悸）并推荐心内科门诊；属合理的器官近义映射，推荐的是门诊方向而非急诊。规则词表零命中故 rules/dynamic 组行为见 HG-119/HG-120。"
+    },
+    {
+      "id": "HG-122",
+      "suite": "challenge",
+      "category": "口语表达",
+      "modes": [
+        "rules",
+        "model",
+        "dynamic",
+        "workflow"
+      ],
+      "input": {
+        "chief": "鼻子老是出血",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild",
+          "p_location": "head_neck"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "ent"
+      },
+      "labelNote": "同器官跨症状错配守卫：词表缺“鼻出血”类词时，7B 曾把“鼻子老是出血”就近错配为“鼻塞”——科室碰巧不推错，但判断依据记录了错误症状，且出血是被红旗征体系重点关注的征象。修复三层：耳鼻喉科词表补入鼻出血/流鼻血/鼻子出血/出鼻血/鼻衄；模型提示词增加“严禁就近挑选（词表无同义表达必须返回空数组）”与“出血类主诉只能映射含血/衄/黑便的词”；证据核验层新增纯规则出血守卫（出血类证据映射到非出血词一律失验）。无模型组按设计弃权：纯出血主诉与词表无逐字连续命中，部位选项亦无鼻部。"
     }
   ]
 }

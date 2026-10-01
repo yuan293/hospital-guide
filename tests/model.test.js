@@ -58,6 +58,14 @@ test('Ollama adapter lists models, validates evidence, rejects malformed output 
     ] };
     const vague = await normalize('浑身不得劲，身上哪儿都别扭，肚子不舒服', 'test-model');
     assert.deepEqual(vague.matches.map(m => m.keyword), ['腹痛']);
+    // 出血类证据不得就近错配为非出血词（“鼻子老是出血”曾被错配为“鼻塞”，科室碰巧不
+    // 错但判断依据记录了错误症状）；词表含“血”的词放行
+    output = { matches: [
+      { keyword: '鼻塞', evidence: '鼻子老是出血' },
+      { keyword: '鼻出血', evidence: '鼻子老是出血' },
+    ] };
+    const bleeding = await normalize('鼻子老是出血', 'test-model');
+    assert.deepEqual(bleeding.matches.map(m => m.keyword), ['鼻出血']);
     output = { invalid: true };
     await assert.rejects(normalize('肚子疼', 'test-model'));
   } finally { await new Promise(resolve => server.close(resolve)); }
