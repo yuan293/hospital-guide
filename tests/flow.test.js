@@ -36,13 +36,15 @@ test('safety handoffs, missing fields and dynamic probe turns do not invoke mode
 });
 // 入口介入：规则一条症状词都没命中、正要追问“不适部位”时，先让模型标准化口语主诉，
 // 命中核验证据就不再问部位问题，直接进入同一套评分流程。
-// 注：0.9.0 起规则路径也消费登记同义表，「肚子疼」已由规则直接命中消化内科，
-// 不再经过入口介入。这里改用规则与同义表都接不住的组合（"腰疼"仅靠形态锚点核验
-// 可支持"腰痛"，但未登记为规则同义），以继续覆盖入口介入分支。
+// 注：随规则层覆盖增强，能触发入口介入的主诉要同步换。0.9.0 起规则消费同义表，
+// 「肚子疼」直接命中消化内科；0.9.1 起规则再消费 X疼/X痛 形态，「腰疼」也直接命中骨科。
+// 这里用「腰那一块疼」——词干与疼痛词被“那一块”隔开且中间夹着指代词，形态匹配
+// 的紧邻窗口（≤2 字）刻意不覆盖这种散文化说法，规则接不住、必须靠模型标准化，
+// 入口介入分支仍被真实覆盖。
 test('entry intervention standardizes an oral chief before asking for a body part', async () => {
   let calls = 0;
-  const normalizer = async () => { calls++; return { matches: [{ keyword: '腰痛', evidence: '腰疼' }], rawCount: 1 }; };
-  const result = await runTriage({ chief: '浑身难受，腰疼', answers, model: 'fixture' }, { normalizer });
+  const normalizer = async () => { calls++; return { matches: [{ keyword: '腰痛', evidence: '腰那一块疼' }], rawCount: 1 }; };
+  const result = await runTriage({ chief: '浑身难受，腰那一块疼', answers, model: 'fixture' }, { normalizer });
   assert.equal(calls, 1);
   assert.equal(result.status, 'recommendation');
   assert.equal(result.department, 'orthopedics');
@@ -55,7 +57,7 @@ test('entry intervention without verified evidence falls back to the location qu
     async () => ({ matches: [], rawCount: 0 }),
     async () => ({ matches: [], rawCount: 3 }),
   ]) {
-    const result = await runTriage({ chief: '浑身难受，腰疼', answers, model: 'fixture' }, { normalizer });
+    const result = await runTriage({ chief: '浑身难受，腰那一块疼', answers, model: 'fixture' }, { normalizer });
     assert.equal(result.status, 'question');
     assert.equal(result.question.id, 'p_location');
     assert.equal(result.model.used, false);

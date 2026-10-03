@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T11:17:26.031Z",
+  "generatedAt": "2026-10-03T12:17:24.901Z",
   "dataset": {
     "id": "redteam-adversarial-v1",
     "version": "2026-10-03.1",
@@ -1172,16 +1172,16 @@
   "riskCoverage": [
     {
       "mode": "rules",
-      "pool": 69,
-      "coverage": 0.9855,
+      "pool": 75,
+      "coverage": 1,
       "accuracyOnRecommended": 1,
-      "declined": 1,
+      "declined": 0,
       "wrongRecommended": 0,
       "overreach": 0
     },
     {
       "mode": "dynamic",
-      "pool": 77,
+      "pool": 83,
       "coverage": 1,
       "accuracyOnRecommended": 1,
       "declined": 0,
@@ -1190,7 +1190,7 @@
     },
     {
       "mode": "model:qwen2.5:7b",
-      "pool": 62,
+      "pool": 68,
       "coverage": 1,
       "accuracyOnRecommended": 1,
       "declined": 0,
@@ -1199,7 +1199,7 @@
     },
     {
       "mode": "workflow:qwen2.5:7b",
-      "pool": 78,
+      "pool": 84,
       "coverage": 1,
       "accuracyOnRecommended": 1,
       "declined": 0,
@@ -1208,7 +1208,7 @@
     },
     {
       "mode": "model:qwen2.5:1.5b",
-      "pool": 62,
+      "pool": 68,
       "coverage": 1,
       "accuracyOnRecommended": 1,
       "declined": 0,
@@ -1217,7 +1217,7 @@
     },
     {
       "mode": "workflow:qwen2.5:1.5b",
-      "pool": 78,
+      "pool": 84,
       "coverage": 1,
       "accuracyOnRecommended": 1,
       "declined": 0,

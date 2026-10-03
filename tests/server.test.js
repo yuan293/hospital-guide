@@ -13,7 +13,7 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   const config = await get.json();
   assert.equal(config.departments.length, 45);
   assert.equal(config.probes.length, 11);
-  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.9.0');
+  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.9.1');
   // 不可自助挂号科室：医技辅助 5 个 + 重症医学科、放射治疗科，共 7 个
   assert.equal(config.departments.filter(d => d.bookable === false).length, 7);
   assert.ok(!config.departments.find(d => d.id === 'emergency').expertRoom);
