@@ -103,6 +103,8 @@ npm start     # 浏览器打开 http://127.0.0.1:3210
 
 ### 路径 B：完整双模型复现（一次性下载约7.2GB，之后可全离线）
 
+前置：先完成路径 A 的获取代码步骤（`git clone` 或 Download ZIP，并 `cd` 进入仓库目录）；以下命令均在仓库目录内执行，其中 `verify:full` 已包含路径 A 的快速链，无需先单独跑 `npm test` / `npm run verify`。
+
 ```sh
 npm run models:setup   # 仅支持 Windows x64：下载官方 Ollama v0.34.4（约1.46GB），SHA-256 不符拒绝解压
 npm run models:pull    # qwen2.5:7b ＋ qwen2.5:1.5b（约5.7GB），自动记录模型版本摘要与许可证
