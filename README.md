@@ -40,14 +40,14 @@ curl -s https://api.github.com/repos/yuan293/hospital-guide
 
 仅需 Node.js 20+（https://nodejs.org 下载 LTS 安装，命令行 `node -v` 显示 v20 以上即可），**不需要 npm install**，全程只监听本机 127.0.0.1。获取项目：`git clone https://github.com/yuan293/hospital-guide.git`；不会 Git 可在仓库页面点绿色 **Code** 按钮 → **Download ZIP** 解压。路径 A 不下载模型即可验证全部规则引擎、安全闸门与界面功能；路径 B 复现双模型结果；路径 C 供现场断网备用。
 
-常见问题：提示"npm 不是内部或外部命令"说明 Node.js 未安装或安装后未重新打开命令行窗口；浏览器打不开地址先确认启动窗口仍在运行；本服务只能在运行项目的电脑本机访问，不是可分享的公网网址；所有医院与科室数据均为虚构，不能用于真实就医。
+常见问题：提示"npm 不是内部或外部命令"说明 Node.js 未安装或安装后未重新打开命令行窗口；浏览器打不开地址先确认启动窗口仍在运行；`git clone` 卡住或报连接超时通常是网络受限，改用仓库页面 **Code → Download ZIP** 下载解压即可（无需 Git）；本服务只能在运行项目的电脑本机访问，不是可分享的公网网址；所有医院与科室数据均为虚构，不能用于真实就医。
 
 ### 路径 A：免模型快速验证（约3分钟，零下载）
 
 ```sh
 git clone https://github.com/yuan293/hospital-guide.git
 cd hospital-guide    # 用 Download ZIP 获取的：解压后目录名为 hospital-guide-main，请 cd 到实际目录
-npm test      # 预期：tests 60 / pass 60 / fail 0
+npm test      # 预期：tests 76 / pass 76 / fail 0（主体 60 + 独立包 packages/anchored-evidence-gate 16）
 npm run verify
 npm start     # 浏览器打开 http://127.0.0.1:3210
 ```
@@ -56,7 +56,7 @@ npm start     # 浏览器打开 http://127.0.0.1:3210
 
 | 检查项 | 预期结果 |
 |---|---|
-| 单元测试 | 60/60 通过，0 失败 |
+| 单元测试 | 76/76 通过，0 失败（主仓 60 ＋ 独立包 `packages/anchored-evidence-gate/` 16；`node --test` 会同时收集两处） |
 | 数据 fail-closed 校验 | 通过（FHIR R4 Questionnaire 结构、来源与年龄约束；45 科室 / 11 probes / 1 pathway） |
 | rules 组（legacy 固定追问，消融对照） | 96/105；9 条未中全部是 HG-039～HG-046 口语老基线与 HG-122 纯出血口语（刻意保留的对照），锁定在 failedIds 白名单门禁内 |
 | dynamic 组（安全确认＋信息增益动态追问，无模型） | 107/111；4 条未过是 HG-040／HG-041／HG-043／HG-122，无模型时只能靠“不适部位”选项收敛（部位选项无鼻部），按设计弃权转人工（白名单内，见「AI 必要性」） |
