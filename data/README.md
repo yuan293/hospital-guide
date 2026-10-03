@@ -7,7 +7,7 @@
 - hospital.json：医院名称、版本、日期、科室、接诊范围，以及 `questionnaire` 问题库（HL7 FHIR R4 Questionnaire 结构）。问题类型由 `probe-kind` 扩展表达，共三种：必须恰好1个 `location` 定位问题、若干 `differential` 鉴别问题、若干 `redflag` 红旗征筛查问题。`redflag` 必须通过 `probe-pathway` 归属某条安全确认路径、用 `probe-order` 声明路径内顺序，选项用 `option-narrative` 写出该选项的措辞、用 `option-escalate` 声明升级目标（`emergency` 或 `human`）；安全确认路径本身在 Questionnaire 根扩展 `probe-pathway-definition` 中声明 id、标题与激活锚点。权重只能引用已配置科室，鉴别问题的锚点症状必须来自科室 keywords，权重、锚点、科室对与来源均通过扩展字段表达，扩展 URL 前缀见 questionnaire.description）。
 - sources.json：来源标题、配置位置、日期、权利说明与审核状态。
 - hospital.js：把 Questionnaire 适配为内部 probes 与 pathways 结构并导出，启动时校验，不在这里编辑科室内容。
-- evaluation/cases.json：122条合成工程评测案例（含安全确认与红旗征案例；口语主诉案例同时参与无模型与有模型组，用于“同一案例集只切换模型开关”的对照；另含“肾疼”等器官口语的跨器官错配守卫案例）。
+- evaluation/cases.json：130条合成工程评测案例（含安全确认与红旗征案例；口语主诉案例同时参与无模型与有模型组，用于“同一案例集只切换模型开关”的对照；另含“肾疼”等器官口语的跨器官错配守卫案例，以及 0.8.1 扩词后新增的脚气、耳朵嗡嗡响、便秘、脱发等口语命中案例 HG-123～HG-130）。
 - evaluation/cases-heldout.json：20条冻结盲测集，案例一次性写入并冻结、写入后不因结果调优，用于对冲主集与规则同源演进的自洽性偏差。
 - evaluation/latest.json：最近一次实际评测，包含失败案例、模型摘要、耗时和运行环境。
 - evaluation/heldout-latest.json：最近一次盲测集评测报告（`npm run evaluate:heldout`），含 `dataset.sha256` 可核验案例未被事后修改；不进主集报告、不进失败白名单门禁。
