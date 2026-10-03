@@ -20,7 +20,7 @@
 
 ### 变更
 - **主仓库改为单向导入该包**（`lib/model.js` 只做导入 + 一层向后兼容适配，`SYNONYMS` 取 `REFERENCE_SYNONYMS`），实现**单一事实来源**，避免"包与主仓各存一份、改一处漏一处"的漂移。
-- **`LICENSE` 首行去除前导空格**，使 GitHub 许可证检测器能正确识别为 Apache-2.0（此前因居中排版的前导空格被误判为 `NOASSERTION`）。
+- **`LICENSE` 全文替换为 GitHub 官方 Apache-2.0 标准文本**，使 GitHub 许可证检测器能正确识别（此前被判为 `NOASSERTION`）。根因并非首行前导空格，而是原文件是一份**逐行折行与用词都与标准模板不一致的改排版变体**——检测器要求与已知模板高度吻合，措辞级差异过多即无法匹配。现改为与 GitHub 官方模板（`/licenses/apache-2.0`）逐字节一致的正文，仅在 `APPENDIX` 处填入本项目版权行。
 - 包内自带一份与根目录一致的 `LICENSE`，并加入 `package.json` 的 `files` 白名单。
 
 ### 计划中
