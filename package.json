@@ -11,6 +11,8 @@
     "test": "node --test",
     "evaluate": "node scripts/evaluate.js",
     "evaluate:models": "node scripts/evaluate.js --models=qwen2.5:7b,qwen2.5:1.5b",
+    "evaluate:heldout": "node scripts/evaluate.js --heldout",
+    "evaluate:heldout:models": "node scripts/evaluate.js --heldout --models=qwen2.5:7b,qwen2.5:1.5b",
     "redteam": "node scripts/redteam.js",
     "redteam:models": "node scripts/redteam.js --models=qwen2.5:7b,qwen2.5:1.5b",
     "verify": "powershell -ExecutionPolicy Bypass -File .trae/skills/hospital-guide-verify/scripts/verify-chain.ps1",

@@ -8,9 +8,12 @@ import { evaluateCase, summarize, validateDataset } from '../lib/evaluation.js';
 import { fingerprint, reportUrl } from '../lib/evaluation-store.js';
 
 const args = process.argv.slice(2);
-if (args.some(a => !['--models', '--strict'].includes(a.split('=')[0]) || (a.startsWith('--models') && !a.startsWith('--models=')))) throw new Error('用法: node scripts/evaluate.js [--models=qwen2.5:7b,qwen2.5:1.5b] [--strict]');
+if (args.some(a => !['--models', '--strict', '--heldout'].includes(a.split('=')[0]) || (a.startsWith('--models') && !a.startsWith('--models=')))) throw new Error('用法: node scripts/evaluate.js [--models=qwen2.5:7b,qwen2.5:1.5b] [--strict] [--heldout]');
+// --heldout：运行冻结盲测集（cases-heldout.json），报告单独写入 heldout-latest.json，
+// 不影响主集 latest.json；held-out 是如实报告的发布快照而非门禁，失败不置退出码。
+const heldout = args.includes('--heldout');
 const requestedModels = [...new Set((args.find(a => a.startsWith('--models='))?.slice(9) || '').split(',').filter(Boolean))];
-const raw = await readFile(new URL('../data/evaluation/cases.json', import.meta.url), 'utf8');
+const raw = await readFile(new URL(heldout ? '../data/evaluation/cases-heldout.json' : '../data/evaluation/cases.json', import.meta.url), 'utf8');
 const dataset = validateDataset(JSON.parse(raw), departments);
 const before = await fingerprint();
 const status = requestedModels.length ? await modelStatus() : { available: false, models: [], details: [] };
@@ -43,14 +46,16 @@ for (const plan of plans) {
   console.log(JSON.stringify({ mode: plan.id, ...entry.metrics }));
 }
 report.completedAt = new Date().toISOString();
+if (heldout) report.heldout = true;
 if ((await fingerprint()).sha256 !== before.sha256) throw new Error('评测期间代码或数据发生变化，本次结果不发布，请重跑。');
 await mkdir(new URL('../data/evaluation/runs/', import.meta.url), { recursive: true });
 const content = JSON.stringify(report, null, 2) + '\n';
-const runName = report.completedAt.replace(/[:.]/g, '-') + '.json';
+const runName = report.completedAt.replace(/[:.]/g, '-') + (heldout ? '.heldout' : '') + '.json';
 await writeFile(new URL('../data/evaluation/runs/' + runName, import.meta.url), content);
-const temporary = fileURLToPath(reportUrl) + '.tmp';
+const outUrl = heldout ? new URL('../data/evaluation/heldout-latest.json', import.meta.url) : reportUrl;
+const temporary = fileURLToPath(outUrl) + '.tmp';
 await writeFile(temporary, content);
-await rename(temporary, reportUrl);
-console.log('结果已保存: data/evaluation/latest.json（含全部案例、失败和逐轮轨迹）');
+await rename(temporary, outUrl);
+console.log('结果已保存: data/evaluation/' + (heldout ? 'heldout-latest.json' : 'latest.json') + '（含全部案例、失败和逐轮轨迹）');
 console.log('合成工程测试，不是临床准确率。人工转接率不以越低越好。');
-if (report.skipped.length || report.modes.some(m => m.metrics.modelFailures || m.metrics.errors || m.regression.passed !== m.regression.total || args.includes('--strict') && m.metrics.passed !== m.metrics.total)) process.exitCode = 1;
+if (report.skipped.length || !heldout && report.modes.some(m => m.metrics.modelFailures || m.metrics.errors || m.regression.passed !== m.regression.total || args.includes('--strict') && m.metrics.passed !== m.metrics.total)) process.exitCode = 1;
