@@ -36,13 +36,16 @@ test('safety handoffs, missing fields and dynamic probe turns do not invoke mode
 });
 // 入口介入：规则一条症状词都没命中、正要追问“不适部位”时，先让模型标准化口语主诉，
 // 命中核验证据就不再问部位问题，直接进入同一套评分流程。
+// 注：0.8.1 起规则路径也消费登记同义表，「肚子疼」已由规则直接命中消化内科，
+// 不再经过入口介入。这里改用规则与同义表都接不住的组合（"腰疼"仅靠形态锚点核验
+// 可支持"腰痛"，但未登记为规则同义），以继续覆盖入口介入分支。
 test('entry intervention standardizes an oral chief before asking for a body part', async () => {
   let calls = 0;
-  const normalizer = async () => { calls++; return { matches: [{ keyword: '腹痛', evidence: '肚子疼' }], rawCount: 1 }; };
-  const result = await runTriage({ chief: '肚子疼', answers, model: 'fixture' }, { normalizer });
+  const normalizer = async () => { calls++; return { matches: [{ keyword: '腰痛', evidence: '腰疼' }], rawCount: 1 }; };
+  const result = await runTriage({ chief: '浑身难受，腰疼', answers, model: 'fixture' }, { normalizer });
   assert.equal(calls, 1);
   assert.equal(result.status, 'recommendation');
-  assert.equal(result.department, 'digestive');
+  assert.equal(result.department, 'orthopedics');
   assert.equal(result.model.phase, 'entry');
   assert.equal(result.model.used, true);
 });
@@ -52,7 +55,7 @@ test('entry intervention without verified evidence falls back to the location qu
     async () => ({ matches: [], rawCount: 0 }),
     async () => ({ matches: [], rawCount: 3 }),
   ]) {
-    const result = await runTriage({ chief: '肚子疼', answers, model: 'fixture' }, { normalizer });
+    const result = await runTriage({ chief: '浑身难受，腰疼', answers, model: 'fixture' }, { normalizer });
     assert.equal(result.status, 'question');
     assert.equal(result.question.id, 'p_location');
     assert.equal(result.model.used, false);
@@ -104,9 +107,12 @@ test('non-interactive unmatched case can be rescued by model evidence', async ()
   assert.equal(result.department, 'digestive');
 });
 test('rule/model department conflicts abstain instead of choosing either side', async () => {
-  const result = await runTriage({ chief: '头痛，肚子疼还拉肚子', answers, model: 'fixture' }, {
+  // 注：0.8.1 起规则路径消费同义表，原先的「头痛+肚子疼+拉肚子」已由规则与模型共同
+  // 指向消化内科（不再冲突）。这里改用仅靠形态锚点核验、规则层接不住的口语
+  // （腰疼→腰痛、膝盖也疼→膝盖痛，均属骨科），构造真正的"规则/模型科室不一致"。
+  const result = await runTriage({ chief: '咳嗽，腰疼，膝盖也疼', answers, model: 'fixture' }, {
     interactive: false,
-    normalizer: async () => ({ matches: [{ keyword: '腹痛', evidence: '肚子疼' }, { keyword: '腹泻', evidence: '拉肚子' }], rawCount: 2 }),
+    normalizer: async () => ({ matches: [{ keyword: '腰痛', evidence: '腰疼' }, { keyword: '膝盖痛', evidence: '膝盖也疼' }], rawCount: 2 }),
   });
   assert.equal(result.status, 'uncertain');
   assert.equal(result.reasonCode, 'model_conflict');

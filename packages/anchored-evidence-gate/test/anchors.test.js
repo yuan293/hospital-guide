@@ -39,9 +39,15 @@ test('③ 双语素同现（仅二字词）', () => {
 test('④ 登记同义形', () => {
   assert.equal(evidenceMatchesKeyword('腹痛', '肚子疼', REFERENCE_SYNONYMS), true);
   assert.equal(evidenceMatchesKeyword('发热', '发烧', REFERENCE_SYNONYMS), true);
+  // 无正则约束的登记项（如 腹泻←拉肚子）应命中
+  assert.equal(evidenceMatchesKeyword('腹泻', '拉肚子', REFERENCE_SYNONYMS), true);
   // 正则约束必须同时满足
   assert.equal(evidenceMatchesKeyword('脚气', '脚很痒', REFERENCE_SYNONYMS), true);
   assert.equal(evidenceMatchesKeyword('脚气', '脚很酸', REFERENCE_SYNONYMS), false);
+  // 眼科干涩类口语（0.8.1 补登记）
+  assert.equal(evidenceMatchesKeyword('眼干', '眼睛发干', REFERENCE_SYNONYMS), true);
+  assert.equal(evidenceMatchesKeyword('眼干', '眼睛发涩', REFERENCE_SYNONYMS), true);
+  assert.equal(evidenceMatchesKeyword('眼干', '眼睛发红', REFERENCE_SYNONYMS), false);
   // 不传同义表时，口语无法通过
   assert.equal(evidenceMatchesKeyword('腹痛', '肚子疼'), false);
 });

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { triage, validateInput, mentions, evidenceSupported } from '../lib/triage.js';
+import { triage, validateInput, mentions, mentionsSynonym, evidenceSupported } from '../lib/triage.js';
 
 const complete = { risk: 'no', age: 'adult', duration: 'days', severity: 'mild' };
 const run = (chief, answers = complete, options = {}) => triage(validateInput({ chief, answers }), [], options);
@@ -48,6 +48,36 @@ test('contrast and subsequent positive mentions still trigger risk', () => {
 });
 test('negative symptoms do not generate ordinary matches', () => {
   assert.equal(run('没有咳嗽，没有胃痛').status, 'human');
+});
+// 0.8.1：规则路径接入登记同义表（mentionsSynonym）。口语主诉应被直接识别，
+// 同时三类安全护栏必须挡住：否定、未然、更具体部位前缀。
+test('rule path consumes the registered synonym table for colloquial chiefs', () => {
+  assert.equal(run('脑袋疼', complete).department, 'neurology');
+  assert.equal(run('嗓子疼', complete).department, 'ent');
+  assert.equal(run('眼睛发干', complete).department, 'eye');
+  assert.equal(run('鼻子老是出血', complete).department, 'ent');
+  assert.equal(run('拉肚子', complete).department, 'digestive');
+});
+test('synonym matching still respects negation, prospective and history', () => {
+  // 否定：夹在核心词与症状词之间，不得当作现症
+  assert.equal(mentionsSynonym('脑袋不疼', '头痛'), false);
+  assert.equal(mentionsSynonym('没有咳嗽', '咳嗽'), false);
+  // 未然：前瞻推断不得脑补已发生症状（对应红队 RT-001）
+  assert.equal(mentionsSynonym('嗓子应该也快发炎了', '咽痛'), false);
+  assert.equal(mentionsSynonym('估计要头疼了', '头痛'), false);
+  // 病史
+  assert.equal(mentionsSynonym('之前流鼻血', '鼻出血'), false);
+});
+test('synonym matching defers to more specific body-part qualifiers', () => {
+  // "小肚子"属妇科语境，不得再算消化内科的"腹痛"（对应 held-out HG-130）
+  assert.equal(mentionsSynonym('小肚子还隐隐作痛', '腹痛'), false);
+  assert.equal(mentionsSynonym('肚子疼', '腹痛'), true);
+});
+test('safety-pathway anchors are not short-circuited by synonym matching', () => {
+  // "心口疼"是上腹安全确认路径锚点，必须先走红旗征安全确认，
+  // 不得被 心悸/胸痛 的同义登记直接跳到心内科（对应 HG-119/120）。
+  assert.equal(mentionsSynonym('心口疼', '心悸'), false);
+  assert.equal(mentionsSynonym('心口疼', '胸痛'), false);
 });
 test('legacy policy asks risk, age, duration and severity in fixed order', () => {
   let answers = {};
