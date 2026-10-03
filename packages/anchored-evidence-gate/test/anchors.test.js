@@ -44,7 +44,7 @@ test('④ 登记同义形', () => {
   // 正则约束必须同时满足
   assert.equal(evidenceMatchesKeyword('脚气', '脚很痒', REFERENCE_SYNONYMS), true);
   assert.equal(evidenceMatchesKeyword('脚气', '脚很酸', REFERENCE_SYNONYMS), false);
-  // 眼科干涩类口语（0.8.1 补登记）
+  // 眼科干涩类口语（0.9.0 补登记）
   assert.equal(evidenceMatchesKeyword('眼干', '眼睛发干', REFERENCE_SYNONYMS), true);
   assert.equal(evidenceMatchesKeyword('眼干', '眼睛发涩', REFERENCE_SYNONYMS), true);
   assert.equal(evidenceMatchesKeyword('眼干', '眼睛发红', REFERENCE_SYNONYMS), false);

@@ -49,7 +49,7 @@ test('contrast and subsequent positive mentions still trigger risk', () => {
 test('negative symptoms do not generate ordinary matches', () => {
   assert.equal(run('没有咳嗽，没有胃痛').status, 'human');
 });
-// 0.8.1：规则路径接入登记同义表（mentionsSynonym）。口语主诉应被直接识别，
+// 0.9.0：规则路径接入登记同义表（mentionsSynonym）。口语主诉应被直接识别，
 // 同时三类安全护栏必须挡住：否定、未然、更具体部位前缀。
 test('rule path consumes the registered synonym table for colloquial chiefs', () => {
   assert.equal(run('脑袋疼', complete).department, 'neurology');

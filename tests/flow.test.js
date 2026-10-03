@@ -36,7 +36,7 @@ test('safety handoffs, missing fields and dynamic probe turns do not invoke mode
 });
 // 入口介入：规则一条症状词都没命中、正要追问“不适部位”时，先让模型标准化口语主诉，
 // 命中核验证据就不再问部位问题，直接进入同一套评分流程。
-// 注：0.8.1 起规则路径也消费登记同义表，「肚子疼」已由规则直接命中消化内科，
+// 注：0.9.0 起规则路径也消费登记同义表，「肚子疼」已由规则直接命中消化内科，
 // 不再经过入口介入。这里改用规则与同义表都接不住的组合（"腰疼"仅靠形态锚点核验
 // 可支持"腰痛"，但未登记为规则同义），以继续覆盖入口介入分支。
 test('entry intervention standardizes an oral chief before asking for a body part', async () => {
@@ -107,17 +107,49 @@ test('non-interactive unmatched case can be rescued by model evidence', async ()
   assert.equal(result.department, 'digestive');
 });
 test('rule/model department conflicts abstain instead of choosing either side', async () => {
-  // 注：0.8.1 起规则路径消费同义表，原先的「头痛+肚子疼+拉肚子」已由规则与模型共同
-  // 指向消化内科（不再冲突）。这里改用仅靠形态锚点核验、规则层接不住的口语
-  // （腰疼→腰痛、膝盖也疼→膝盖痛，均属骨科），构造真正的"规则/模型科室不一致"。
-  const result = await runTriage({ chief: '咳嗽，腰疼，膝盖也疼', answers, model: 'fixture' }, {
+  // HG-067 的机制：纯字面规则基线读字面 → 头痛（神经内科）；模型把口语标准化 →
+  // 腹痛/腹泻（消化内科）；两者不同 → 弃权。
+  // 这条用例同时锁死一个关键不变量：**带模型时的冲突对照基线必须是字面口径**。
+  // 若对照双方都消费同义表，first 也会把「肚子疼/拉肚子」同义成腹痛/腹泻，
+  // 直接落到消化内科、与 second 同科室，冲突判定永不触发
+  // （这是 0.9.0 接入同义表时踩到的真实回归，对应 flow.js 的 rulesLiteral）。
+  const result = await runTriage({ chief: '头痛，肚子疼还拉肚子', answers, model: 'fixture' }, {
     interactive: false,
-    normalizer: async () => ({ matches: [{ keyword: '腰痛', evidence: '腰疼' }, { keyword: '膝盖痛', evidence: '膝盖也疼' }], rawCount: 2 }),
+    normalizer: async () => ({ matches: [
+      { keyword: '头痛', evidence: '头痛' },
+      { keyword: '腹痛', evidence: '肚子疼' },
+      { keyword: '腹泻', evidence: '拉肚子' },
+    ], rawCount: 3 }),
   });
   assert.equal(result.status, 'uncertain');
   assert.equal(result.reasonCode, 'model_conflict');
   assert.equal(result.department, null);
   assert.equal(result.model.used, true);
+});
+test('model-free rules still fall back through synonyms when the model yields no evidence', async () => {
+  // 不变量二：带模型时 first（含同义）仍是兜底 —— 口语主诉不因模型的弱表现而退化。
+  // 1.5B 对「眼睛发干」可能自报若干条却全部失验（matches 为空），此时规则兜底应给眼科，
+  // 而不是因为"等着模型救"就弃权（HG-043 在 1.5B 组曾因此误伤）。
+  const result = await runTriage({ chief: '眼睛发干', answers, model: 'fixture' }, {
+    interactive: false,
+    normalizer: async () => ({ matches: [], rawCount: 2 }),
+  });
+  assert.equal(result.department, 'eye');
+});
+test('the model-free rule baseline consumes synonyms when no model is present', async () => {
+  // 反面不变量：无模型时 first 即最终结论，必须整份消费同义表，否则口语主诉覆盖退化。
+  const withModel = await runTriage({ chief: '拉肚子', answers, model: '' }, {
+    interactive: false,
+    normalizer: async () => ({ matches: [], rawCount: 0 }),
+  });
+  assert.equal(withModel.department, 'digestive');
+  // 同一主诉带模型时，规则字面口径命中不了"拉肚子"，改由模型证据补全为腹泻。
+  const rescued = await runTriage({ chief: '拉肚子', answers, model: 'fixture' }, {
+    interactive: false,
+    normalizer: async () => ({ matches: [{ keyword: '腹泻', evidence: '拉肚子' }], rawCount: 1 }),
+  });
+  assert.equal(rescued.department, 'digestive');
+  assert.equal(rescued.model.used, true);
 });
 test('model output that fails source-text verification triggers evidence abstention', async () => {
   // 非交互零候选（human/unmatched）等待模型救援时，自报证据全部失验即弃权。
