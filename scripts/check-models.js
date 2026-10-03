@@ -11,9 +11,9 @@ const rows = [];
 for (const model of models) {
   for (const [chief, expected] of [['肚子疼了两天', 'digestive'], ['脑袋疼了两天', 'neurology'], ['没有咳嗽，也没有胃痛', null]]) {
     const started = performance.now();
-    const matches = await normalize(chief, model);
+    const { matches, rawCount } = await normalize(chief, model);
     const result = triage(validateInput({ chief, answers: { risk: 'no', age: 'adult', duration: 'days', severity: 'mild' } }), matches.map(m => m.keyword));
-    const row = { model, chief, matches, department: result.department, expected, passed: result.department === expected, elapsedMs: Math.round(performance.now() - started) };
+    const row = { model, chief, matches, rawCount, department: result.department, expected, passed: result.department === expected, elapsedMs: Math.round(performance.now() - started) };
     rows.push(row); console.log(JSON.stringify(row));
   }
 }
