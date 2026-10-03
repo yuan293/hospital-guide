@@ -81,13 +81,13 @@ npm start
 
 ```sh
 git clone https://github.com/yuan293/hospital-guide.git
-cd hospital-guide
+cd hospital-guide    # 用 Download ZIP 获取的：解压后目录名为 hospital-guide-main，请 cd 到实际目录
 npm test      # 预期：tests 56 / pass 56 / fail 0
 npm run verify
 npm start     # 浏览器打开 http://127.0.0.1:3210
 ```
 
-`npm run verify` 是 fail-closed 门禁链（单元测试 → 数据 fail-closed 校验 → 无模型评测），任一项不达标即以退出码 1 失败；输出最后一行打印"全部通过（快速链）"即复现成功。当前仓库基线：
+`npm run verify` 是 fail-closed 门禁链（单元测试 → 数据 fail-closed 校验 → 无模型评测），任一项不达标即以退出码 1 失败；输出最后一行打印"全部通过（快速链）"即复现成功。**注意：verify 链脚本目前仅支持 Windows PowerShell**；macOS/Linux 请等价地依次手动执行 `npm test`、`npm run data:validate`、`npm run evaluate`（预期输出与下表相同）。当前仓库基线：
 
 | 检查项 | 预期结果 |
 |---|---|
