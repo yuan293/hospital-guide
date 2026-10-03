@@ -2,6 +2,19 @@
 
 [![CI](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml/badge.svg)](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml)
 
+**成果直达链接**（公开仓库，无需登录即可访问）：
+
+| 入口 | 链接 |
+| --- | --- |
+| 项目仓库主页 | https://github.com/yuan293/hospital-guide |
+| 当前版本标签 | https://github.com/yuan293/hospital-guide/releases/tag/v0.8.0 |
+| 六组评测报告（含逐轮轨迹与12文件指纹） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/latest.json |
+| held-out 盲测报告（20条冻结案例） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/heldout-latest.json |
+| 对抗红队报告（24条） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/redteam-latest.json |
+| 用户调研报告（N=88） | https://github.com/yuan293/hospital-guide/blob/main/docs/诊途-问题与场景价值-调研正文.docx |
+| 可用性测试报告（N=8） | https://github.com/yuan293/hospital-guide/blob/main/docs/诊途-可用性测试报告.docx |
+| CI 历次运行记录 | https://github.com/yuan293/hospital-guide/actions |
+
 **开源许可证：Apache-2.0**——本仓库全部内容（代码、示例数据、文档、测试与评测集）统一采用 Apache-2.0，见根目录 `LICENSE`；两个本地模型同为 Apache-2.0，许可原文见 `data/model-licenses/`；第三方资源的许可与义务见 `THIRD_PARTY_NOTICES.md`。
 
 本机运行的医院挂号与导诊工程原型。首页给患者两个入口：**直接挂号**（自己知道挂哪个科，选科室看位置与就诊提示）与**不确定挂哪科**（描述不适，系统给出科室方向）。导诊流程包含安全确认、多轮补充信息、风险分流、科室匹配、依据展示、科室目录、摘要下载和可选的 Ollama 症状标准化。
