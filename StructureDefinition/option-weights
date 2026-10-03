@@ -40,6 +40,36 @@
         "max": "0"
       },
       {
+        "id": "Extension.extension:cardiology",
+        "path": "Extension.extension",
+        "sliceName": "cardiology",
+        "short": "科室 cardiology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:cardiology.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/cardiology"
+      },
+      {
+        "id": "Extension.extension:cardiology.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 cardiology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
         "id": "Extension.extension:dermatology",
         "path": "Extension.extension",
         "sliceName": "dermatology",
@@ -220,6 +250,36 @@
         ]
       },
       {
+        "id": "Extension.extension:gynecology",
+        "path": "Extension.extension",
+        "sliceName": "gynecology",
+        "short": "科室 gynecology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:gynecology.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/gynecology"
+      },
+      {
+        "id": "Extension.extension:gynecology.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 gynecology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
         "id": "Extension.extension:infectious",
         "path": "Extension.extension",
         "sliceName": "infectious",
@@ -331,6 +391,36 @@
         "id": "Extension.extension:orthopedics.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "科室 orthopedics 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "integer"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:psychology",
+        "path": "Extension.extension",
+        "sliceName": "psychology",
+        "short": "科室 psychology 的权重",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Extension.extension:psychology.url",
+        "path": "Extension.extension.url",
+        "fixedUri": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/psychology"
+      },
+      {
+        "id": "Extension.extension:psychology.value[x]",
+        "path": "Extension.extension.value[x]",
+        "short": "科室 psychology 的权重",
         "min": 0,
         "max": "1",
         "type": [

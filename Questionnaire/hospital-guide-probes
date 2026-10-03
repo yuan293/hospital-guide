@@ -78,7 +78,7 @@
         {
           "valueCoding": {
             "code": "head_neck",
-            "display": "头面、咽喉或颈部"
+            "display": "头痛、头晕、手麻或睡眠"
           },
           "extension": [
             {
@@ -87,11 +87,37 @@
                 {
                   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/neurology",
                   "valueInteger": 1
-                },
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "valueCoding": {
+            "code": "ent",
+            "display": "咽喉、耳朵、鼻子或颈部"
+          },
+          "extension": [
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+              "extension": [
                 {
                   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/ent",
                   "valueInteger": 1
-                },
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "valueCoding": {
+            "code": "eye_mouth",
+            "display": "眼睛、牙齿或口腔"
+          },
+          "extension": [
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+              "extension": [
                 {
                   "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/eye",
                   "valueInteger": 1
@@ -103,7 +129,24 @@
         {
           "valueCoding": {
             "code": "chest",
-            "display": "胸口、咳嗽或发热"
+            "display": "胸口、心慌或气短"
+          },
+          "extension": [
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+              "extension": [
+                {
+                  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/cardiology",
+                  "valueInteger": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "valueCoding": {
+            "code": "airway",
+            "display": "咳嗽、发热或呼吸不畅"
           },
           "extension": [
             {
@@ -136,8 +179,42 @@
         },
         {
           "valueCoding": {
+            "code": "urinary",
+            "display": "排尿、腰侧或会阴部"
+          },
+          "extension": [
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+              "extension": [
+                {
+                  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology",
+                  "valueInteger": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "valueCoding": {
+            "code": "pelvic",
+            "display": "月经、乳房或孕产相关"
+          },
+          "extension": [
+            {
+              "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
+              "extension": [
+                {
+                  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/gynecology",
+                  "valueInteger": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "valueCoding": {
             "code": "skin",
-            "display": "皮肤"
+            "display": "皮肤、皮疹或脱发"
           },
           "extension": [
             {
@@ -154,7 +231,7 @@
         {
           "valueCoding": {
             "code": "bones",
-            "display": "腰背、关节或四肢"
+            "display": "腰背、关节、四肢或外伤"
           },
           "extension": [
             {
@@ -170,15 +247,15 @@
         },
         {
           "valueCoding": {
-            "code": "urinary",
-            "display": "排尿相关"
+            "code": "mood",
+            "display": "情绪、焦虑或睡眠心理"
           },
           "extension": [
             {
               "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/option-weights",
               "extension": [
                 {
-                  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/urology",
+                  "url": "https://github.com/yuan293/hospital-guide/blob/main/StructureDefinition/weight/psychology",
                   "valueInteger": 1
                 }
               ]
@@ -188,7 +265,7 @@
         {
           "valueCoding": {
             "code": "unknown",
-            "display": "多处都不舒服 / 说不清"
+            "display": "说不清 / 多个部位都不舒服"
           }
         }
       ]

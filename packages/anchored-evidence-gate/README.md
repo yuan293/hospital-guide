@@ -158,5 +158,5 @@ node --test          # 16 个用例
 
 Apache-2.0，见本目录 [`LICENSE`](./LICENSE)（与仓库根目录 `LICENSE` 一致）。
 
-抽取自 [诊途（hospital-guide）](https://github.com/yuan293/hospital-guide) v0.9.1。
+抽取自 [诊途（hospital-guide）](https://github.com/yuan293/hospital-guide) v0.9.2。
 本项目未经医护专业审核和临床验证，不构成任何医疗建议。

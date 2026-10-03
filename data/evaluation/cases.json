@@ -956,7 +956,7 @@
         "status": "recommendation",
         "department": "neurology"
       },
-      "labelNote": "无模型时只能靠部位问题收敛：head_neck 同时指向神经内科与耳鼻喉科，按设计弃权转人工；有模型时主诉在入口被标准化为“头痛”，不再需要部位问题。"
+      "labelNote": "0.9.2 起：主诉“脑袋疼了”经形态锚点（X疼↔X痛）在规则层直接命中“头痛”，无需模型、也无需部位问题；部位答案 head_neck 与神经内科一致（该选项 0.9.2 起只指向神经内科，不再与耳鼻喉科并列）。"
     },
     {
       "id": "HG-041",
@@ -975,14 +975,14 @@
           "age": "adult",
           "duration": "days",
           "severity": "mild",
-          "p_location": "head_neck"
+          "p_location": "ent"
         }
       },
       "expected": {
         "status": "recommendation",
         "department": "ent"
       },
-      "labelNote": "同 HG-040：无模型时 head_neck 无法区分耳鼻喉科与神经内科而弃权；有模型时主诉被标准化为“咽痛/嗓子痛”后直接落入耳鼻喉科。"
+      "labelNote": "0.9.2 起：主诉“嗓子疼”经形态锚点（X疼↔X痛）在规则层直接命中“咽痛”，无需模型、也无需部位问题；部位答案 ent（咽喉、耳朵、鼻子或颈部）与目标一致。"
     },
     {
       "id": "HG-042",
@@ -1026,14 +1026,14 @@
           "age": "adult",
           "duration": "days",
           "severity": "mild",
-          "p_location": "head_neck"
+          "p_location": "eye_mouth"
         }
       },
       "expected": {
         "status": "recommendation",
         "department": "eye"
       },
-      "labelNote": "部位问题当前没有眼部选项，受试者只能选最接近的 head_neck，无模型时按设计弃权；有模型时“眼睛发干”在入口被标准化为“眼干”。这条同时暴露了部位选项偏粗的配置局限。"
+      "labelNote": "0.9.2 起：主诉“眼睛发干”在规则层直接命中“眼干”；同时部位选项新增 eye_mouth（眼睛、牙齿或口腔 → 眼科），与目标一致。0.9.2 之前部位问题没有眼部选项，只能退选最接近的 head_neck 并弃权——这条曾用于暴露部位选项偏粗的配置局限，现已修复。"
     },
     {
       "id": "HG-044",
@@ -1052,7 +1052,7 @@
           "age": "adult",
           "duration": "days",
           "severity": "mild",
-          "p_location": "urinary"
+          "p_location": "pelvic"
         }
       },
       "expected": {
