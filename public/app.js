@@ -14,15 +14,27 @@ try { preferredModel = localStorage.getItem('hospital-guide.model'); } catch { /
 const labels = { risk: '紧急表现', age: '年龄段', duration: '持续时间', severity: '日常影响' };
 const answerLabels = { no: '均没有', yes: '有紧急表现', unknown: '不确定', adult: '18岁及以上', child: '1至17岁', infant: '未满1岁', short: '少于24小时', days: '1至7天', long: '超过7天', mild: '影响较小', moderate: '影响日常活动', severe: '严重或迅速加重' };
 // 动态鉴别问题（probes）的选项标签随 /api/config 下发，不在前端维护全局词表。
-// “65岁及以上”只是前端展示细分：提交给导诊引擎时仍按 adult（老年按成人科室适用），
-// 不改变 triage 规则、数据结构与评测口径；ageDisplay 仅用于界面回显。
+// 年龄段的“官方分期”只是前端展示细分：提交给导诊引擎时仍归并为 1–17岁(child) /
+// 18岁及以上(adult) / 未满1岁(infant) 三档，不改变 triage 规则、数据结构与评测口径；
+// ageDisplay 仅用于界面回显与关怀模式触发。
+const AGE_BANDS = [
+  { value: 'infant', display: 'newborn', label: '0–28天（新生儿）' },
+  { value: 'infant', display: 'infant', label: '29天–11月（婴儿）' },
+  { value: 'child', display: 'toddler', label: '1–2岁（幼儿）' },
+  { value: 'child', display: 'preschool', label: '3–5岁（学龄前）' },
+  { value: 'child', display: 'school', label: '6–12岁（学龄期）' },
+  { value: 'child', display: 'teen', label: '13–17岁（青少年）' },
+  { value: 'adult', display: 'young', label: '18–44岁（青年）' },
+  { value: 'adult', display: 'middle', label: '45–59岁（中年）' },
+  { value: 'adult', display: 'senior', label: '60岁及以上（老年）' },
+];
+const AGE_DISPLAY_LABEL = Object.fromEntries(AGE_BANDS.map(b => [b.display, b.label]));
 let ageDisplay = null;
 const slotLabel = key => labels[key] || config?.probes?.find(p => p.id === key)?.title || key;
 const optionLabel = (key, value) => {
-  if (key === 'age' && value === 'adult') {
-    if (ageDisplay === 'senior') return '65岁及以上';
-    if (ageDisplay === 'middle') return '41–64岁';
-    if (ageDisplay === 'young') return '18–40岁';
+  if (key === 'age') {
+    if (ageDisplay && AGE_DISPLAY_LABEL[ageDisplay] && AGE_BANDS.find(b => b.display === ageDisplay)?.value === value) return AGE_DISPLAY_LABEL[ageDisplay];
+    return answerLabels[value] || value;
   }
   return answerLabels[value] || config?.probes?.find(p => p.id === key)?.options.find(([id]) => id === value)?.[1] || value;
 };
@@ -333,12 +345,10 @@ function showQuestion(data) {
     $('#messages').append(holder.firstElementChild);
   }
   const message = document.createElement('div'); message.className = 'message assistant-message'; message.dataset.question = q.id;
-  // 年龄问题在展示层把“18岁及以上”细分为 18–40 岁 / 41–64 岁 / 65 岁及以上；
-  // 三档提交给导诊引擎的值都是 adult，65+ 额外携带 data-age-display 供界面回显与关怀提示。
+  // 年龄问题在展示层按“官方年龄分期”细分（新生儿/婴儿/幼儿/学龄前/学龄期/青少年/青年/中年/老年）；
+  // 各档提交给导诊引擎的值仍是 child/adult/infant 三档，data-age-display 供界面回显与关怀提示。
   const optionsHtml = q.id === 'age'
-    ? q.options.map(([value, label]) => value === 'adult'
-      ? `<button type="button" data-answer="adult" data-age-display="young" data-question="age">18–40岁</button><button type="button" data-answer="adult" data-age-display="middle" data-question="age">41–64岁</button><button type="button" data-answer="adult" data-age-display="senior" data-question="age">65岁及以上</button>`
-      : `<button type="button" data-answer="${escape(value)}" data-question="age">${escape(label)}</button>`).join('')
+    ? AGE_BANDS.map(b => `<button type="button" data-answer="${b.value}" data-age-display="${b.display}" data-question="age">${escape(b.label)}</button>`).join('')
     : q.options.map(([value, label]) => `<button type="button" data-answer="${escape(value)}" data-question="${q.id}">${escape(label)}</button>`).join('');
   message.innerHTML = `<div class="message-label">导诊助手</div><h3>${escape(q.title)}</h3><p>${escape(q.description)}</p>${probeRationale(q)}${wordingNote(q)}<div class="options">${optionsHtml}</div>`;
   $('#messages').append(message);
