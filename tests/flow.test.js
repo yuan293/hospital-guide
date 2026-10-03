@@ -122,3 +122,61 @@ test('model output that fails source-text verification triggers evidence abstent
   assert.equal(result.status, 'uncertain');
   assert.equal(result.reasonCode, 'evidence_invalid');
 });
+// 第二类模型职能：追问措辞润色（0.8.0）。模型只改展示措辞，选项与权重恒来自配置。
+test('model polishes a differential question title while options and weights stay from config', async () => {
+  const polish = async probe => ({ title: '你说发热头痛，还有别的情况吗？', description: '换个说法再确认一下。' });
+  const result = await runTriage({ chief: '发热，头痛', answers, model: 'fixture' }, {
+    normalizer: async () => ({ matches: [], rawCount: 0 }),
+    polish,
+  });
+  assert.equal(result.status, 'question');
+  const spec = (await import('../data/hospital.js')).probes.find(p => p.id === result.question.id);
+  assert.notEqual(result.question.title, spec.title);
+  assert.equal(result.question.wording.polished, true);
+  // 选项取值与文案必须与配置逐字一致——模型无权改动选项。
+  assert.deepEqual(result.question.options, spec.options);
+});
+// 措辞润色是 fail-closed 的：模型给出诊断性/非问句措辞时一律拒收，回退到配置原文。
+test('polished wording that is diagnostic or not a question is rejected', async () => {
+  const spec = (await import('../data/hospital.js')).probes.find(p => p.kind === 'differential');
+  for (const bad of [
+    { title: '你肯定是胃病，吃点药吧。' },          // 诊断+用药
+    { title: '建议服用奥美拉唑缓解。' },              // 用药建议
+    { title: '不用担心，这不严重。' },                // 淡化风险
+    { title: '嗯。' },                                // 太短
+    { title: '请描述你的症状。'.repeat(5) },           // 超长
+    { title: '你的情况我已经了解了。' },              // 陈述句，非问句
+  ]) {
+    const { acceptPolish } = await import('../lib/model.js');
+    assert.equal(acceptPolish(bad, spec), null, `应拒收：${bad.title}`);
+  }
+  // 合格措辞正常放行
+  const { acceptPolish } = await import('../lib/model.js');
+  assert.ok(acceptPolish({ title: '除了这个，还有别的不舒服吗？', description: '帮我们确认一下。' }, spec));
+});
+// 模型润色失败/不可用时不影响流程：追问照常返回，只是保留配置原文。
+test('polish failure does not block the question or change its options', async () => {
+  const result = await runTriage({ chief: '发热，头痛', answers, model: 'fixture' }, {
+    normalizer: async () => ({ matches: [], rawCount: 0 }),
+    polish: async () => { throw new Error('offline'); },
+  });
+  assert.equal(result.status, 'question');
+  const spec = (await import('../data/hospital.js')).probes.find(p => p.id === result.question.id);
+  assert.equal(result.question.title, spec.title);
+  assert.equal(result.question.wording.polished, false);
+  assert.equal(result.question.wording.reason, 'unavailable');
+});
+// 安全确认（红旗征）问句永远不允许模型润色：避免改写危险征象的问法。
+test('safety-screen and location questions are never polished', async () => {
+  let polishCalls = 0;
+  const polish = async () => { polishCalls++; return { title: '随便改改？' }; };
+  // 红旗征问句
+  await runTriage({ chief: '上腹部不舒服', answers, model: 'fixture' }, {
+    normalizer: async () => ({ matches: [], rawCount: 0 }), polish,
+  });
+  // 部位定位问句
+  await runTriage({ chief: '浑身不得劲，哪儿都难受', answers, model: 'fixture' }, {
+    normalizer: async () => ({ matches: [], rawCount: 0 }), polish,
+  });
+  assert.equal(polishCalls, 0);
+});

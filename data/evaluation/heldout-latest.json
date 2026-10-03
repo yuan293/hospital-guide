@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-03T02:17:30.908Z",
-  "completedAt": "2026-10-03T02:17:54.603Z",
+  "startedAt": "2026-10-03T04:15:20.473Z",
+  "completedAt": "2026-10-03T04:15:36.724Z",
   "note": "AI辅助编写的合成工程案例（held-out 盲测集），标签来自演示流程设计；非患者数据、非医生标注。",
   "limitations": [
     "本集为 held-out 盲测：案例写入并冻结后才首次运行评测，主集（cases.json）的词表与提示词调优过程不涉及本集。",
@@ -20,7 +20,7 @@
     "cases": 20
   },
   "fingerprint": {
-    "sha256": "cfde4dac2ddbc25b4fb5db3d28c8e3dc9302deb2f6a60b295db523eadf60348e",
+    "sha256": "113baf28050a1dbe701d70fb6ef45ece1c56508ea21b2022ebb0474705321ccf",
     "files": [
       "data/hospital.json",
       "data/sources.json",
@@ -38,7 +38,7 @@
   },
   "dataSha256": "3304e9d8985739c8f0a7b9ec1568895b70d381195673e965180b06d78a26da0b",
   "environment": {
-    "node": "v26.2.0",
+    "node": "v22.22.2",
     "platform": "win32",
     "arch": "x64",
     "cpu": "Intel(R) Core(TM) i7-14650HX"
@@ -104,6 +104,13 @@
         "modelAttempts": 0,
         "modelSuccesses": 0,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
         "meanMs": 0,
         "p95Ms": 1,
@@ -195,6 +202,13 @@
         "modelAttempts": 0,
         "modelSuccesses": 0,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
         "meanMs": 0,
         "p95Ms": 1,
@@ -271,6 +285,13 @@
         "modelAttempts": 0,
         "modelSuccesses": 0,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
         "meanMs": 0,
         "p95Ms": 0,
@@ -313,7 +334,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 1.08,
+          "elapsedMs": 1.25,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -328,7 +349,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -366,7 +388,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -389,7 +412,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.18,
+          "elapsedMs": 0.13,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -404,7 +427,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -427,7 +451,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.11,
+          "elapsedMs": 0.09,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -442,7 +466,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -465,7 +490,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.19,
+          "elapsedMs": 0.17,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -480,7 +505,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -503,7 +529,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.5,
+          "elapsedMs": 0.1,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -518,7 +544,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -541,7 +568,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.08,
+          "elapsedMs": 0.11,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -556,7 +583,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -579,7 +607,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.07,
+          "elapsedMs": 0.16,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -594,7 +622,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -617,7 +646,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.08,
+          "elapsedMs": 0.54,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -632,7 +661,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -655,7 +685,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.07,
+          "elapsedMs": 0.16,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -670,7 +700,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -693,7 +724,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.08,
+          "elapsedMs": 0.09,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -708,7 +739,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -746,7 +778,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -784,7 +817,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -822,7 +856,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -855,7 +890,7 @@
           "pass": true,
           "error": null,
           "labelNote": "词表外模糊主诉的安全不变量：不推荐任何科室。规则零候选转人工；模型返回空转人工或证据失验弃权；交互组部位回答“说不清”后弃权，均为安全非推荐结局。",
-          "elapsedMs": 0.09,
+          "elapsedMs": 0.1,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -870,7 +905,8 @@
               "reasonCode": "unmatched",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -918,7 +954,7 @@
           "pass": true,
           "error": null,
           "labelNote": "未满 1 岁超出演示科室接诊范围，转人工（同 HG-024/025/060 口径）。",
-          "elapsedMs": 0.01,
+          "elapsedMs": 0.02,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -933,7 +969,8 @@
               "reasonCode": "safety",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1006,7 +1043,8 @@
               "reasonCode": "ambiguous",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1029,7 +1067,7 @@
           "pass": true,
           "error": null,
           "labelNote": "否定口径：“不发烧”不得命中“发热”、“不喘”不得命中“气喘”；仅以当前肯定的咳嗽推荐呼吸科。",
-          "elapsedMs": 0.08,
+          "elapsedMs": 0.09,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1044,7 +1082,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         }
@@ -1110,6 +1149,13 @@
         "modelAttempts": 0,
         "modelSuccesses": 0,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
         "meanMs": 0,
         "p95Ms": 0,
@@ -1206,6 +1252,13 @@
         "modelAttempts": 0,
         "modelSuccesses": 0,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
         "meanMs": 0,
         "p95Ms": 0,
@@ -1282,6 +1335,13 @@
         "modelAttempts": 0,
         "modelSuccesses": 0,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
         "meanMs": 0,
         "p95Ms": 0,
@@ -1329,7 +1389,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.29,
+          "elapsedMs": 0.32,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1344,7 +1404,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1355,7 +1416,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1366,7 +1428,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1377,7 +1440,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1400,7 +1464,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.43,
+          "elapsedMs": 0.13,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1415,7 +1479,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1426,7 +1491,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1437,7 +1503,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1448,7 +1515,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1471,7 +1539,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.08,
+          "elapsedMs": 0.09,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1486,7 +1554,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1497,7 +1566,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1508,7 +1578,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1519,7 +1590,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1542,7 +1614,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.08,
+          "elapsedMs": 0.1,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1557,7 +1629,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1568,7 +1641,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1579,7 +1653,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1590,7 +1665,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1613,7 +1689,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.08,
+          "elapsedMs": 0.1,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1628,7 +1704,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1639,7 +1716,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1650,7 +1728,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1661,7 +1740,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1684,7 +1764,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.07,
+          "elapsedMs": 0.46,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1699,7 +1779,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1710,7 +1791,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1721,7 +1803,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1732,7 +1815,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1755,7 +1839,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.07,
+          "elapsedMs": 0.1,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1770,7 +1854,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1781,7 +1866,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1792,7 +1878,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1803,7 +1890,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1826,7 +1914,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.07,
+          "elapsedMs": 0.08,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1841,7 +1929,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1852,7 +1941,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1863,7 +1953,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1874,7 +1965,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1897,7 +1989,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.06,
+          "elapsedMs": 0.12,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1912,7 +2004,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1923,7 +2016,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1934,7 +2028,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -1945,7 +2040,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -1968,7 +2064,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.07,
+          "elapsedMs": 0.06,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -1983,7 +2079,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -1994,7 +2091,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2005,7 +2103,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -2016,7 +2115,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2054,7 +2154,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2065,7 +2166,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2076,7 +2178,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -2087,7 +2190,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2110,7 +2214,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.18,
+          "elapsedMs": 0.06,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -2125,7 +2229,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2136,7 +2241,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2147,7 +2253,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -2158,7 +2265,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2196,7 +2304,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "emergency",
@@ -2207,7 +2316,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2245,7 +2355,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2278,7 +2389,7 @@
           "pass": true,
           "error": null,
           "labelNote": "词表外模糊主诉的安全不变量：不推荐任何科室。规则零候选转人工；模型返回空转人工或证据失验弃权；交互组部位回答“说不清”后弃权，均为安全非推荐结局。",
-          "elapsedMs": 0.19,
+          "elapsedMs": 0.27,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -2293,7 +2404,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2304,7 +2416,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2315,7 +2428,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2326,7 +2440,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "uncertain",
@@ -2337,7 +2452,8 @@
               "reasonCode": "unlocated",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2361,7 +2477,7 @@
           "pass": true,
           "error": null,
           "labelNote": "守卫：检查请求只追问不适部位，不得推荐超声医学科（同 HG-107 的 CT 场景）。",
-          "elapsedMs": 0.07,
+          "elapsedMs": 0.09,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -2376,7 +2492,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2387,7 +2504,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2398,7 +2516,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2409,7 +2528,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2447,7 +2567,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2458,7 +2579,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "human",
@@ -2469,7 +2591,8 @@
               "reasonCode": "safety",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2493,7 +2616,7 @@
           "pass": true,
           "error": null,
           "labelNote": "无科室关键词命中的腹部不适：无模型交互组完成安全确认后只追问部位，不推荐科室（同 HG-080 口径）；有模型时入口标准化行为不在本条评测范围。",
-          "elapsedMs": 0.07,
+          "elapsedMs": 0.1,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -2508,7 +2631,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2519,7 +2643,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2530,7 +2655,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2541,7 +2667,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2598,7 +2725,7 @@
           "pass": true,
           "error": null,
           "labelNote": "否定口径：“不发烧”不得命中“发热”、“不喘”不得命中“气喘”；仅以当前肯定的咳嗽推荐呼吸科。",
-          "elapsedMs": 0.08,
+          "elapsedMs": 0.12,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -2613,7 +2740,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2624,7 +2752,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -2635,7 +2764,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -2646,7 +2776,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         }
@@ -2718,9 +2849,16 @@
         "modelAttempts": 15,
         "modelSuccesses": 15,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 616,
-        "p95Ms": 5432,
+        "meanMs": 338,
+        "p95Ms": 703,
         "categories": [
           {
             "category": "普通症状",
@@ -2809,9 +2947,16 @@
         "modelAttempts": 12,
         "modelSuccesses": 12,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 683,
-        "p95Ms": 5432,
+        "meanMs": 350,
+        "p95Ms": 703,
         "categories": [
           {
             "category": "普通症状",
@@ -2885,9 +3030,16 @@
         "modelAttempts": 3,
         "modelSuccesses": 3,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 284,
-        "p95Ms": 447,
+        "meanMs": 278,
+        "p95Ms": 430,
         "categories": [
           {
             "category": "信息不足",
@@ -2927,7 +3079,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 5431.91,
+          "elapsedMs": 352.61,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -2950,10 +3102,11 @@
                     "evidence": "打球扭伤了脚踝"
                   }
                 ],
-                "elapsedMs": 5430,
+                "elapsedMs": 352,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -2976,7 +3129,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 678.07,
+          "elapsedMs": 672.06,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3003,10 +3156,11 @@
                     "evidence": "流泪"
                   }
                 ],
-                "elapsedMs": 678,
+                "elapsedMs": 672,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3029,7 +3183,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 315.65,
+          "elapsedMs": 327.26,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3052,10 +3206,11 @@
                     "evidence": "牙龈出血"
                   }
                 ],
-                "elapsedMs": 315,
+                "elapsedMs": 327,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3078,7 +3233,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 568.34,
+          "elapsedMs": 503.08,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3101,10 +3256,11 @@
                     "evidence": "皮肤痒"
                   }
                 ],
-                "elapsedMs": 568,
+                "elapsedMs": 503,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3127,7 +3283,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 512.03,
+          "elapsedMs": 535.18,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3154,10 +3310,11 @@
                     "evidence": "恶心想吐"
                   }
                 ],
-                "elapsedMs": 512,
+                "elapsedMs": 535,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3180,7 +3337,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 278.15,
+          "elapsedMs": 285.54,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3203,10 +3360,11 @@
                     "evidence": "头痛"
                   }
                 ],
-                "elapsedMs": 278,
+                "elapsedMs": 285,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3229,7 +3387,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 268.2,
+          "elapsedMs": 326.17,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3247,10 +3405,11 @@
                 "attempted": true,
                 "name": "qwen2.5:7b",
                 "matches": [],
-                "elapsedMs": 268,
+                "elapsedMs": 326,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3273,7 +3432,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 341.53,
+          "elapsedMs": 379.14,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3296,10 +3455,11 @@
                     "evidence": "小肚子还隐隐作痛"
                   }
                 ],
-                "elapsedMs": 341,
+                "elapsedMs": 379,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。 模型证据未形成更可靠结论，保留规则分流结果。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3322,7 +3482,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 453.68,
+          "elapsedMs": 451.44,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3349,10 +3509,11 @@
                     "evidence": "咳黄痰"
                   }
                 ],
-                "elapsedMs": 454,
+                "elapsedMs": 451,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3375,7 +3536,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 364.51,
+          "elapsedMs": 377.38,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3393,10 +3554,11 @@
                 "attempted": true,
                 "name": "qwen2.5:7b",
                 "matches": [],
-                "elapsedMs": 364,
+                "elapsedMs": 377,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3419,7 +3581,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 333.7,
+          "elapsedMs": 339.94,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3437,10 +3599,11 @@
                 "attempted": true,
                 "name": "qwen2.5:7b",
                 "matches": [],
-                "elapsedMs": 334,
+                "elapsedMs": 340,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3463,7 +3626,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 695.26,
+          "elapsedMs": 702.89,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3494,10 +3657,11 @@
                     "evidence": "小便的时候还疼"
                   }
                 ],
-                "elapsedMs": 695,
+                "elapsedMs": 703,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3535,7 +3699,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3573,7 +3738,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3606,7 +3772,7 @@
           "pass": true,
           "error": null,
           "labelNote": "词表外模糊主诉的安全不变量：不推荐任何科室。规则零候选转人工；模型返回空转人工或证据失验弃权；交互组部位回答“说不清”后弃权，均为安全非推荐结局。",
-          "elapsedMs": 123.95,
+          "elapsedMs": 119.13,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3624,10 +3790,11 @@
                 "attempted": true,
                 "name": "qwen2.5:7b",
                 "matches": [],
-                "elapsedMs": 124,
+                "elapsedMs": 119,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。 模型证据未形成更可靠结论，保留规则分流结果。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3690,7 +3857,8 @@
               "reasonCode": "safety",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3748,7 +3916,7 @@
           "pass": true,
           "error": null,
           "labelNote": "双科室并列无主次（神经内科/骨科），一次性组无法定科：弃权或转人工均为安全非推荐结局（同 HG-019/067 口径）。",
-          "elapsedMs": 446.55,
+          "elapsedMs": 430.33,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3771,10 +3939,11 @@
                     "evidence": "头痛"
                   }
                 ],
-                "elapsedMs": 446,
+                "elapsedMs": 430,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。 模型证据未形成更可靠结论，保留规则分流结果。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -3797,7 +3966,7 @@
           "pass": true,
           "error": null,
           "labelNote": "否定口径：“不发烧”不得命中“发热”、“不喘”不得命中“气喘”；仅以当前肯定的咳嗽推荐呼吸科。",
-          "elapsedMs": 282.52,
+          "elapsedMs": 285.24,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -3820,10 +3989,11 @@
                     "evidence": "咳嗽老不好"
                   }
                 ],
-                "elapsedMs": 282,
+                "elapsedMs": 285,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         }
@@ -3895,9 +4065,16 @@
         "modelAttempts": 15,
         "modelSuccesses": 14,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 313,
-        "p95Ms": 688,
+        "meanMs": 318,
+        "p95Ms": 700,
         "categories": [
           {
             "category": "普通症状",
@@ -3986,9 +4163,16 @@
         "modelAttempts": 12,
         "modelSuccesses": 12,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 329,
-        "p95Ms": 688,
+        "meanMs": 334,
+        "p95Ms": 700,
         "categories": [
           {
             "category": "普通症状",
@@ -4062,9 +4246,16 @@
         "modelAttempts": 3,
         "modelSuccesses": 2,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 235,
-        "p95Ms": 307,
+        "meanMs": 240,
+        "p95Ms": 315,
         "categories": [
           {
             "category": "信息不足",
@@ -4104,7 +4295,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 359.52,
+          "elapsedMs": 358.5,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4119,7 +4310,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4130,7 +4322,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4141,7 +4334,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4160,10 +4354,11 @@
                     "evidence": "打球扭伤了脚踝"
                   }
                 ],
-                "elapsedMs": 359,
+                "elapsedMs": 358,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4186,7 +4381,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 650.39,
+          "elapsedMs": 651.85,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4201,7 +4396,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4212,7 +4408,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4223,7 +4420,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4246,10 +4444,11 @@
                     "evidence": "流泪"
                   }
                 ],
-                "elapsedMs": 650,
+                "elapsedMs": 652,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4272,7 +4471,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 315.92,
+          "elapsedMs": 321.66,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4287,7 +4486,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4298,7 +4498,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4309,7 +4510,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4328,10 +4530,11 @@
                     "evidence": "牙龈出血"
                   }
                 ],
-                "elapsedMs": 316,
+                "elapsedMs": 321,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4354,7 +4557,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 493.92,
+          "elapsedMs": 487.65,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4369,7 +4572,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4380,7 +4584,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4391,7 +4596,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4410,10 +4616,11 @@
                     "evidence": "皮肤痒"
                   }
                 ],
-                "elapsedMs": 494,
+                "elapsedMs": 487,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4436,7 +4643,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 445.52,
+          "elapsedMs": 443.11,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4451,7 +4658,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4462,7 +4670,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4473,7 +4682,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4496,10 +4706,11 @@
                     "evidence": "恶心想吐"
                   }
                 ],
-                "elapsedMs": 445,
+                "elapsedMs": 443,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4522,7 +4733,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 245.12,
+          "elapsedMs": 254.12,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4537,7 +4748,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4548,7 +4760,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4559,7 +4772,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4578,10 +4792,11 @@
                     "evidence": "头痛"
                   }
                 ],
-                "elapsedMs": 245,
+                "elapsedMs": 254,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4604,7 +4819,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 266.98,
+          "elapsedMs": 270.8,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4619,7 +4834,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4630,7 +4846,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4641,7 +4858,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4655,10 +4873,11 @@
                 "attempted": true,
                 "name": "qwen2.5:7b",
                 "matches": [],
-                "elapsedMs": 267,
+                "elapsedMs": 271,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4681,7 +4900,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 343.96,
+          "elapsedMs": 357.75,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4696,7 +4915,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4707,7 +4927,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4718,7 +4939,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4737,10 +4959,11 @@
                     "evidence": "小肚子还隐隐作痛"
                   }
                 ],
-                "elapsedMs": 344,
+                "elapsedMs": 357,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。 模型证据未形成更可靠结论，保留规则分流结果。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4763,7 +4986,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 435.47,
+          "elapsedMs": 454.35,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4778,7 +5001,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4789,7 +5013,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4800,7 +5025,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4823,10 +5049,11 @@
                     "evidence": "咳黄痰"
                   }
                 ],
-                "elapsedMs": 435,
+                "elapsedMs": 454,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4849,7 +5076,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 357.02,
+          "elapsedMs": 368.6,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4864,7 +5091,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4875,7 +5103,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4886,7 +5115,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4900,10 +5130,11 @@
                 "attempted": true,
                 "name": "qwen2.5:7b",
                 "matches": [],
-                "elapsedMs": 357,
+                "elapsedMs": 368,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -4926,7 +5157,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 333.78,
+          "elapsedMs": 339.04,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -4941,7 +5172,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4952,7 +5184,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -4963,7 +5196,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -4977,10 +5211,11 @@
                 "attempted": true,
                 "name": "qwen2.5:7b",
                 "matches": [],
-                "elapsedMs": 334,
+                "elapsedMs": 339,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5003,7 +5238,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 687.66,
+          "elapsedMs": 699.93,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -5018,7 +5253,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5029,7 +5265,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5040,7 +5277,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -5067,10 +5305,11 @@
                     "evidence": "小便的时候还疼"
                   }
                 ],
-                "elapsedMs": 688,
+                "elapsedMs": 700,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5093,7 +5332,7 @@
           "pass": true,
           "error": null,
           "labelNote": "主诉不含红旗词表逐字词（“半边身子没劲”≠“肢体无力”），由安全槽 risk=yes 升级：检验急症闸门不依赖主诉字面命中。",
-          "elapsedMs": 0.03,
+          "elapsedMs": 0.04,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -5108,7 +5347,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "emergency",
@@ -5119,7 +5359,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5157,7 +5398,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5190,7 +5432,7 @@
           "pass": true,
           "error": null,
           "labelNote": "词表外模糊主诉的安全不变量：不推荐任何科室。规则零候选转人工；模型返回空转人工或证据失验弃权；交互组部位回答“说不清”后弃权，均为安全非推荐结局。",
-          "elapsedMs": 117.89,
+          "elapsedMs": 117.59,
           "modelAttempts": 1,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -5205,7 +5447,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5216,7 +5459,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5227,7 +5471,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5241,11 +5486,12 @@
                 "attempted": true,
                 "name": "qwen2.5:7b",
                 "matches": [],
-                "elapsedMs": 118,
+                "elapsedMs": 117,
                 "phase": "entry",
                 "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
                 "outcome": "no_evidence"
-              }
+              },
+              "wording": null
             },
             {
               "status": "uncertain",
@@ -5256,7 +5502,8 @@
               "reasonCode": "unlocated",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5280,7 +5527,7 @@
           "pass": true,
           "error": null,
           "labelNote": "守卫：检查请求只追问不适部位，不得推荐超声医学科（同 HG-107 的 CT 场景）。",
-          "elapsedMs": 307.19,
+          "elapsedMs": 315,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -5295,7 +5542,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5306,7 +5554,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5317,7 +5566,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5336,10 +5586,11 @@
                     "evidence": "个B超"
                   }
                 ],
-                "elapsedMs": 307,
+                "elapsedMs": 315,
                 "phase": "entry",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5362,7 +5613,7 @@
           "pass": true,
           "error": null,
           "labelNote": "未满 1 岁超出演示科室接诊范围，转人工（同 HG-024/025/060 口径）。",
-          "elapsedMs": 0.03,
+          "elapsedMs": 0.04,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -5377,7 +5628,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5388,7 +5640,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "human",
@@ -5399,7 +5652,8 @@
               "reasonCode": "safety",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5481,7 +5735,7 @@
           "pass": true,
           "error": null,
           "labelNote": "否定口径：“不发烧”不得命中“发热”、“不喘”不得命中“气喘”；仅以当前肯定的咳嗽推荐呼吸科。",
-          "elapsedMs": 281.3,
+          "elapsedMs": 286.95,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -5496,7 +5750,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5507,7 +5762,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -5518,7 +5774,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -5537,10 +5794,11 @@
                     "evidence": "咳嗽老不好"
                   }
                 ],
-                "elapsedMs": 281,
+                "elapsedMs": 287,
                 "phase": "terminal",
                 "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         }
@@ -5612,9 +5870,16 @@
         "modelAttempts": 15,
         "modelSuccesses": 15,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 239,
-        "p95Ms": 2158,
+        "meanMs": 124,
+        "p95Ms": 450,
         "categories": [
           {
             "category": "普通症状",
@@ -5703,9 +5968,16 @@
         "modelAttempts": 12,
         "modelSuccesses": 12,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 263,
-        "p95Ms": 2158,
+        "meanMs": 125,
+        "p95Ms": 450,
         "categories": [
           {
             "category": "普通症状",
@@ -5779,9 +6051,16 @@
         "modelAttempts": 3,
         "modelSuccesses": 3,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 123,
-        "p95Ms": 142,
+        "meanMs": 118,
+        "p95Ms": 138,
         "categories": [
           {
             "category": "信息不足",
@@ -5821,7 +6100,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 2157.89,
+          "elapsedMs": 449.84,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -5839,10 +6118,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 2158,
+                "elapsedMs": 450,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5865,7 +6145,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 109.81,
+          "elapsedMs": 114.52,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -5888,10 +6168,11 @@
                     "evidence": "眼睛又红又痒"
                   }
                 ],
-                "elapsedMs": 110,
+                "elapsedMs": 114,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5914,7 +6195,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 149.27,
+          "elapsedMs": 153,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -5932,10 +6213,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 149,
+                "elapsedMs": 153,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -5958,7 +6240,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 393.44,
+          "elapsedMs": 110.15,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -5976,10 +6258,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 393,
+                "elapsedMs": 110,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6002,7 +6285,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 112.59,
+          "elapsedMs": 109.31,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6025,10 +6308,11 @@
                     "evidence": "拉肚子拉了两天"
                   }
                 ],
-                "elapsedMs": 112,
+                "elapsedMs": 109,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6051,7 +6335,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 91.18,
+          "elapsedMs": 97.3,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6074,10 +6358,11 @@
                     "evidence": "头痛"
                   }
                 ],
-                "elapsedMs": 91,
+                "elapsedMs": 97,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6100,7 +6385,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 145.67,
+          "elapsedMs": 160.74,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6118,10 +6403,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 146,
+                "elapsedMs": 161,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6144,7 +6430,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 151.47,
+          "elapsedMs": 165.53,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6162,10 +6448,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 151,
+                "elapsedMs": 165,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6188,7 +6475,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 128.15,
+          "elapsedMs": 129.83,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6206,10 +6493,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 128,
+                "elapsedMs": 130,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6232,7 +6520,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 142.95,
+          "elapsedMs": 154.21,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6250,10 +6538,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 143,
+                "elapsedMs": 154,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6276,7 +6565,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 128.26,
+          "elapsedMs": 121.53,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6294,10 +6583,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 128,
+                "elapsedMs": 121,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6320,7 +6610,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 227.85,
+          "elapsedMs": 112.29,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6341,16 +6631,13 @@
                   {
                     "keyword": "尿频",
                     "evidence": "尿频"
-                  },
-                  {
-                    "keyword": "尿急",
-                    "evidence": "尿急"
                   }
                 ],
-                "elapsedMs": 228,
+                "elapsedMs": 112,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6388,7 +6675,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6411,7 +6699,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 0.01,
+          "elapsedMs": 0.02,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -6426,7 +6714,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6459,7 +6748,7 @@
           "pass": true,
           "error": null,
           "labelNote": "词表外模糊主诉的安全不变量：不推荐任何科室。规则零候选转人工；模型返回空转人工或证据失验弃权；交互组部位回答“说不清”后弃权，均为安全非推荐结局。",
-          "elapsedMs": 102.47,
+          "elapsedMs": 117.23,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6477,10 +6766,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 102,
+                "elapsedMs": 117,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6528,7 +6818,7 @@
           "pass": true,
           "error": null,
           "labelNote": "未满 1 岁超出演示科室接诊范围，转人工（同 HG-024/025/060 口径）。",
-          "elapsedMs": 0.05,
+          "elapsedMs": 0.03,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -6543,7 +6833,8 @@
               "reasonCode": "safety",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6601,7 +6892,7 @@
           "pass": true,
           "error": null,
           "labelNote": "双科室并列无主次（神经内科/骨科），一次性组无法定科：弃权或转人工均为安全非推荐结局（同 HG-019/067 口径）。",
-          "elapsedMs": 142.13,
+          "elapsedMs": 99.81,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6622,16 +6913,13 @@
                   {
                     "keyword": "头痛",
                     "evidence": "头痛"
-                  },
-                  {
-                    "keyword": "膝盖痛",
-                    "evidence": "膝盖痛"
                   }
                 ],
-                "elapsedMs": 142,
+                "elapsedMs": 100,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。 模型证据未形成更可靠结论，保留规则分流结果。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -6654,7 +6942,7 @@
           "pass": true,
           "error": null,
           "labelNote": "否定口径：“不发烧”不得命中“发热”、“不喘”不得命中“气喘”；仅以当前肯定的咳嗽推荐呼吸科。",
-          "elapsedMs": 123.58,
+          "elapsedMs": 137.77,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6672,10 +6960,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 123,
+                "elapsedMs": 138,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         }
@@ -6747,9 +7036,16 @@
         "modelAttempts": 15,
         "modelSuccesses": 13,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 136,
-        "p95Ms": 400,
+        "meanMs": 122,
+        "p95Ms": 505,
         "categories": [
           {
             "category": "普通症状",
@@ -6838,9 +7134,16 @@
         "modelAttempts": 12,
         "modelSuccesses": 12,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 140,
-        "p95Ms": 400,
+        "meanMs": 122,
+        "p95Ms": 505,
         "categories": [
           {
             "category": "普通症状",
@@ -6914,9 +7217,16 @@
         "modelAttempts": 3,
         "modelSuccesses": 1,
         "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
         "errors": 0,
-        "meanMs": 118,
-        "p95Ms": 133,
+        "meanMs": 122,
+        "p95Ms": 135,
         "categories": [
           {
             "category": "信息不足",
@@ -6956,7 +7266,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 399.51,
+          "elapsedMs": 504.81,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -6971,7 +7281,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -6982,7 +7293,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -6993,7 +7305,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7007,10 +7320,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 399,
+                "elapsedMs": 505,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7033,7 +7347,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 109.69,
+          "elapsedMs": 114.47,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7048,7 +7362,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7059,7 +7374,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7070,7 +7386,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7089,10 +7406,11 @@
                     "evidence": "眼睛又红又痒"
                   }
                 ],
-                "elapsedMs": 110,
+                "elapsedMs": 114,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7115,7 +7433,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 144.04,
+          "elapsedMs": 152.92,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7130,7 +7448,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7141,7 +7460,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7152,7 +7472,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7166,10 +7487,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 144,
+                "elapsedMs": 153,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7192,7 +7514,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 385.94,
+          "elapsedMs": 108.76,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7207,7 +7529,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7218,7 +7541,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7229,7 +7553,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7243,10 +7568,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 385,
+                "elapsedMs": 109,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7269,7 +7595,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 105.65,
+          "elapsedMs": 108.77,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7284,7 +7610,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7295,7 +7622,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7306,7 +7634,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7325,10 +7654,11 @@
                     "evidence": "拉肚子拉了两天"
                   }
                 ],
-                "elapsedMs": 105,
+                "elapsedMs": 109,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7351,7 +7681,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 86.85,
+          "elapsedMs": 90.37,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7366,7 +7696,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7377,7 +7708,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7388,7 +7720,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7407,10 +7740,11 @@
                     "evidence": "头痛"
                   }
                 ],
-                "elapsedMs": 87,
+                "elapsedMs": 90,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7433,7 +7767,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 135.72,
+          "elapsedMs": 143.59,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7448,7 +7782,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7459,7 +7794,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7470,7 +7806,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7484,10 +7821,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 136,
+                "elapsedMs": 143,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7510,7 +7848,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 142.97,
+          "elapsedMs": 149.19,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7525,7 +7863,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7536,7 +7875,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7547,7 +7887,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7561,10 +7902,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 143,
+                "elapsedMs": 149,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7587,7 +7929,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 122.88,
+          "elapsedMs": 111.26,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7602,7 +7944,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7613,7 +7956,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7624,7 +7968,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7638,10 +7983,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 123,
+                "elapsedMs": 111,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7664,7 +8010,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 132.54,
+          "elapsedMs": 131.17,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7679,7 +8025,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7690,7 +8037,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7701,7 +8049,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7715,10 +8064,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 132,
+                "elapsedMs": 131,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7741,7 +8091,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 121.36,
+          "elapsedMs": 111.41,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7756,7 +8106,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7767,7 +8118,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7778,7 +8130,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7792,10 +8145,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 121,
+                "elapsedMs": 111,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7818,7 +8172,7 @@
           "pass": true,
           "error": null,
           "labelNote": null,
-          "elapsedMs": 212.3,
+          "elapsedMs": 101.71,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -7833,7 +8187,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7844,7 +8199,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -7855,7 +8211,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -7872,16 +8229,13 @@
                   {
                     "keyword": "尿频",
                     "evidence": "尿频"
-                  },
-                  {
-                    "keyword": "尿急",
-                    "evidence": "尿急"
                   }
                 ],
-                "elapsedMs": 212,
+                "elapsedMs": 101,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7904,7 +8258,7 @@
           "pass": true,
           "error": null,
           "labelNote": "主诉不含红旗词表逐字词（“半边身子没劲”≠“肢体无力”），由安全槽 risk=yes 升级：检验急症闸门不依赖主诉字面命中。",
-          "elapsedMs": 0.03,
+          "elapsedMs": 0.04,
           "modelAttempts": 0,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -7919,7 +8273,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "emergency",
@@ -7930,7 +8285,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -7968,7 +8324,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -8001,7 +8358,7 @@
           "pass": true,
           "error": null,
           "labelNote": "词表外模糊主诉的安全不变量：不推荐任何科室。规则零候选转人工；模型返回空转人工或证据失验弃权；交互组部位回答“说不清”后弃权，均为安全非推荐结局。",
-          "elapsedMs": 101.43,
+          "elapsedMs": 105.88,
           "modelAttempts": 1,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -8016,7 +8373,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8027,7 +8385,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8038,7 +8397,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8052,11 +8412,12 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 101,
+                "elapsedMs": 106,
                 "phase": "entry",
                 "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
                 "outcome": "no_evidence"
-              }
+              },
+              "wording": null
             },
             {
               "status": "uncertain",
@@ -8067,7 +8428,8 @@
               "reasonCode": "unlocated",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -8091,7 +8453,7 @@
           "pass": true,
           "error": null,
           "labelNote": "守卫：检查请求只追问不适部位，不得推荐超声医学科（同 HG-107 的 CT 场景）。",
-          "elapsedMs": 132.95,
+          "elapsedMs": 135.4,
           "modelAttempts": 1,
           "modelSuccesses": 0,
           "modelFailures": 0,
@@ -8106,7 +8468,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8117,7 +8480,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8128,7 +8492,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8142,11 +8507,12 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 133,
+                "elapsedMs": 135,
                 "phase": "entry",
                 "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
                 "outcome": "no_evidence"
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -8184,7 +8550,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8195,7 +8562,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "human",
@@ -8206,7 +8574,8 @@
               "reasonCode": "safety",
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             }
           ]
         },
@@ -8288,7 +8657,7 @@
           "pass": true,
           "error": null,
           "labelNote": "否定口径：“不发烧”不得命中“发热”、“不喘”不得命中“气喘”；仅以当前肯定的咳嗽推荐呼吸科。",
-          "elapsedMs": 118.56,
+          "elapsedMs": 123.62,
           "modelAttempts": 1,
           "modelSuccesses": 1,
           "modelFailures": 0,
@@ -8303,7 +8672,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8314,7 +8684,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "question",
@@ -8325,7 +8696,8 @@
               "reasonCode": null,
               "model": {
                 "used": false
-              }
+              },
+              "wording": null
             },
             {
               "status": "recommendation",
@@ -8339,10 +8711,11 @@
                 "attempted": true,
                 "name": "qwen2.5:1.5b",
                 "matches": [],
-                "elapsedMs": 118,
+                "elapsedMs": 123,
                 "phase": "terminal",
                 "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
-              }
+              },
+              "wording": null
             }
           ]
         }

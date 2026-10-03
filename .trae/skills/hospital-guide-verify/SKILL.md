@@ -45,6 +45,16 @@ npm run verify:full    # 完整（约数分钟，需 .runtime 里 Ollama 就绪�
 
 改动其中任何一个，必须重跑 `evaluate:models` 刷新 `data/evaluation/latest.json`，否则网页评测页提示报告过期。`public/*`、README、`redteam*`、`LICENSE` 不在指纹内。
 
+**评测期防漂移门禁（重要）**：`scripts/evaluate.js` 在跑完后会**再次计算指纹**；只要评测**运行期间**任一指纹文件被改动，就抛 `评测期间代码或数据发生变化，本次结果不发布，请重跑`——6 组全部跑完但结果**整份不落盘**。因此必须**先把所有代码改动与版本号改动做完并冻结，再启动评测**；跑评测期间不要改任何文件（尤其升版本时容易顺手改 `server.js`）。评测命令约 1.5 分钟（双模型），期间可以读文件、写文档（README/报告不在指纹内），但不能写指纹文件。
+
+## 追问措辞润色（0.8.0 第二类模型职能）——改动后如何验证
+
+模型在 `differential` 鉴别追问上会改写 `title`/`description`（选项与权重恒来自配置；`redflag`/`location` 永不润色）。验证要点：
+
+- `lib/evaluation.js` 逐轮 trace 里 `wording` 字段记录 `{polished, name, elapsedMs, originalTitle, polishedTitle}`；`summarize()` 汇总为 `metrics.wording = {applicable, accepted, rejected, unavailable, models}`。**该职能不改变任何案例通过/失败判定**，故 `rejected`/`unavailable` 不计入模型失败。
+- 断言口径：两个 `workflow` 组应出现 `applicable > 0`（无模型组恒为 0）；案例 `passed/total` 必须与关闭润色时**完全一致**（这是"表达层不侵入评分层"的回归证据）。`heldout` 集当前无 differential 追问案例，`applicable` 为 0 属正常。
+- 端到端手验：`npm start` 后 POST `/api/triage`（chief "腹痛，还有尿频"，带 `model`），返回的 `question.title` 应是改写后的措辞、`question.wording.polished === true`、`question.options` 与配置逐字一致。
+
 ## 版本号同步（升版本时 4 个文件 5 处）
 
 `package.json` 1 处；`server.js` 2 处（health 返回 + 启动 banner）；`public/index.html` 设置页 1 处；`tests/server.test.js` 断言 1 处。

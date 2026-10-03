@@ -306,6 +306,14 @@ function probeRationale(q) {
   return '';
 }
 
+// 追问措辞润色的可见性：模型改写了问法时如实标注（由本地开源模型改写、选项与
+// 权重仍来自配置），让"融合是双向的"在界面上可核验而非仅存在于文档。
+function wordingNote(q) {
+  const w = q.wording;
+  if (!w || w.polished !== true) return '';
+  return `<p class="wording-note">本问句措辞由本地开源模型改写（${escape(w.name || '')} · ${((w.elapsedMs || 0) / 1000).toFixed(1)}秒）；选项与评分仍来自配置。</p>`;
+}
+
 // 模型介入卡：入口介入发生时让本地开源模型的工作可见——它从口语主诉里核验出了哪些
 // 症状线索（证据 → 标准词），或如实告知“尝试了但没拿到可用线索/模型不可用”。
 function modelCard(m) {
@@ -332,7 +340,7 @@ function showQuestion(data) {
       ? `<button type="button" data-answer="adult" data-age-display="young" data-question="age">18–40岁</button><button type="button" data-answer="adult" data-age-display="middle" data-question="age">41–64岁</button><button type="button" data-answer="adult" data-age-display="senior" data-question="age">65岁及以上</button>`
       : `<button type="button" data-answer="${escape(value)}" data-question="age">${escape(label)}</button>`).join('')
     : q.options.map(([value, label]) => `<button type="button" data-answer="${escape(value)}" data-question="${q.id}">${escape(label)}</button>`).join('');
-  message.innerHTML = `<div class="message-label">导诊助手</div><h3>${escape(q.title)}</h3><p>${escape(q.description)}</p>${probeRationale(q)}<div class="options">${optionsHtml}</div>`;
+  message.innerHTML = `<div class="message-label">导诊助手</div><h3>${escape(q.title)}</h3><p>${escape(q.description)}</p>${probeRationale(q)}${wordingNote(q)}<div class="options">${optionsHtml}</div>`;
   $('#messages').append(message);
   updateStep(1);
 }
