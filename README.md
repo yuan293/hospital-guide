@@ -2,6 +2,25 @@
 
 [![CI](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml/badge.svg)](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml)
 
+## 🔗 项目公开地址
+
+> **https://github.com/yuan293/hospital-guide**
+
+本仓库为**公开仓库（Public）**，无私有化设置、无访问口令、无组织成员限制，**任何人（含未登录的匿名访客）均可直接访问与克隆**。评审期内持续保持公开可访问状态；版本迭代只做**向前追加**（新增提交与标签），不改写历史、不删除既有标签，已发布的 Release 与直链长期有效。
+
+评审方可自行用以下任一方式复核（均**无需提供任何凭据**）：
+
+```bash
+# 方式一：匿名克隆（浅克隆，最快）
+git clone --depth 1 https://github.com/yuan293/hospital-guide.git
+
+# 方式二：匿名读取远端引用（不下载文件，仅验证可读性）
+git ls-remote https://github.com/yuan293/hospital-guide.git
+
+# 方式三：匿名查看仓库公开元信息（返回 "private": false 即为公开）
+curl -s https://api.github.com/repos/yuan293/hospital-guide
+```
+
 **成果直达链接**（公开仓库，无需登录即可访问）：
 
 | 入口 | 链接 |

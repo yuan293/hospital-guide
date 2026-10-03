@@ -5,6 +5,14 @@
   "license": "Apache-2.0",
   "type": "module",
   "description": "Local hospital guidance demonstration with optional Ollama assistance",
+  "homepage": "https://github.com/yuan293/hospital-guide",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuan293/hospital-guide.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yuan293/hospital-guide/issues"
+  },
   "engines": { "node": ">=20" },
   "scripts": {
     "start": "node server.js",
