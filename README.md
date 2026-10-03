@@ -346,7 +346,8 @@ npm run verify:full   # 完整：再加双模型评测与双模型红队（需�
 | --- | --- |
 | `server.js` | 本机HTTP服务与API |
 | `lib/triage.js` | 输入校验、风险阶段机、红旗征升级、安全确认选择、统一评分、信息增益追问选择与弃权判定 |
-| `lib/model.js` | 可选的本机Ollama接口：症状标准化（返回原始计数与通过核验的证据）与追问措辞润色（只改 title/description，协议层无科室/权重字段） |
+| `lib/model.js` | 可选的本机Ollama接口：症状标准化（返回原始计数与通过核验的证据）与追问措辞润色（只改 title/description，协议层无科室/权重字段）；证据核验与措辞门禁实现已抽到 `packages/anchored-evidence-gate/`，此处只做单向导入 |
+| `packages/anchored-evidence-gate/` | **独立可复用的零依赖包**：映射锚点表证据核验（`evidenceMatchesKeyword` 四条规则 + `isShortEvidenceFragment`）与措辞润色 fail-closed 门禁（`acceptPolish`）、43 组口语映射表（`REFERENCE_SYNONYMS`）；`npm test` 在该目录内跑 16 条单测 |
 | `data/hospital.json`、`data/sources.json` | 可替换的虚构医院、科室、鉴别追问与上腹痛安全确认问题库（FHIR R4 Questionnaire 结构）和来源 |
 | `lib/data-validation.js` | 数据结构、来源引用、年龄范围、鉴别问题与安全确认校验 |
 | `lib/flow.js` | 网页和评测共用的模型调用闸门、分歧与证据失效弃权、追问措辞润色的安全前提与回退 |
@@ -449,6 +450,7 @@ npm run verify:full   # 完整：再加双模型评测与双模型红队（需�
 
 | 资产 | 位置 | 单独取用方式 | 依赖 |
 | --- | --- | --- | --- |
+| **锚点表 + 评测门禁（独立零依赖包）** | `packages/anchored-evidence-gate/`（自带 `package.json`、`LICENSE`、`README`、16 条单测） | **最具外溢价值的开放成果**：直接 `import` 或整目录复制即可，与本院场景零耦合。把"模型说它匹配"变成"模型必须证明它匹配"——`evidenceMatchesKeyword`（四条接受规则）让"把 A 症状的证据配给 B 的词"这类语义错配**结构性不可表达**；`acceptPolish` 是措辞润色的 fail-closed 门禁；另附 43 组中文口语映射表 `REFERENCE_SYNONYMS`。适用于任何"模型输出进枚举、且需要可核验依据"的流程（意图分类、工单路由、标签抽取、合规审核） | 无——零运行时依赖，`dependencies: {}`，Node ≥18 |
 | FHIR 对齐问诊结构 | `Questionnaire/`、`StructureDefinition/`（仓库根目录，标准 R4 无后缀资源文件） | 用任意 FHIR R4 服务器（如 HAPI）直接导入；canonical URL 指向本仓库 `/blob/main/` 路径可在线解析；问卷与扩展定义一一对应（有防漂移单测） | 无——纯标准资源文件，与本仓库代码零耦合 |
 | 评测方法学与案例集 | `data/evaluation/cases.json`（130 条）+ `scripts/evaluate.js` + `lib/evaluation.js` | `node scripts/evaluate.js` 直接运行；案例格式（`modes` 组适配、`anyOf` 等价安全结局、`labelNote`）见 `data/evaluation/README.md`；换掉科室数据源即可把"四组消融 + fail-closed 校验 + 逐轮轨迹"整套搬到别的分类系统 | Node ≥20，零 npm 依赖 |
 | 对抗红队集 | `data/evaluation/redteam.json`（24 条）+ `scripts/redteam.js` | `node scripts/redteam.js` 跑规则层断言；七类对抗样本（前瞻推断/指令注入/否定连用/病史家属/整句诱饵/真急症/映射锚点攻击）按 `category` 字段组织；"不安全推荐或急症漏判即退出码 1"的闸门语义可直接移植 | Node ≥20，零 npm 依赖 |

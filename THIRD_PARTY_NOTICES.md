@@ -37,6 +37,10 @@
 - `.runtime/`（Ollama 便携运行时约 1.8GB、两个模型权重约 5.7GB）已被 `.gitignore` 排除，由 `npm run models:setup` 与 `npm run models:pull` 按清单第 2–4 项自行下载并校验。
 - 不含个人密钥、访问凭据、患者数据或真实医院资料。
 
+**团队自建、并单独开放复用的成果**
+
+- `packages/anchored-evidence-gate/`（`anchored-evidence-gate` v1.0.0）：映射锚点表证据核验与措辞润色 fail-closed 门禁的**独立零依赖包**，团队自建，随本仓库以 Apache-2.0 开放，包内自带 `LICENSE` 副本。第三方可脱离整仓单独 `import` 或整目录复制使用；其能力、单测与迁移场景见包内 `README.md`。此包**不引入任何第三方运行依赖**（`dependencies: {}`、`devDependencies: {}`），仅使用 Node.js 内置能力，故不改变上文"无 npm 运行依赖"的结论。
+
 **不在本清单内的内容**
 
 - 医学规则依据（WS/T 390-2012《医院急诊科规范化流程》、《急诊预检分级分诊标准》、中风 120 口诀、《眩晕诊治多学科专家共识》、《医疗机构诊疗科目名录》、默沙东诊疗手册大众版等）属于**参考文献与判断依据**，不是软件、模型或数据集资源，列于技术报告"参考文献"一节；对应关系见 README「标签与规则依据」。
@@ -45,6 +49,7 @@
 **许可原文位置**
 
 - 本仓库自身：根目录 `LICENSE`（Apache-2.0，覆盖代码、示例数据、文档、测试与评测集）。
+- 独立包：`packages/anchored-evidence-gate/LICENSE`（与根目录一致，随包分发）。
 - 两个模型：`data/model-licenses/qwen2.5-7b.txt`、`qwen2.5-1.5b.txt`。
 - 模型版本、摘要与量化方式：`data/installed-models.json`（由安装脚本自动记录）。
 

@@ -1,0 +1,41 @@
+{
+  "name": "anchored-evidence-gate",
+  "version": "1.0.0",
+  "description": "锚点表证据核验 + 措辞润色 fail-closed 把关：把「模型说它匹配」变成「模型必须证明它匹配」，零依赖纯函数",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "src/",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "llm",
+    "guardrail",
+    "evidence-verification",
+    "hallucination",
+    "constrained-decoding",
+    "triage",
+    "classification",
+    "constitutional-ai"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuan293/hospital-guide.git",
+    "directory": "packages/anchored-evidence-gate"
+  },
+  "homepage": "https://github.com/yuan293/hospital-guide/tree/main/packages/anchored-evidence-gate",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
