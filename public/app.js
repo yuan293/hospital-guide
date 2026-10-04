@@ -114,39 +114,99 @@ const roomText = (department, level = 'general') => {
   const room = levelRoom(department, level);
   return isRoomNo(room) ? `${room} 诊室` : room;
 };
-const roomsText = department => (department.expertRoom
-  ? `普通号 ${department.room} 诊室 · 专家号 ${department.expertRoom} 诊室`
-  : (isRoomNo(department.room) ? `${department.room} 诊室` : department.room));
+// 科室目录 / 详情里展示的诊室：多间诊室并列，普通号与专家号分开列。
+// 与挂号弹窗使用**同一份** roomAllocation，因此两边永远一致、且同层不重号。
+const roomListText = (department, level) => roomsFor(department, level)
+  .map(no => (isRoomNo(no) ? `${no} 诊室` : no)).join('、');
+const roomsText = department => {
+  const general = roomListText(department, 'general');
+  const hasExpert = department.bookable !== false && department.expertRoom && isRoomNo(department.room);
+  if (!hasExpert) return general;
+  return `普通号 ${general} · 专家号 ${roomListText(department, 'expert')}`;
+};
 const locationText = department => `${floorZh(department.floor)} · ${department.zone} 区`;
 
 // ---- 诊室分间与实时排队（纯前端演示层） ----
-// 门诊同一号别通常有多间诊室并行叫号。原型没有真实号源，这里按基础诊室号
-// 确定性派生出 2~3 间同号别诊室，并模拟一个会随时间小幅波动的排队人数，
+// 门诊同一号别通常有多间诊室并行叫号。原型没有真实号源，这里为每个科室
+// 确定性地分配 2~3 间同号别诊室，并模拟一个会随时间小幅波动的排队人数，
 // 让患者能直观看到"哪间更空"。全部为虚构演示，不产生真实叫号。
-// 设计要点：
-//   1. 派生是确定性的（同一科室每次打开看到同样的房间与初始队列），避免刷新后跳变；
-//   2. 派生房间号严格沿用基础诊室号的楼层前缀，因此"3 楼 303"派生出的仍是 3 楼；
-//   3. 排队人数只在【选择号别】弹窗打开时推进，关窗即停，不做无谓的定时器。
+//
+// **房间号唯一性是硬约束**（同楼层内不得有任何两间诊室重号）：
+//   配置里各科室的房间号是**紧邻排布**的（如 3 楼 301~316、2 楼 201~220），
+//   因此绝不能用"基础号 + 2/4"这种算术派生——它必然撞上邻科（骨科 303 派生
+//   305 就撞了胸外科）。正确做法是**整层统一分配**：把每层的房间号空间视作
+//   一个池子，先登记配置里已占用的号，再为每个科室按序切出连续的空闲段，
+//   每个号别 3 间（首间优先沿用科室配置的原始房间号，保持与院内指引一致）。
+//   分配结果对"科室集合 + 配置固定"是确定性的，因此同一科室每次打开看到
+//   同样的房间；且因为一次分配覆盖整层，天然不会跨科室重号。
 const hash32 = str => {
   let h = 2166136261;
   for (let i = 0; i < str.length; i += 1) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
   return h >>> 0;
 };
-// 由基础诊室号派生同号别的多间诊室：数量 2~3，房间号保持"同楼层、相邻奇数/偶数"的观感。
-const clinicRooms = (department, level) => {
-  const base = String(levelRoom(department, level) ?? '');
-  // 非纯数字（如"急诊入口"）不派生，直接作为唯一诊室。
-  if (!isRoomNo(base)) return [{ no: base, queue: 0, single: true }];
-  const seed = hash32(`${department.id}|${level}`);
-  const count = 2 + (seed % 2); // 2 或 3 间
-  const rooms = [];
-  for (let i = 0; i < count; i += 1) {
-    const no = String(Number(base) + i * 2); // 相邻同奇偶，观感统一
-    // 队列基准取 0~10，让"较空"与"较忙"都可能出现，避免全部涌向同一个色档。
-    rooms.push({ no, queue: (hash32(`${no}|${level}`) % 10) + ((seed >>> 3) % 2) });
+const ROOMS_PER_LEVEL = 3; // 每个号别 3 间诊室
+// 每层的房间号分配表：floor -> { departmentId: { general:[no…], expert:[no…] } }
+let roomAllocation = null;
+function buildRoomAllocation() {
+  const allocation = {};
+  const floors = [...new Set(config.departments.map(d => d.floor))].sort();
+  for (const floor of floors) {
+    const floorDigit = /^(\d+)F$/.test(floor) ? String(Number(floor.slice(0, -1))) : null;
+    const members = config.departments.filter(d => d.floor === floor);
+    // 池子覆盖该层的整个号段（如 3F → 301~399），并以"是否纯数字"决定可用性。
+    const pool = new Map();
+    if (floorDigit) {
+      const base = Number(floorDigit) * 100;
+      for (let n = base + 1; n < base + 100; n += 1) pool.set(String(n), null);
+    }
+    // 先登记配置里已占用的房间号（属主 = 该科室），避免被当成空闲号切走。
+    for (const d of members) {
+      for (const key of ['room', 'expertRoom']) {
+        const no = d[key];
+        if (isRoomNo(no) && pool.has(no)) pool.set(no, d.id);
+      }
+    }
+    // 每个可挂号科室按序分配；非纯数字房间号（"急诊入口"等）不参与分配。
+    const bookable = members.filter(d => d.bookable !== false && isRoomNo(d.room));
+    allocation[floor] = {};
+    for (const d of bookable) {
+      const result = { general: [], expert: [] };
+      for (const level of ['general', 'expert']) {
+        // 首间优先用配置里的原始房间号（普通号用 room，专家号用 expertRoom）。
+        const preferred = level === 'expert' ? d.expertRoom : d.room;
+        const slots = [];
+        if (isRoomNo(preferred) && (pool.get(preferred) === d.id || pool.get(preferred) === null)) {
+          slots.push(preferred);
+          pool.set(preferred, d.id);
+        }
+        // 其余房间从池中取最小的空闲号补齐；同科室的号尽量连续，观感更像真实门诊。
+        for (const [no, owner] of pool) {
+          if (slots.length >= ROOMS_PER_LEVEL) break;
+          if (owner !== null || slots.includes(no)) continue;
+          slots.push(no);
+          pool.set(no, d.id);
+        }
+        result[level] = slots.sort((a, b) => Number(a) - Number(b));
+      }
+      allocation[floor][d.id] = result;
+    }
   }
-  return rooms;
+  return allocation;
+}
+const roomsFor = (department, level) => {
+  if (!roomAllocation) roomAllocation = buildRoomAllocation();
+  const fixed = roomAllocation[department.floor]?.[department.id]?.[level];
+  if (fixed?.length) return fixed;
+  // 兜底：不可挂号科室 / 非数字房间号 → 只显示配置里的单一房间原文。
+  const raw = levelRoom(department, level);
+  return [isRoomNo(raw) ? raw : (raw ?? '')];
 };
+// 每个号别的诊室（含确定性初始排队人数）。数量与 roomsFor 一致，顺序也一致。
+const clinicRooms = (department, level) => roomsFor(department, level).map(no => {
+  const seed = hash32(`${department.id}|${level}|${no}`);
+  // 队列基准取 0~10，让"较空"与"较忙"都可能出现，避免全部涌向同一个色档。
+  return { no, queue: seed % 10 };
+});
 // 估算等待：按每约 6 分钟一位粗估，仅用于"哪间更空"的相对比较。
 const queueWait = queue => (queue <= 0 ? '基本无需等待' : `约 ${Math.max(1, Math.round(queue * 6 / 5)) * 5} 分钟`);
 const queueTone = queue => (queue <= 2 ? 'free' : queue <= 6 ? 'busy' : 'crowded');
@@ -732,6 +792,7 @@ function navigate() {
 window.addEventListener('hashchange', navigate);
 try {
   config = await api('/api/config');
+  roomAllocation = null; // 配置（重新）载入后重建诊室分配表，避免沿用旧数据
   renderDepartments();
   showEntry();
   $('#data-status').innerHTML = `<h2>数据版本与校验</h2><p>${escape(config.hospital.version)} · 更新于 ${escape(config.hospital.updatedAt)} · ${config.dataInfo.validation.departmentCount} 个科室 / ${config.dataInfo.validation.sourceCount} 条来源</p><p>文件：${config.dataInfo.files.map(f => '<code>' + escape(f) + '</code>').join('、')}</p><p>启动时格式校验通过。替换数据后运行 <code>npm run data:validate</code> 并重启服务。</p><p>数据指纹：<code>${escape(config.dataInfo.sha256)}</code></p><p>${config.dataInfo.validation.warnings.map(escape).join(' ')}</p>`;
