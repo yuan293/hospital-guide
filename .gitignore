@@ -6,3 +6,4 @@ evaluation-results.json
 .runtime/
 data/evaluation/runs/
 data/evaluation/*.tmp
+.ca-*.pem
