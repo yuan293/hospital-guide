@@ -1,6 +1,6 @@
 {
   "name": "hospital-guide-prototype",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -13,7 +13,9 @@
   "bugs": {
     "url": "https://github.com/yuan293/hospital-guide/issues"
   },
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node server.js",
     "test": "node --test",
@@ -29,6 +31,7 @@
     "verify:win:full": "powershell -ExecutionPolicy Bypass -File .trae/skills/hospital-guide-verify/scripts/verify-chain.ps1 -Full",
     "data:validate": "node scripts/validate-data.js",
     "coverage": "node scripts/check-coverage.mjs",
+    "suggest:synonyms": "node scripts/suggest-synonyms.mjs",
     "fhir:export": "node scripts/export-fhir-resources.js",
     "models:setup": "node scripts/setup-runtime.js",
     "models:pull": "node scripts/pull-models.js",

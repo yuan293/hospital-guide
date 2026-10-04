@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import { readFile } from 'node:fs/promises';
 import { createApp } from '../server.js';
+
+const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
 
 test('HTTP routes, input validation, emergency precedence and origin protection', async t => {
   const server = createApp();
@@ -13,7 +16,8 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   const config = await get.json();
   assert.equal(config.departments.length, 45);
   assert.equal(config.probes.length, 11);
-  assert.equal((await (await fetch(url + '/api/health')).json()).version, '0.9.3');
+  // 版本号以 package.json 为单一事实来源，避免每次发版都要手改测试
+  assert.equal((await (await fetch(url + '/api/health')).json()).version, pkg.version);
   // 不可自助挂号科室：医技辅助 5 个 + 重症医学科、放射治疗科，共 7 个
   assert.equal(config.departments.filter(d => d.bookable === false).length, 7);
   assert.ok(!config.departments.find(d => d.id === 'emergency').expertRoom);
