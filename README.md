@@ -26,7 +26,7 @@ curl -s https://api.github.com/repos/yuan293/hospital-guide
 | 入口 | 链接 |
 | --- | --- |
 | 项目仓库主页 | https://github.com/yuan293/hospital-guide |
-| 当前版本标签 | https://github.com/yuan293/hospital-guide/releases/tag/v0.9.4 |
+| 当前版本标签 | https://github.com/yuan293/hospital-guide/releases/tag/v0.9.5 |
 | 六组评测报告（含逐轮轨迹与12文件指纹） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/latest.json |
 | held-out 盲测报告（20条冻结案例） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/heldout-latest.json |
 | 对抗红队报告（24条） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/redteam-latest.json |
