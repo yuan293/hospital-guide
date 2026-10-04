@@ -53,6 +53,30 @@ body.care-mode .department-row > button{font-size:24px;min-height:48px;min-width
 .booking-option span{font-size:12px;color:var(--muted)}
 .booking-option .booking-room{font-size:13px;font-weight:600;color:#2f6f64}
 .booking-option .booking-fee{font-size:20px;font-weight:700;color:var(--teal)}
+/* 号别 × 多诊室：每间诊室一张卡片，含实时排队人数与"当前较空"标记 */
+.booking-levels{display:flex;flex-direction:column;gap:16px}
+.booking-level-section{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fbfdfc}
+.booking-level-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.booking-level-head strong{font-size:17px;color:var(--ink)}
+.booking-level-fee{font-size:17px;font-weight:700;color:var(--teal)}
+.booking-level-desc{font-size:12px;color:var(--muted);margin-left:auto}
+.booking-rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.booking-room-card{position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 14px;border:1px solid var(--line);border-radius:9px;background:#fff;text-align:left;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.booking-room-card:hover{border-color:var(--teal);background:#f0f8f8}
+.booking-room-card.is-free{border-color:#2f9e6f;background:#f0faf5;box-shadow:inset 0 0 0 1px #cdeadd}
+.booking-room-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.booking-room-no{font-size:14px;font-weight:700;color:#2f6f64}
+.booking-room-flag{font-size:11px;font-weight:600;color:#1d7a56;background:#dff3e8;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.booking-room-queue{font-size:13px;font-weight:600}
+.booking-room-queue strong{font-size:18px}
+.booking-room-queue.tone-free{color:#1d7a56}
+.booking-room-queue.tone-busy{color:#b07a17}
+.booking-room-queue.tone-crowded{color:var(--red)}
+.booking-room-wait{font-size:12px;color:var(--muted)}
+.booking-live-note{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);margin:12px 0 0}
+.booking-live-dot{width:7px;height:7px;border-radius:50%;background:#2f9e6f;flex-shrink:0;animation:booking-pulse 1.6s ease-in-out infinite}
+@keyframes booking-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+@media(prefers-reduced-motion:reduce){.booking-live-dot{animation:none}}
 .booking-pay-head h3{margin:14px 0 4px;font-size:17px}
 .booking-pay-head p{margin:0;color:var(--muted);font-size:13px}
 .booking-fee{color:var(--teal)}
@@ -72,7 +96,7 @@ body.care-mode .department-row > button{font-size:24px;min-height:48px;min-width
 .booking-facts dt{color:var(--muted);margin:0}
 .booking-facts dd{margin:0;text-align:right;font-weight:600;word-break:break-all}
 .booking-result .booking-actions{justify-content:center}
-@media(max-width:660px){.booking-options{grid-template-columns:1fr}.register-actions .button,.booking-actions .button{flex:1}}
+@media(max-width:660px){.booking-options{grid-template-columns:1fr}.booking-rooms{grid-template-columns:1fr}.register-actions .button,.booking-actions .button{flex:1}}
 body.care-mode .booking-dept h3,body.care-mode .booking-pay-head h3,body.care-mode .booking-result h3{font-size:23px}
 body.care-mode .booking-option strong{font-size:21px}
 body.care-mode .booking-option .booking-fee{font-size:27px}
@@ -80,6 +104,14 @@ body.care-mode .booking-ask,body.care-mode .booking-countdown-line{font-size:20p
 body.care-mode .booking-option span{font-size:16px}
 body.care-mode .booking-option .booking-room{font-size:17px}
 body.care-mode .booking-option{min-height:88px}
+body.care-mode .booking-level-head strong{font-size:22px}
+body.care-mode .booking-level-fee{font-size:22px}
+body.care-mode .booking-room-card{min-height:78px}
+body.care-mode .booking-room-no{font-size:18px}
+body.care-mode .booking-room-queue{font-size:17px}
+body.care-mode .booking-room-queue strong{font-size:24px}
+body.care-mode .booking-room-wait{font-size:16px}
+body.care-mode .booking-live-note{font-size:16px}
 body.care-mode .booking-pay-amount{font-size:43px}
 body.care-mode .booking-facts div{font-size:18px}
 

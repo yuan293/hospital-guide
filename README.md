@@ -1,4 +1,4 @@
-# 诊途 0.9.5
+# 诊途 0.9.6
 
 [![CI](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml/badge.svg)](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml)
 
@@ -26,7 +26,7 @@ curl -s https://api.github.com/repos/yuan293/hospital-guide
 | 入口 | 链接 |
 | --- | --- |
 | 项目仓库主页 | https://github.com/yuan293/hospital-guide |
-| 当前版本标签 | https://github.com/yuan293/hospital-guide/releases/tag/v0.9.5 |
+| 当前版本标签 | https://github.com/yuan293/hospital-guide/releases/tag/v0.9.6 |
 | 六组评测报告（含逐轮轨迹与12文件指纹） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/latest.json |
 | held-out 盲测报告（20条冻结案例） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/heldout-latest.json |
 | 对抗红队报告（24条） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/redteam-latest.json |
@@ -118,7 +118,7 @@ npm run verify:full    # 快速链 ＋ 四组带模型评测（共6组）＋ 双
 
 本机运行的医院挂号与导诊工程原型。首页给患者两个入口：**直接挂号**（自己知道挂哪个科，选科室看位置与就诊提示）与**不确定挂哪科**（描述不适，系统给出科室方向）。导诊流程包含安全确认、多轮补充信息、风险分流、科室匹配、依据展示、科室目录、摘要下载和可选的 Ollama 症状标准化。
 
-**当前版本 0.9.5 的核心状态：**
+**当前版本 0.9.6 的核心状态：**
 
 - **科室与词表**：45 个科室、八大类，症状词表 382+ 词；7 个医技科室（放射/检验/药剂等）标注「医生开单/转诊」，不进导诊推荐。
 - **导诊链路**：安全确认（红旗征）→ 多轮信息增益追问 → 科室匹配 → 依据展示 → 可选弃权转人工；全程不诊断、不开药。
@@ -138,10 +138,11 @@ npm run verify:full    # 快速链 ＋ 四组带模型评测（共6组）＋ 双
   避免把"我没有胸痛""说不清哪难受"当成缺口）。**工具只提出候选，绝不改文件**；是否登记由人决定。
   可选用 `HOSPITAL_GUIDE_COLLECT_UNMATCHED=1` 开启未命中采集（默认关闭，只记主诉原文、不记 IP/UA）。
 
-**版本沿革**：完整变更记录见 [CHANGELOG.md](CHANGELOG.md)（含 0.2 → 0.9.5 全部版本）。近几个版本的关键跃迁：
+**版本沿革**：完整变更记录见 [CHANGELOG.md](CHANGELOG.md)（含 0.2 → 0.9.6 全部版本）。近几个版本的关键跃迁：
 
 | 版本 | 关键跃迁 |
 | --- | --- |
+| **0.9.6** | 挂号弹窗的「选择号别」升级为**多诊室并行 + 实时排队**：同一号别确定性派生 2~3 间诊室，各显示"**N 人排队**"与粗估等待时长、按拥挤度着色，队列最小的那间自动标"**当前较空**"；患者可选到**具体某一间**，支付与成功页回显该诊室。纯展示层改动，规则/词表/数据/指纹**零变化**（单测 87/87、rules 125/125、dynamic 129/129 与 0.9.5 一致）。排队人数为前端模拟，不产生真实叫号。 |
 | **0.9.5** | 新增**同义表盲区发现**工具（`npm run suggest:synonyms`）与**未命中采集**旁路：给"口语词表该扩什么"提供系统性来源，替代原先的"人肉想"。工具带三重守卫（否定/未然/病史、部位前缀、安全路径锚点排除），只输出候选、绝不改文件，且**不消费 held-out**（避免过拟合）、**不进 verify 链**（发现与验证分离）。**导诊行为零变化**：rules 125/125、dynamic 129/129 与 0.9.4 完全一致（仅 `p95Ms` 计时噪声），单测 87/87（详见 CHANGELOG）。 |
 | **0.9.4** | 修复**三个可自助挂号科室在代码层不可达**的缺陷：儿童分流原 `age==='child'` 无条件返回小儿内科，使小儿外科／儿童保健科成为死路由（改为儿科组内症状选优，向后兼容）；未满 1 岁原无条件转人工，使新生儿科永不可达（改为命中新生儿特异主诉才放行，排序在安全闸门之后）。补齐口语词表与 13 条用例（137 → 150），新增**科室覆盖率 fail-closed 门禁**（导诊科室 35/35）与**跨平台 Node 版 verify 链**。rules 125/125、dynamic 129/129、红队 24/24（详见 CHANGELOG）。 |
 | **0.9.3** | 年龄段展示改为**官方年龄分期**（9 档：新生儿／婴儿／幼儿／学龄前／学龄期／青少年／青年／中年／老年）：成人自拟分界 18–40／41–64／65+ 改为 18–44（青年）／45–59（中年）／60+（老年），婴儿细分为新生儿与婴儿。提交给引擎的仍是 child／adult／infant 三档，**导诊行为零变化**；适老化触发档由 65+ 改为 60+（详见 CHANGELOG）。 |

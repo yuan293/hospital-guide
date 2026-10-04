@@ -118,7 +118,53 @@ const roomsText = department => (department.expertRoom
   ? `普通号 ${department.room} 诊室 · 专家号 ${department.expertRoom} 诊室`
   : (isRoomNo(department.room) ? `${department.room} 诊室` : department.room));
 const locationText = department => `${floorZh(department.floor)} · ${department.zone} 区`;
-const bookingLocation = (department, level) => `${floorZh(department.floor)} · ${roomText(department, level)} · ${department.zone} 区`;
+
+// ---- 诊室分间与实时排队（纯前端演示层） ----
+// 门诊同一号别通常有多间诊室并行叫号。原型没有真实号源，这里按基础诊室号
+// 确定性派生出 2~3 间同号别诊室，并模拟一个会随时间小幅波动的排队人数，
+// 让患者能直观看到"哪间更空"。全部为虚构演示，不产生真实叫号。
+// 设计要点：
+//   1. 派生是确定性的（同一科室每次打开看到同样的房间与初始队列），避免刷新后跳变；
+//   2. 派生房间号严格沿用基础诊室号的楼层前缀，因此"3 楼 303"派生出的仍是 3 楼；
+//   3. 排队人数只在【选择号别】弹窗打开时推进，关窗即停，不做无谓的定时器。
+const hash32 = str => {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i += 1) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+};
+// 由基础诊室号派生同号别的多间诊室：数量 2~3，房间号保持"同楼层、相邻奇数/偶数"的观感。
+const clinicRooms = (department, level) => {
+  const base = String(levelRoom(department, level) ?? '');
+  // 非纯数字（如"急诊入口"）不派生，直接作为唯一诊室。
+  if (!isRoomNo(base)) return [{ no: base, queue: 0, single: true }];
+  const seed = hash32(`${department.id}|${level}`);
+  const count = 2 + (seed % 2); // 2 或 3 间
+  const rooms = [];
+  for (let i = 0; i < count; i += 1) {
+    const no = String(Number(base) + i * 2); // 相邻同奇偶，观感统一
+    // 队列基准取 0~10，让"较空"与"较忙"都可能出现，避免全部涌向同一个色档。
+    rooms.push({ no, queue: (hash32(`${no}|${level}`) % 10) + ((seed >>> 3) % 2) });
+  }
+  return rooms;
+};
+// 估算等待：按每约 6 分钟一位粗估，仅用于"哪间更空"的相对比较。
+const queueWait = queue => (queue <= 0 ? '基本无需等待' : `约 ${Math.max(1, Math.round(queue * 6 / 5)) * 5} 分钟`);
+const queueTone = queue => (queue <= 2 ? 'free' : queue <= 6 ? 'busy' : 'crowded');
+let bookingTicker = null;
+function clearBookingTicker() {
+  if (bookingTicker !== null) { clearInterval(bookingTicker); bookingTicker = null; }
+}
+// 一步时间演进：每间诊室 ±1 的小幅波动，钳制在 [0, 15]，避免出现不合理的巨量排队。
+function tickClinicQueues() {
+  if (!booking?.rooms) return;
+  for (const level of ['general', 'expert']) {
+    for (const room of booking.rooms[level] ?? []) {
+      const drift = Math.random();
+      if (drift < 0.34) room.queue = Math.max(0, room.queue - 1);
+      else if (drift > 0.62) room.queue = Math.min(15, room.queue + 1);
+    }
+  }
+}
 
 // 大类顺序按门诊大厅常见导视排列。
 const REGISTER_GROUPS = ['内科', '外科', '妇产与生殖', '儿科', '专科与五官', '急重症与肿瘤', '精神康复与中医', '医技辅助'];
@@ -469,7 +515,7 @@ function bookingMockOrderNo() {
   return `HG${tail}${rand}（模拟单号）`;
 }
 function openBooking(department) {
-  booking = { department, level: null, remain: BOOKING_COUNTDOWN, orderNo: null };
+  booking = { department, level: null, roomNo: null, rooms: null, remain: BOOKING_COUNTDOWN, orderNo: null };
   $('#booking-dialog').showModal();
   renderBookingConfirm();
 }
@@ -478,42 +524,100 @@ function bookingMockBanner() {
 }
 function renderBookingConfirm() {
   clearBookingTimer();
+  clearBookingTicker();
   const d = booking.department;
+  booking.level = null; booking.roomNo = null; booking.rooms = null;
   $('#booking-title').textContent = '确认挂号科室';
   $('#booking-body').innerHTML = `${bookingMockBanner()}
-    <div class="booking-dept"><h3>${escape(d.name)}</h3><p>该科室位于 <strong>${escape(floorZh(d.floor))} · ${escape(d.zone)} 区</strong></p><p class="booking-ask">普通号与专家号在该楼层的不同诊室；下一步选择号别后显示对应诊室。是否确认挂该科室的号？</p></div>
+    <div class="booking-dept"><h3>${escape(d.name)}</h3><p>该科室位于 <strong>${escape(floorZh(d.floor))} · ${escape(d.zone)} 区</strong></p><p class="booking-ask">该科室的普通号与专家号通常各有 2~3 间诊室并行叫号；下一步可查看各诊室<strong>实时排队人数</strong>并挑选较空的一间。是否确认挂该科室的号？</p></div>
     <div class="booking-actions"><button type="button" class="button secondary" id="booking-confirm-no">再想想</button><button type="button" class="button primary" id="booking-confirm-yes">下一步：选择号别</button></div>`;
   $('#booking-confirm-no').onclick = () => $('#booking-dialog').close();
   $('#booking-confirm-yes').onclick = renderBookingLevel;
 }
+// 单间诊室的卡片：房间号 + 实时排队人数 + 估算等待 + "当前较空"标记。
+function bookingRoomHtml(department, level, room, freestNo) {
+  const isFree = room.single ? false : room.no === freestNo;
+  const wait = room.single ? '' : `<span class="booking-room-wait">${escape(queueWait(room.queue))}</span>`;
+  const badge = room.single ? '' : `<span class="booking-room-queue tone-${queueTone(room.queue)}"><strong>${room.queue}</strong> 人排队</span>`;
+  return `<button type="button" class="booking-room-card${isFree ? ' is-free' : ''}" data-level="${level}" data-room="${escape(room.no)}"${room.single ? ' data-single="1"' : ''}>
+    <span class="booking-room-head"><span class="booking-room-no">${escape(floorZh(department.floor))} · ${escape(isRoomNo(room.no) ? room.no + ' 诊室' : room.no)}</span>${isFree ? '<span class="booking-room-flag">当前较空</span>' : ''}</span>
+    ${badge}${wait}
+  </button>`;
+}
 function renderBookingLevel() {
   clearBookingTimer();
-  $('#booking-title').textContent = '选择号别';
+  clearBookingTicker();
   const d0 = booking.department;
+  // 首次进入时确定性地派生各号别的诊室集合，之后所有重渲染复用同一份（队列随时间演进）。
+  if (!booking.rooms) booking.rooms = { general: clinicRooms(d0, 'general'), expert: clinicRooms(d0, 'expert') };
+  const sections = ['general', 'expert'].map(level => {
+    const meta = BOOKING_LEVELS[level];
+    const rooms = booking.rooms[level];
+    const freestNo = rooms.length > 1 ? rooms.reduce((a, b) => (b.queue < a.queue ? b : a)).no : null;
+    return `<section class="booking-level-section">
+      <div class="booking-level-head"><strong>${escape(meta.label)}</strong><span class="booking-level-fee">¥${meta.fee}</span><span class="booking-level-desc">${escape(meta.desc)}</span></div>
+      <div class="booking-rooms">${rooms.map(room => bookingRoomHtml(d0, level, room, freestNo)).join('')}</div>
+    </section>`;
+  }).join('');
+  $('#booking-title').textContent = '选择号别与诊室';
   $('#booking-body').innerHTML = `${bookingMockBanner()}
-    <p class="booking-ask">${escape(d0.name)}位于 ${escape(floorZh(d0.floor))}，请选择本次要挂的号别（诊室不同）：</p>
-    <div class="booking-options">
-      <button type="button" class="booking-option" data-level="general"><strong>普通号</strong><span class="booking-room">${escape(floorZh(d0.floor))} · ${escape(roomText(d0, 'general'))}</span><span>${escape(BOOKING_LEVELS.general.desc)}</span><span class="booking-fee">¥${BOOKING_LEVELS.general.fee}</span></button>
-      <button type="button" class="booking-option" data-level="expert"><strong>专家号</strong><span class="booking-room">${escape(floorZh(d0.floor))} · ${escape(roomText(d0, 'expert'))}</span><span>${escape(BOOKING_LEVELS.expert.desc)}</span><span class="booking-fee">¥${BOOKING_LEVELS.expert.fee}</span></button>
-    </div>
+    <p class="booking-ask">${escape(d0.name)}位于 ${escape(floorZh(d0.floor))} · ${escape(d0.zone)} 区。同一号别有多间诊室并行叫号，<strong>排队人数实时更新</strong>，可优先选择人少的诊室：</p>
+    <div class="booking-levels">${sections}</div>
+    <p class="booking-live-note"><span class="booking-live-dot" aria-hidden="true"></span>排队人数为模拟演示数据，每几秒刷新一次。</p>
     <div class="booking-actions"><button type="button" class="button secondary" id="booking-level-back">返回上一步</button></div>`;
-  $$('#booking-body .booking-option').forEach(button => {
-    button.onclick = () => { booking.level = button.dataset.level; renderBookingPayment(); };
+  $$('#booking-body .booking-room-card').forEach(button => {
+    button.onclick = () => { booking.level = button.dataset.level; booking.roomNo = button.dataset.room; renderBookingPayment(); };
   });
   $('#booking-level-back').onclick = renderBookingConfirm;
+  // 打开期间持续演进队列；只重绘数值与"较空"标记，不重建整块 DOM（避免打断点击）。
+  bookingTicker = setInterval(() => {
+    tickClinicQueues();
+    repaintBookingQueues();
+  }, 4000);
+}
+// 轻量重绘：只更新每张卡片的排队数与"当前较空"归属，保持已渲染结构不变。
+function repaintBookingQueues() {
+  if (!booking?.rooms || !$('#booking-body')) return;
+  for (const level of ['general', 'expert']) {
+    const rooms = booking.rooms[level] ?? [];
+    if (!rooms.length) continue;
+    const freestNo = rooms.length > 1 ? rooms.reduce((a, b) => (b.queue < a.queue ? b : a)).no : null;
+    $$(`#booking-body .booking-room-card[data-level="${level}"]`).forEach(card => {
+      const room = rooms.find(r => r.no === card.dataset.room);
+      if (!room || room.single) return;
+      const badge = card.querySelector('.booking-room-queue');
+      if (badge) { badge.className = `booking-room-queue tone-${queueTone(room.queue)}`; badge.innerHTML = `<strong>${room.queue}</strong> 人排队`; }
+      const wait = card.querySelector('.booking-room-wait');
+      if (wait) wait.textContent = queueWait(room.queue);
+      card.classList.toggle('is-free', room.no === freestNo);
+      const flag = card.querySelector('.booking-room-flag');
+      if (room.no === freestNo && !flag) {
+        const head = card.querySelector('.booking-room-head');
+        if (head) head.insertAdjacentHTML('beforeend', '<span class="booking-room-flag">当前较空</span>');
+      } else if (room.no !== freestNo && flag) flag.remove();
+    });
+  }
+}
+function bookingChosenLocation() {
+  const d = booking.department;
+  const no = booking.roomNo;
+  const room = no ? (isRoomNo(no) ? `${no} 诊室` : no) : roomText(d, booking.level);
+  return `${floorZh(d.floor)} · ${room} · ${d.zone} 区`;
 }
 function renderBookingPayment() {
+  clearBookingTicker();
   const d = booking.department;
   const level = BOOKING_LEVELS[booking.level];
   booking.remain = BOOKING_COUNTDOWN;
   $('#booking-title').textContent = '模拟支付';
   $('#booking-body').innerHTML = `${bookingMockBanner()}
-    <div class="booking-pay-head"><h3>${escape(d.name)} · ${escape(level.label)}</h3><p>就诊诊室：<strong>${escape(bookingLocation(d, booking.level))}</strong></p><p>应付诊查费（模拟）：<strong class="booking-fee">¥${level.fee}</strong></p></div>
+    <div class="booking-pay-head"><h3>${escape(d.name)} · ${escape(level.label)}</h3><p>就诊诊室：<strong>${escape(bookingChosenLocation())}</strong></p><p>应付诊查费（模拟）：<strong class="booking-fee">¥${level.fee}</strong></p></div>
     <div class="booking-pay-box"><div class="booking-pay-amount">¥${level.fee}</div><p>模拟支付通道，不会产生真实扣费</p><p class="booking-countdown-line">请在 <strong id="booking-countdown">${BOOKING_COUNTDOWN}</strong> 秒内完成支付，超时需重新挂号</p></div>
-    <div class="booking-actions"><button type="button" class="button secondary" id="booking-unpaid">未付款</button><button type="button" class="button primary" id="booking-paid">我已付款成功</button></div>`;
+    <div class="booking-actions"><button type="button" class="button secondary" id="booking-unpaid">未付款</button><button type="button" class="button secondary" id="booking-pay-back">换一间诊室</button><button type="button" class="button primary" id="booking-paid">我已付款成功</button></div>`;
   const countdown = $('#booking-countdown');
   $('#booking-paid').onclick = () => { booking.orderNo = bookingMockOrderNo(); renderBookingSuccess(); };
   $('#booking-unpaid').onclick = renderBookingCancelled;
+  $('#booking-pay-back').onclick = renderBookingLevel;
   clearBookingTimer();
   bookingTimer = setInterval(() => {
     booking.remain -= 1;
@@ -523,13 +627,14 @@ function renderBookingPayment() {
 }
 function renderBookingSuccess() {
   clearBookingTimer();
+  clearBookingTicker();
   const d = booking.department;
   const level = BOOKING_LEVELS[booking.level];
   $('#booking-title').textContent = '挂号成功';
   $('#booking-body').innerHTML = `<div class="booking-result booking-ok"><div class="booking-result-icon" aria-hidden="true">✓</div><h3>模拟挂号成功</h3>
     <dl class="booking-facts">
       <div><dt>就诊科室</dt><dd>${escape(d.name)}</dd></div>
-      <div><dt>就诊位置</dt><dd>${escape(bookingLocation(d, booking.level))}</dd></div>
+      <div><dt>就诊位置</dt><dd>${escape(bookingChosenLocation())}</dd></div>
       <div><dt>号别</dt><dd>${escape(level.label)}</dd></div>
       <div><dt>诊查费</dt><dd>¥${level.fee}（模拟）</dd></div>
       <div><dt>挂号单号</dt><dd>${escape(booking.orderNo)}</dd></div>
@@ -556,7 +661,7 @@ function renderBookingCancelled() {
   $('#booking-cancel-retry').onclick = renderBookingConfirm;
 }
 $('#booking-close').onclick = () => $('#booking-dialog').close();
-$('#booking-dialog').addEventListener('close', clearBookingTimer);
+$('#booking-dialog').addEventListener('close', () => { clearBookingTimer(); clearBookingTicker(); });
 $('#reset').onclick = reset; $('#new-session').onclick = reset;
 $('#download').onclick = () => {
   if (!result || result.status === 'question') return;

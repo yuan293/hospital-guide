@@ -7,3 +7,6 @@ evaluation-results.json
 data/evaluation/runs/
 data/evaluation/*.tmp
 .ca-*.pem
+
+# 挂号界面静态预览（由 dev 脚本生成，不入库）
+booking-preview.html
