@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "hospital-guide-synthetic-v1",
-  "version": "2026-10-03.2",
+  "version": "2026-10-04.1",
   "createdAt": "2026-09-25",
-  "provenance": "AI辅助编写的合成工程案例，标签来自演示流程设计；非患者数据、非医生标注、非独立盲测。 2026-10-03：新增 HG-123~HG-130 共 8 条，锁定词表扩充（脚气/脚痒、耳朵嗡嗡响、便秘、脱发、打呼噜、看东西模糊、痔疮）带来的规则层新命中能力。",
+  "provenance": "AI辅助编写的合成工程案例，标签来自演示流程设计；非患者数据、非医生标注、非独立盲测。 2026-10-03：新增 HG-123~HG-130 共 8 条，锁定词表扩充（脚气/脚痒、耳朵嗡嗡响、便秘、脱发、打呼噜、看东西模糊、痔疮）带来的规则层新命中能力。 2026-10-04：新增 HG-139~HG-151 共 13 条，覆盖此前从未被评估的小儿外科／儿童保健科／新生儿科／老年医学科／神经外科，并锁定「多科室平局转人工」与「全科医学科不做自动推荐」两条安全行为。",
   "reviewStatus": "engineering-only",
   "limitations": [
     "regression 为已知行为回归；challenge 为本轮扩展压力案例，均对开发者可见。",
@@ -2889,6 +2889,256 @@
         "department": null
       },
       "labelNote": "否定形态不得被算成现症（形态护栏）；仅在一次判定组校验（交互组会按设计先追问部位）",
+      "modes": [
+        "rules"
+      ]
+    },
+    {
+      "id": "HG-139",
+      "suite": "challenge",
+      "category": "年龄与约束",
+      "input": {
+        "chief": "3岁男孩，大腿根鼓起来一个包",
+        "answers": {
+          "risk": "no",
+          "age": "child",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "pedsurgery"
+      },
+      "labelNote": "小儿外科口语（部位+鼓包）；修复 age===child 硬短路后新增的可达科室"
+    },
+    {
+      "id": "HG-140",
+      "suite": "challenge",
+      "category": "年龄与约束",
+      "input": {
+        "chief": "5岁孩子包茎，想看看要不要做手术",
+        "answers": {
+          "risk": "no",
+          "age": "child",
+          "duration": "long",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "pedsurgery"
+      },
+      "labelNote": "小儿外科字面词"
+    },
+    {
+      "id": "HG-141",
+      "suite": "challenge",
+      "category": "年龄与约束",
+      "input": {
+        "chief": "7岁孩子比同龄人矮很多，想查生长发育",
+        "answers": {
+          "risk": "no",
+          "age": "child",
+          "duration": "long",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "childhealth"
+      },
+      "labelNote": "儿童保健科口语（比同龄人矮）；修复硬短路后新增的可达科室"
+    },
+    {
+      "id": "HG-142",
+      "suite": "challenge",
+      "category": "年龄与约束",
+      "input": {
+        "chief": "8岁女孩乳房开始发育，担心性早熟",
+        "answers": {
+          "risk": "no",
+          "age": "child",
+          "duration": "long",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "childhealth"
+      },
+      "labelNote": "儿童保健科性早熟口语"
+    },
+    {
+      "id": "HG-143",
+      "suite": "challenge",
+      "category": "年龄与约束",
+      "input": {
+        "chief": "出生十天的宝宝黄疸一直没退",
+        "answers": {
+          "risk": "no",
+          "age": "infant",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "neonatology"
+      },
+      "labelNote": "新生儿科高置信主诉；infant 默认转人工，仅命中新生儿特异词时放行"
+    },
+    {
+      "id": "HG-144",
+      "suite": "challenge",
+      "category": "年龄与约束",
+      "input": {
+        "chief": "早产儿出院后想复查",
+        "answers": {
+          "risk": "no",
+          "age": "infant",
+          "duration": "long",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "neonatology"
+      },
+      "labelNote": "新生儿随访类主诉"
+    },
+    {
+      "id": "HG-145",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "老人同时吃很多种药，想做老年综合评估",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "long",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "geriatrics"
+      },
+      "labelNote": "老年医学科口语（多种用药/综合评估）"
+    },
+    {
+      "id": "HG-146",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "老人最近一年没力气，走路变慢，容易跌倒",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "long",
+          "severity": "moderate"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "geriatrics"
+      },
+      "labelNote": "老年衰弱口语"
+    },
+    {
+      "id": "HG-147",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "摔倒磕到头后一直头痛",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "short",
+          "severity": "moderate"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "neurosurgery"
+      },
+      "labelNote": "神经外科口语（头部外伤）；头痛与神外证据并存时神外分值更高"
+    },
+    {
+      "id": "HG-148",
+      "suite": "challenge",
+      "category": "普通症状",
+      "input": {
+        "chief": "脑出血",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "recommendation",
+        "department": "neurosurgery"
+      },
+      "labelNote": "神经外科字面词"
+    },
+    {
+      "id": "HG-149",
+      "suite": "challenge",
+      "category": "多科室",
+      "input": {
+        "chief": "高血压糖尿病冠心病，同时吃很多种药",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "long",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "human",
+        "department": null
+      },
+      "labelNote": "多慢病并存命中多个内科科室→平局转人工，是刻意保留的安全行为，不是失败"
+    },
+    {
+      "id": "HG-150",
+      "suite": "challenge",
+      "category": "多科室",
+      "input": {
+        "chief": "查出脑肿瘤",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "long",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "human",
+        "department": null
+      },
+      "labelNote": "脑肿瘤命中神外与肿瘤科→平局转人工（肿瘤患者未必属神外），安全行为"
+    },
+    {
+      "id": "HG-151",
+      "suite": "challenge",
+      "category": "信息不足",
+      "input": {
+        "chief": "说不清哪里不舒服，不知道挂哪科",
+        "answers": {
+          "risk": "no",
+          "age": "adult",
+          "duration": "days",
+          "severity": "mild"
+        }
+      },
+      "expected": {
+        "status": "human",
+        "department": null
+      },
+      "labelNote": "全科医学科为系统兜底科室，不参与自动推荐（见 data/README 保留 general 系统 ID）；交互模式会先追问部位",
       "modes": [
         "rules"
       ]

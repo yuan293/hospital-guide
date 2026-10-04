@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "note": "诊途 · 科室评估覆盖率声明表。未达到用例下限的科室必须在此显式处置，否则 scripts/check-coverage.mjs 门禁失败。nonGuidanceTargets 的豁免必须与数据机制一致（hospital.json 中 bookable:false，或数据规范保留的系统科室），不允许口头豁免。",
+  "minCasesPerGuidanceDepartment": 1,
+  "nonGuidanceTargets": [
+    "icu",
+    "radiotherapy",
+    "radiology",
+    "ultrasound",
+    "nuclear",
+    "lab",
+    "pharmacy"
+  ],
+  "_nonGuidanceRationale": "以上 7 个科室在 hospital.json 中带 bookable:false（不可自助挂号：重症监护、放疗、影像检查、检验、取药），属流程节点，不参与分诊评分，故不设评估用例。该豁免由脚本反向校验：若某科室并非 bookable:false 却被声明豁免，门禁失败。",
+  "pendingCases": [],
+  "_pendingCasesRationale": "可自助挂号但尚无评估用例的科室。登记在此会持续产生门禁失败作为可见待办；当前为空——原缺口 geriatrics/general/neurosurgery/pedsurgery/neonatology/childhealth 中，5 个已由 HG-139~HG-148 补齐用例，general 属数据规范保留的系统兜底科室（见 data/README「保留 emergency、pediatrics、general 系统科室 ID」）并以 HG-151 锁定其不自动推荐的行为。",
+  "systemDepartments": [
+    "emergency",
+    "pediatrics",
+    "general"
+  ],
+  "_systemDepartmentsRationale": "数据规范保留的系统兜底科室（见 data/README：保留 emergency、pediatrics、general 系统科室 ID）。emergency 由急症闸门处置、pediatrics 由儿童分流处置，均不作为「按症状评分推荐」的科室；general 为现场导诊人员兜底，HG-151 锁定其不被自动推荐。因此三者不计入「被推荐覆盖」口径。"
+}

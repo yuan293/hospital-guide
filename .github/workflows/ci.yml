@@ -17,6 +17,8 @@ jobs:
         run: npm test
       - name: 数据 fail-closed 校验
         run: npm run data:validate
+      - name: 科室评估覆盖率门禁
+        run: npm run coverage
       - name: 免模型评测（rules + dynamic）
         run: npm run evaluate
       - name: 红队规则层安全断言
