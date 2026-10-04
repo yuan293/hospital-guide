@@ -61,6 +61,9 @@ const steps = [
   { name: '数据 fail-closed 校验', run: () => npmRun(['run', 'data:validate']) },
   { name: '科室评估覆盖率门禁', run: () => npmRun(['run', 'coverage']) },
   { name: '无模型评测（rules + dynamic）', run: () => npmRun(['run', 'evaluate']), gate: true },
+  // 放在 evaluate 之后：本步读的是 evaluate 刚写出的 latest.json，
+  // 用来拦住「代码先跑、README 基线数字掉队」的文档漂移。
+  { name: 'README 基线数字一致性门禁', run: () => npmRun(['run', 'doc:drift']) },
 ];
 if (FULL) {
   steps.push({ name: '双模型全量评测（7B + 1.5B，约数分钟）', run: () => npmRun(['run', 'evaluate:models']), gate: true });

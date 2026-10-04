@@ -21,6 +21,8 @@ jobs:
         run: npm run coverage
       - name: 免模型评测（rules + dynamic）
         run: npm run evaluate
+      - name: README 基线数字一致性门禁
+        run: npm run doc:drift
       - name: 红队规则层安全断言
         run: npm run redteam
       - name: failedIds 白名单门禁
