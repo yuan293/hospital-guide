@@ -1,4 +1,6 @@
-# 诊途 0.9.9
+# 诊途：开源规则与开源大模型双擎导诊助手
+
+> 开源导诊原型 · v0.9.9
 
 [![CI](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml/badge.svg)](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml)
 
