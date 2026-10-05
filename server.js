@@ -7,8 +7,13 @@ import { runTriage } from './lib/flow.js';
 import { modelStatus } from './lib/model.js';
 import { readEvaluation } from './lib/evaluation-store.js';
 import { ensureOllama } from './lib/runtime.js';
+import { buildPanorama } from './lib/panorama.js';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
+// 应用版本以 package.json 为唯一事实来源，避免多处手写漂移（历史上 /api/health、
+// 启动日志、设置页各写一份，扩版本时常漏改其中一处）。读一次缓存即可。
+const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
+const APP_VERSION = pkg.version;
 const staticFiles = new Map([['/', ['index.html', 'text/html; charset=utf-8']], ['/app.js', ['app.js', 'text/javascript; charset=utf-8']], ['/style.css', ['style.css', 'text/css; charset=utf-8']], ['/assets/campus.png', ['assets/campus.png', 'image/png']], ['/favicon.svg', ['favicon.svg', 'image/svg+xml']]]);
 const security = {
   'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer',
@@ -17,6 +22,8 @@ const security = {
 };
 staticFiles.set('/evaluation.js', ['evaluation.js', 'text/javascript; charset=utf-8']);
 staticFiles.set('/evaluation.css', ['evaluation.css', 'text/css; charset=utf-8']);
+staticFiles.set('/panorama.js', ['panorama.js', 'text/javascript; charset=utf-8']);
+staticFiles.set('/panorama.css', ['panorama.css', 'text/css; charset=utf-8']);
 staticFiles.set('/flow.css', ['flow.css', 'text/css; charset=utf-8']);
 function json(res, status, value) { res.writeHead(status, { ...security, 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(value)); }
 async function body(req, limit = 8192) {
@@ -36,9 +43,10 @@ export function createApp() {
       if (!/^(?:127\.0\.0\.1|localhost|\[::1\])(?::\d+)?$/.test(host)) return json(res, 403, { error: '仅允许本机访问。' });
       if (req.headers.origin && req.headers.origin !== `http://${host}`) return json(res, 403, { error: '不允许跨站请求。' });
       const route = new URL(req.url, `http://${host}`).pathname;
-      if (req.method === 'GET' && route === '/api/config') return json(res, 200, { hospital, departments, probes, questionnaire, sources, dataInfo });
+      if (req.method === 'GET' && route === '/api/config') return json(res, 200, { appVersion: APP_VERSION, hospital, departments, probes, questionnaire, sources, dataInfo });
       if (req.method === 'GET' && route === '/api/evaluation') return json(res, 200, await readEvaluation());
-      if (req.method === 'GET' && route === '/api/health') return json(res, 200, { version: '0.9.8', status: 'ok', pid: process.pid, privacy: '本应用不保存导诊会话，不发送到云端。', ollama: await modelStatus() });
+      if (req.method === 'GET' && route === '/api/panorama') return json(res, 200, buildPanorama());
+      if (req.method === 'GET' && route === '/api/health') return json(res, 200, { version: APP_VERSION, status: 'ok', pid: process.pid, privacy: '本应用不保存导诊会话，不发送到云端。', ollama: await modelStatus() });
       if (req.method === 'POST' && route === '/api/triage') {
         if (!req.headers['content-type']?.startsWith('application/json')) return json(res, 415, { error: '需要JSON请求。' });
         const result = await runTriage(await body(req));
@@ -61,7 +69,7 @@ export function start(port = Number(process.env.PORT || 3210)) {
     if (error.code === 'EADDRINUSE' && port < 65530) { server.close(); start(port + 1); }
     else { console.error(error.message); process.exitCode = 1; }
   });
-  server.listen(port, '127.0.0.1', () => console.log(`Hospital Guide v0.9.8\nOpen: http://127.0.0.1:${port}\nDemo only. Ctrl+C to stop.`));
+  server.listen(port, '127.0.0.1', () => console.log(`Hospital Guide v${APP_VERSION}\nOpen: http://127.0.0.1:${port}\nDemo only. Ctrl+C to stop.`));
   return server;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

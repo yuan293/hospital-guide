@@ -1,0 +1,29 @@
+/* 词表与路由全景页样式（0.9.9 新增）。仅展示层，不改变任何导诊规则、数据与评测结果。 */
+.pn-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:22px 0}
+.pn-stat{display:flex;flex-direction:column;gap:3px;padding:16px;border:1px solid var(--line);border-radius:8px;background:#fbfdfc}
+.pn-stat strong{font-size:26px;font-weight:700;color:var(--teal);line-height:1.1}
+.pn-stat span{font-size:12px;color:var(--ink);font-weight:600}
+.pn-stat small{font-size:11px;color:var(--muted)}
+.pn-section{margin:30px 0}
+.pn-section h2{font-size:17px;margin:0 0 8px;color:var(--ink)}
+.pn-section h3{font-size:14px;margin:0 0 6px;color:var(--ink)}
+.pn-lead{font-size:12px;line-height:1.9;color:var(--muted);margin:0 0 14px;overflow-wrap:anywhere}
+.pn-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:6px}
+.pn-table{width:100%;border-collapse:collapse;background:#fff;font-size:12px;white-space:nowrap}
+.pn-table caption{text-align:left;padding:14px 16px;color:var(--muted);white-space:normal}
+.pn-table th,.pn-table td{padding:11px 15px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.pn-table thead th{background:#eef6f1;color:#397663;font-weight:600}
+.pn-table tbody tr:nth-child(even){background:#f8fbf9}
+.pn-table code{background:#f1f5f3;border-radius:3px;padding:1px 5px;font-size:11px;color:#31554b}
+.pn-dist{color:var(--muted)}
+.pn-ok{color:#367553;font-weight:600}
+.pn-gap{color:#9b602f;font-weight:600}
+.pn-muted{color:var(--muted)}
+.pn-thin{border-radius:3px;padding:2px 6px;margin-left:6px;font-size:11px;background:#fff1e6;color:#9b602f}
+.pn-row-thin td{background:#fffaf5}
+.pn-row-warn td{background:#fff6f4}
+.pn-constrained{background:#eef2ff!important;color:#3b4f9b!important}
+.pn-pathway{border:1px solid var(--line);border-radius:8px;padding:15px 17px;margin-bottom:12px;background:#fbfdfc}
+.pn-anchors{margin:0;font-size:12px;line-height:1.9;color:#617d6b}
+.pn-overlap{margin:8px 0 0;font-size:12px;line-height:1.9;color:#9b602f}
+@media(max-width:660px){.pn-stats{grid-template-columns:repeat(2,1fr)}.pn-table th,.pn-table td{padding:10px 11px}}

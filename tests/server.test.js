@@ -63,6 +63,28 @@ test('HTTP routes, input validation, emergency precedence and origin protection'
   assert.equal((await fetch(url + '/lib/triage.js')).status, 404);
   assert.equal((await fetch(url + '/evaluation.js')).status, 200);
   assert.equal((await fetch(url + '/evaluation.css')).status, 200);
+  assert.equal((await fetch(url + '/panorama.js')).status, 200);
+  assert.equal((await fetch(url + '/panorama.css')).status, 200);
+  // 词表与路由全景：只读盘点，覆盖数与科室/探针数据同源
+  const panorama = await fetch(url + '/api/panorama');
+  assert.equal(panorama.status, 200);
+  const pn = await panorama.json();
+  assert.equal(pn.stats.departments, 45);
+  assert.equal(pn.departments.reduce((n, d) => n + d.keywordCount, 0), 406);
+  assert.equal(pn.synonyms.groups.length, 47);
+  assert.equal(pn.location.options.length, 12);
+  // 每个部位选项（除「说不清」）必须恰好落到一个科室；有异常时盘点页会标红
+  assert.deepEqual(pn.location.anomalies, []);
+  assert.equal(pn.location.options.find(o => o.value === 'unknown').targets.length, 0);
+  // 单方向疼痛词是「形态锚点兜底」的可视化证据，且每一条都应实测可覆盖
+  assert.ok(pn.pain.singleDirection.length > 0);
+  assert.ok(pn.pain.singleDirection.every(x => x.variantCovered));
+  // 安全检查路径锚点必须存在，避免词表「抄近路」直接推荐科室
+  assert.ok(pn.pathways.length >= 1 && pn.pathways[0].anchors.includes('心口疼'));
+  // 急诊与医技科室不走词表入口，不得被误标为「词表偏薄」
+  assert.ok(pn.departments.find(d => d.id === 'emergency').vocabIndependent);
+  assert.ok(!pn.departments.find(d => d.id === 'emergency').thin);
+  assert.ok(pn.departments.filter(d => d.bookable === false).every(d => d.vocabIndependent));
   const evaluation = await fetch(url + '/api/evaluation');
   assert.equal(evaluation.status, 200);
   assert.equal(typeof (await evaluation.json()).available, 'boolean');

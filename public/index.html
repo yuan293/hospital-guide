@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#087f85"><title>诊途 · 就诊服务</title>
-  <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/evaluation.css"><link rel="stylesheet" href="/flow.css?v=20261001"><script type="module" src="/app.js?v=20261001"></script>
+  <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/evaluation.css"><link rel="stylesheet" href="/panorama.css"><link rel="stylesheet" href="/flow.css?v=20261001"><script type="module" src="/app.js?v=20261001"></script>
 </head>
 <body>
   <aside class="sidebar">
@@ -13,6 +13,7 @@
       <a class="nav-link active" href="#guide" data-view="guide"><span aria-hidden="true">✚</span>挂号与导诊</a>
       <a class="nav-link" href="#departments" data-view="departments"><span aria-hidden="true">▦</span>科室目录</a>
       <a class="nav-link" href="#sources" data-view="sources"><span aria-hidden="true">▤</span>资料与来源</a>
+      <a class="nav-link" href="#panorama" data-view="panorama"><span aria-hidden="true">◫</span>词表与路由</a>
       <a class="nav-link" href="#evaluation" data-view="evaluation"><span aria-hidden="true">▥</span>效果评测</a>
       <a class="nav-link" href="#settings" data-view="settings"><span aria-hidden="true">⚙</span>运行设置</a>
     </nav>
@@ -78,13 +79,19 @@
         </section>
       <section id="view-departments" class="view" hidden><div class="page-heading"><div class="eyebrow">院内服务</div><h1>科室目录</h1><p>示例科室及位置，不对应真实医院。</p></div><div class="directory-toolbar"><label class="search"><span aria-hidden="true">⌕</span><input id="department-search" type="search" placeholder="搜索科室或相关不适" aria-label="搜索科室"></label><div id="department-filters" class="segmented" aria-label="筛选科室"><button data-filter="all" aria-pressed="true">全部</button><button data-filter="内科" aria-pressed="false">内科</button><button data-filter="外科" aria-pressed="false">外科</button><button data-filter="妇产与生殖" aria-pressed="false">妇产与生殖</button><button data-filter="儿科" aria-pressed="false">儿科</button><button data-filter="专科与五官" aria-pressed="false">专科与五官</button><button data-filter="急重症与肿瘤" aria-pressed="false">急重症与肿瘤</button><button data-filter="精神康复与中医" aria-pressed="false">精神康复与中医</button><button data-filter="医技辅助" aria-pressed="false">医技辅助</button></div></div><div id="department-count" class="list-count"></div><div id="department-list" class="department-list"></div></section>
       <section id="view-sources" class="view" hidden><div class="page-heading"><div class="eyebrow">知识资料</div><h1>资料与来源</h1><p>每条科室建议都关联到明确的配置来源。</p></div><div class="banner notice">当前仅包含团队示例配置与待专业审核的规则，未接入真实医院或临床指南。</div><div id="data-status" class="data-status"></div><div id="source-list" class="source-list"></div></section>
+      <section id="view-panorama" class="view" hidden>
+        <div class="page-heading"><div class="eyebrow">可核对的锚点</div><div class="heading-row"><div><h1>词表与路由</h1><p>把字面词、口语同义表与部位路由摊开，核对同一份锚点知识在各层的登记状态。</p></div><button id="refresh-panorama" class="button secondary">刷新盘点</button></div></div>
+        <div class="banner notice">这是只读盘点，不改变任何导诊逻辑。数字由真实的匹配函数实时计算，与线上行为同口径。</div>
+        <div id="panorama-status" role="status" class="status-message"></div>
+        <div id="panorama-content"></div>
+      </section>
       <section id="view-evaluation" class="view" hidden>
         <div class="page-heading"><div class="eyebrow">可验证效果</div><div class="heading-row"><div><h1>效果评测</h1><p>同一批合成案例，对比 legacy 固定追问、信息增益动态追问与模型辅助流程，含存疑弃权指标。</p></div><button id="refresh-evaluation" class="button secondary">刷新结果</button></div></div>
         <div class="banner notice">这是工程回归与模型对照，尚无临床验证，也不是独立盲测。页面仅展示脚本实际运行的结果。</div>
         <div id="evaluation-status" role="status" class="status-message"></div>
         <div id="evaluation-content"></div>
       </section>
-      <section id="view-settings" class="view" hidden><div class="page-heading"><div class="eyebrow">系统</div><h1>运行设置</h1><p>本地模型连接与当前运行状态。</p></div><div class="settings-layout"><section class="settings-section"><div class="section-header"><h2>模型连接</h2><button id="refresh-models" class="button secondary">检查连接</button></div><p id="model-status" class="status-message" role="status">尚未检测本地模型服务。</p><label class="field-label" for="model-select">导诊模式</label><select id="model-select"><option value="">规则演示模式</option></select><p class="field-help">选择已安装的 Ollama 模型后，症状描述将发送到本机模型服务。模型只辅助症状词标准化，无法覆盖紧急分流规则；口语主诉可提前由模型标准化，安全确认与急症闸门始终在前。</p><div id="model-warning" class="banner notice" hidden></div></section><section class="settings-section"><h2>数据与范围</h2><dl class="settings-facts"><div><dt>医院资料</dt><dd>虚构演示数据</dd></div><div><dt>会话存储</dt><dd>导诊记录仅当前页面内存；本机只记住模型与关怀模式偏好</dd></div><div><dt>模型服务</dt><dd id="model-endpoint">127.0.0.1:11434</dd></div><div><dt>应用版本</dt><dd>0.9.3</dd></div><div><dt>临床验证</dt><dd>未完成，不用于真实诊疗</dd></div></dl></section></div></section>
+      <section id="view-settings" class="view" hidden><div class="page-heading"><div class="eyebrow">系统</div><h1>运行设置</h1><p>本地模型连接与当前运行状态。</p></div><div class="settings-layout"><section class="settings-section"><div class="section-header"><h2>模型连接</h2><button id="refresh-models" class="button secondary">检查连接</button></div><p id="model-status" class="status-message" role="status">尚未检测本地模型服务。</p><label class="field-label" for="model-select">导诊模式</label><select id="model-select"><option value="">规则演示模式</option></select><p class="field-help">选择已安装的 Ollama 模型后，症状描述将发送到本机模型服务。模型只辅助症状词标准化，无法覆盖紧急分流规则；口语主诉可提前由模型标准化，安全确认与急症闸门始终在前。</p><div id="model-warning" class="banner notice" hidden></div></section><section class="settings-section"><h2>数据与范围</h2><dl class="settings-facts"><div><dt>医院资料</dt><dd>虚构演示数据</dd></div><div><dt>会话存储</dt><dd>导诊记录仅当前页面内存；本机只记住模型与关怀模式偏好</dd></div><div><dt>模型服务</dt><dd id="model-endpoint">127.0.0.1:11434</dd></div><div><dt>应用版本</dt><dd id="app-version">读取中…</dd></div><div><dt>临床验证</dt><dd>未完成，不用于真实诊疗</dd></div></dl></section></div></section>
     </main>
     <footer>诊途 <span>开源导诊原型</span><span>示例数据 · 未经临床验证</span></footer>
   </div>

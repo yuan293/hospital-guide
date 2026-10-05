@@ -1,4 +1,5 @@
 import { renderEvaluation } from './evaluation.js';
+import { renderPanorama } from './panorama.js';
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -779,14 +780,16 @@ $('#model-select').onchange = () => {
   updateMode();
 };
 $('#refresh-models').onclick = refreshModels;
+$('#refresh-panorama').onclick = renderPanorama;
 function navigate() {
-  const allowed = ['guide', 'departments', 'sources', 'evaluation', 'settings'];
+  const allowed = ['guide', 'departments', 'sources', 'panorama', 'evaluation', 'settings'];
   const view = allowed.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'guide';
   $$('.view').forEach(section => { section.hidden = section.id !== `view-${view}`; });
   $$('.nav-link').forEach(link => { link.classList.toggle('active', link.dataset.view === view); if (link.dataset.view === view) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
-  $('#breadcrumb').textContent = `就诊服务 / ${{ guide: '挂号与导诊', departments: '科室目录', sources: '资料与来源', evaluation: '效果评测', settings: '运行设置' }[view]}`;
+  $('#breadcrumb').textContent = `就诊服务 / ${{ guide: '挂号与导诊', departments: '科室目录', sources: '资料与来源', panorama: '词表与路由', evaluation: '效果评测', settings: '运行设置' }[view]}`;
   if (view === 'guide' && !entryMode) showEntry();
   if (view === 'settings') refreshModels();
+  if (view === 'panorama') renderPanorama();
   if (view === 'evaluation') renderEvaluation();
 }
 window.addEventListener('hashchange', navigate);
@@ -794,6 +797,7 @@ try {
   config = await api('/api/config');
   roomAllocation = null; // 配置（重新）载入后重建诊室分配表，避免沿用旧数据
   renderDepartments();
+  $('#app-version').textContent = config.appVersion ?? '未知';
   showEntry();
   $('#data-status').innerHTML = `<h2>数据版本与校验</h2><p>${escape(config.hospital.version)} · 更新于 ${escape(config.hospital.updatedAt)} · ${config.dataInfo.validation.departmentCount} 个科室 / ${config.dataInfo.validation.sourceCount} 条来源</p><p>文件：${config.dataInfo.files.map(f => '<code>' + escape(f) + '</code>').join('、')}</p><p>启动时格式校验通过。替换数据后运行 <code>npm run data:validate</code> 并重启服务。</p><p>数据指纹：<code>${escape(config.dataInfo.sha256)}</code></p><p>${config.dataInfo.validation.warnings.map(escape).join(' ')}</p>`;
   $('#source-list').innerHTML = config.sources.map(s => `<article class="source-row"><div><span class="source-id">${escape(s.id)}</span><p>${escape(s.kind)}</p></div><div><h3>${escape(s.title)}</h3><p>${escape(s.description)}</p><p class="source-meta">配置位置：<code>${escape(s.location)}</code> · 更新：${escape(s.date)}</p></div></article>`).join('');
