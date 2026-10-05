@@ -35,7 +35,7 @@
 提交前请至少跑通快速验证链：
 
 ```sh
-npm test          # 60 个单元测试
+npm test          # 87 个单元测试（主仓 71 ＋ 独立包 packages/anchored-evidence-gate 16）
 npm run data:validate   # 数据结构 fail-closed 校验
 npm run verify    # 快速链：单测 + 数据校验 + 无模型评测 + 失败白名单门禁
 ```
