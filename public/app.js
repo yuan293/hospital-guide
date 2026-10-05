@@ -798,6 +798,7 @@ try {
   roomAllocation = null; // 配置（重新）载入后重建诊室分配表，避免沿用旧数据
   renderDepartments();
   $('#app-version').textContent = config.appVersion ?? '未知';
+  $('#sidebar-version').textContent = `PROTOTYPE / ${config.appVersion ?? '未知'}`;
   showEntry();
   $('#data-status').innerHTML = `<h2>数据版本与校验</h2><p>${escape(config.hospital.version)} · 更新于 ${escape(config.hospital.updatedAt)} · ${config.dataInfo.validation.departmentCount} 个科室 / ${config.dataInfo.validation.sourceCount} 条来源</p><p>文件：${config.dataInfo.files.map(f => '<code>' + escape(f) + '</code>').join('、')}</p><p>启动时格式校验通过。替换数据后运行 <code>npm run data:validate</code> 并重启服务。</p><p>数据指纹：<code>${escape(config.dataInfo.sha256)}</code></p><p>${config.dataInfo.validation.warnings.map(escape).join(' ')}</p>`;
   $('#source-list').innerHTML = config.sources.map(s => `<article class="source-row"><div><span class="source-id">${escape(s.id)}</span><p>${escape(s.kind)}</p></div><div><h3>${escape(s.title)}</h3><p>${escape(s.description)}</p><p class="source-meta">配置位置：<code>${escape(s.location)}</code> · 更新：${escape(s.date)}</p></div></article>`).join('');
