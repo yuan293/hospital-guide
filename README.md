@@ -34,7 +34,7 @@ curl -s https://api.github.com/repos/yuan293/hospital-guide
 | 入口 | 链接 |
 | --- | --- |
 | 项目仓库主页 | https://github.com/yuan293/hospital-guide |
-| 历史已发布标签（本地0.10.0尚未推送） | https://github.com/yuan293/hospital-guide/releases/tag/v0.9.9 |
+| 最新发布标签（v0.10.0） | https://github.com/yuan293/hospital-guide/releases/tag/v0.10.0 |
 | 六组评测报告（含逐轮轨迹与18文件指纹） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/latest.json |
 | held-out 盲测报告（20条冻结案例） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/heldout-latest.json |
 | 对抗红队报告（24条） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/redteam-latest.json |
@@ -160,7 +160,7 @@ npm start
 
 本机运行的医院挂号与导诊工程原型。首页给患者两个入口：**直接挂号**（自己知道挂哪个科，选科室看位置与就诊提示）与**不确定挂哪科**（描述不适，系统给出科室方向）。导诊流程包含安全确认、多轮补充信息、风险分流、科室匹配、依据展示、科室目录、摘要下载和可选的 Ollama 症状标准化。
 
-**当前版本 0.9.9 的核心状态：**
+**当前版本 0.10.0 的核心状态：**
 
 - **科室与词表**：45 个科室、八大类，症状词表 382+ 词；7 个医技科室（放射/检验/药剂等）标注「医生开单/转诊」，不进导诊推荐。
 - **导诊链路**：安全确认（红旗征）→ 多轮信息增益追问 → 科室匹配 → 依据展示 → 可选弃权转人工；全程不诊断、不开药。
@@ -187,7 +187,7 @@ npm start
   避免把"我没有胸痛""说不清哪难受"当成缺口）。**工具只提出候选，绝不改文件**；是否登记由人决定。
   可选用 `HOSPITAL_GUIDE_COLLECT_UNMATCHED=1` 开启未命中采集（默认关闭，只记主诉原文、不记 IP/UA）。
 
-**版本沿革**：完整变更记录见 [CHANGELOG.md](CHANGELOG.md)（含 0.2 → 0.9.9 全部版本）。近几个版本的关键跃迁：
+**版本沿革**：完整变更记录见 [CHANGELOG.md](CHANGELOG.md)（含 0.2 → 0.10.0 全部版本）。近几个版本的关键跃迁：
 
 | 版本 | 关键跃迁 |
 | --- | --- |
@@ -297,7 +297,7 @@ npm run models:pull
 
 口径说明：
 
-1. **数据源**：六行均为0.9.9历史 150 条主集（`hospital-guide-synthetic-v1` v2026-10-04.1）的实测值，2026-10-05 v0.9.9 由一次 `npm run verify:full` 跑出（需已 `models:setup` + `models:pull`；免模型两行也可由 `npm run verify` 单独复现）。最新一次运行的完整结果（含全部案例的逐轮轨迹、失败清单、环境信息与12文件指纹）随仓库提交在 `data/evaluation/latest.json` 与 `data/evaluation/redteam-latest.json`，任何人可核对；`runs/` 目录只留存开发机上的历次归档（避免历史文件随仓库膨胀），同一份代码与数据用 `npm run verify:full` 即可复现出同等结果。
+1. **数据源**：六行均为0.9.9历史 150 条主集（`hospital-guide-synthetic-v1` v2026-10-04.1）的实测值，2026-10-05 v0.9.9 由一次 `npm run verify:full` 跑出（需已 `models:setup` + `models:pull`；免模型两行也可由 `npm run verify` 单独复现）。最新一次运行的完整结果（含全部案例的逐轮轨迹、失败清单、环境信息与18文件指纹）随仓库提交在 `data/evaluation/latest.json` 与 `data/evaluation/redteam-latest.json`，任何人可核对；`runs/` 目录只留存开发机上的历次归档（避免历史文件随仓库膨胀），同一份代码与数据用 `npm run verify:full` 即可复现出同等结果。
 2. **分母口径**：一次性组（rules／model）只注入安全槽回答（风险、年龄、严重程度），部位与鉴别追问的回答属于交互流程，只有 dynamic／workflow 按流程问到才会使用。这样同一批案例在各组“获得的信息”与各自的流程一致，不会出现“没问过却拿到了答案”。
 3. **覆盖率与推荐准确率**：覆盖率＝在“本应推荐科室”的人群中系统实际给出推荐的比例（其余为弃权/转人工）；推荐准确率＝已给出推荐中科室正确的比例，六组均为 100%。词表扩至 45 科室后 7B 曾出现 HG-068 越界（原文短片段“身上哪儿都别扭”被语义错配为“腹痛”），0.6.x 以分类守卫拦截，0.7.0 起由**映射锚点表**结构性杜绝——证据片段与目标词词素不相交、也无登记同义形时核验直接拒绝，该案例改走证据失验弃权，六组越界推荐现在均为 0。
 4. **对抗红队**按 rules／7B／1.5B 三个层运行（不区分 model/workflow）：rules 组 **24/24**（0.8.1 词表扩充后，原 RT-022／RT-023 的“词表无此词”前提消失，不变量改写为“不得跨症状错配、不得误升急症”，仍保留 forbid 硬约束），不安全输出 0、急症漏判 0；7B 23/24（残留 RT-020 一条“本该弃权却给出科室”，另有 6 条模型证据未通过锚点表核验而被拦下）；1.5B 23/24、拦下 11 条，残留同为 RT-020 一条，未触及禁止科室、也未漏判急症，作为可见挑战保留。注：**0.9.0 起规则层消费登记同义表、0.9.1 起再补词形**（`mentionsMorphology`），如「心口疼」这类安全路径锚点在规则层仍必须先走红旗征确认，红队对此新增保护（原 HG-119／120 回归已修）。
@@ -513,17 +513,17 @@ npm run suggest:synonyms -- --json report.json  # 额外输出机器可读报告
 | FHIR 对齐问诊结构 | `Questionnaire/`、`StructureDefinition/`（仓库根目录，标准 R4 无后缀资源文件） | 用任意 FHIR R4 服务器（如 HAPI）直接导入；canonical URL 指向本仓库 `/blob/main/` 路径可在线解析；问卷与扩展定义一一对应（有防漂移单测） | 无——纯标准资源文件，与本仓库代码零耦合 |
 | 评测方法学与案例集 | `data/evaluation/cases.json`（150 条）+ `scripts/evaluate.js` + `lib/evaluation.js` | `node scripts/evaluate.js` 直接运行；案例格式（`modes` 组适配、`anyOf` 等价安全结局、`labelNote`）见 `data/evaluation/README.md`；换掉科室数据源即可把"四组消融 + fail-closed 校验 + 逐轮轨迹"整套搬到别的分类系统 | Node ≥20，零 npm 依赖 |
 | 对抗红队集 | `data/evaluation/redteam.json`（24 条）+ `scripts/redteam.js` | `node scripts/redteam.js` 跑规则层断言；七类对抗样本（前瞻推断/指令注入/否定连用/病史家属/整句诱饵/真急症/映射锚点攻击）按 `category` 字段组织；"不安全推荐或急症漏判即退出码 1"的闸门语义可直接移植 | Node ≥20，零 npm 依赖 |
-| 门禁与防漂移 | `.trae/skills/hospital-guide-verify/scripts/gate-failures.mjs` + 12 文件指纹（`lib/evaluation-store.js`） | 白名单门禁是独立 Node 脚本，读任意评测报告即可判定失败是否在登记预期内；sha256 指纹机制防"报告与代码不符" | Node ≥20，零 npm 依赖 |
+| 门禁与防漂移 | `.trae/skills/hospital-guide-verify/scripts/gate-failures.mjs` + 18 文件指纹（`lib/evaluation-store.js`） | 白名单门禁是独立 Node 脚本，读任意评测报告即可判定失败是否在登记预期内；sha256 指纹机制防"报告与代码不符" | Node ≥20，零 npm 依赖 |
 | 本地模型复现模式 | `npm run models:setup` / `models:pull` | Ollama 运行时钉版本 + sha256 校验拒解压 + 许可原文归档的做法，可复制到任何需要可复现本地模型的项目 | Ollama |
 
 这套资产的整体价值：任何让大模型参与高风险分类（医疗、政务、客服转人工等）的系统，都可以借用"先证安全、再谈能力"的评测框架；数据驱动的通用分流架构（换一份 `hospital.json` 即可移植到其他医院或政务大厅导办场景）开放的是方法与引擎，不是某地数据的搬运。
 
 **版本与数据维护**
 
-- 版本节奏：语义化版本（当前 0.9.9），每次发布同步更新 6 处版本号（package.json、server.js×2、index.html、测试断言、README 标题）并附变更说明；破坏性改动只在大版本出现。
-- 数据版本化：医院科室、词表、追问与红旗征配置全部集中在 `data/hospital.json`（HL7 FHIR R4 Questionnaire 结构），与代码分离；修改数据后必须重跑 `npm run evaluate` 与 `npm test`，评测结果携带 12 个核心文件的 sha256 指纹，数据被改动时旧评测自动标记过期——可验证性随每次维护动作保鲜。
+- 版本节奏：语义化版本（当前 0.10.0），版本号唯一事实来源为 `package.json`（`server.js` 从 `pkg.version` 读取，页面由 `/api/config` 的 `appVersion` 渲染，测试断言亦读取 `package.json`），每次发布附变更说明；破坏性改动只在大版本出现。
+- 数据版本化：医院科室、词表、追问与红旗征配置全部集中在 `data/hospital.json`（HL7 FHIR R4 Questionnaire 结构），与代码分离；修改数据后必须重跑 `npm run evaluate` 与 `npm test`，评测结果携带 18 个核心文件的 sha256 指纹，数据被改动时旧评测自动标记过期——可验证性随每次维护动作保鲜。
 - 红旗征与安全规则：接受有公开医学依据的勘误（欢迎通过 Issue 指出），但不接受任何"降低安全门槛"的修改；宁可多转人工，不放行可疑急症。
-- 文档时效约定：`docs/` 下带日期或版本号的分析文档（如 `横向对比-*-2026-10-03.md`、`竞赛评分自评与优化建议-*.md`、`词表覆盖率诊断-*.md`）是**历史快照**，其中的评测集规模、单测数等数字为撰写当时的值，会随版本演进过时；每份文档顶部已标注存档说明。**任何"当前值"一律以本文档上方「当前仓库基线」表为准**（该表由 `npm run doc:drift` 门禁机器核对）。
+- 文档时效约定：`docs/` 下带日期或版本号的分析文档（如 `横向对比-*-2026-10-03.md`、`词表覆盖率诊断-*.md`）是**历史快照**，其中的评测集规模、单测数等数字为撰写当时的值，会随版本演进过时；每份文档顶部已标注存档说明。**任何"当前值"一律以本文档上方「当前仓库基线」表为准**（该表由 `npm run doc:drift` 门禁机器核对）。
 
 **欢迎贡献的范围（Issue / PR，流程与验证要求见 [CONTRIBUTING.md](CONTRIBUTING.md)）**
 
