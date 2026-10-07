@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "hospital-guide-synthetic-v1",
-  "version": "2026-10-04.1",
+  "version": "2026-10-07.1",
   "createdAt": "2026-09-25",
   "provenance": "AI辅助编写的合成工程案例，标签来自演示流程设计；非患者数据、非医生标注、非独立盲测。 2026-10-03：新增 HG-123~HG-130 共 8 条，锁定词表扩充（脚气/脚痒、耳朵嗡嗡响、便秘、脱发、打呼噜、看东西模糊、痔疮）带来的规则层新命中能力。 2026-10-04：新增 HG-139~HG-151 共 13 条，覆盖此前从未被评估的小儿外科／儿童保健科／新生儿科／老年医学科／神经外科，并锁定「多科室平局转人工」与「全科医学科不做自动推荐」两条安全行为。",
   "reviewStatus": "engineering-only",
@@ -2847,10 +2847,10 @@
         }
       },
       "expected": {
-        "status": "recommendation",
-        "department": "cardiology"
+        "status": "emergency",
+        "department": "emergency"
       },
-      "labelNote": "胸痛的另一写法（不含红旗征词）"
+      "labelNote": "0.10.0安全标签纠正：胸疼与胸痛同义，且突发，按既有胸痛闸门升级；不是为消除普通测试失败而放宽安全标签。"
     },
     {
       "id": "HG-136",

@@ -5,7 +5,7 @@ import { platform, arch, cpus } from 'node:os';
 import { departments, dataInfo } from '../data/hospital.js';
 import { modelStatus } from '../lib/model.js';
 import { evaluateCase, summarize, validateDataset } from '../lib/evaluation.js';
-import { fingerprint, reportUrl } from '../lib/evaluation-store.js';
+import { fingerprint, reportUrl, quickReportUrl } from '../lib/evaluation-store.js';
 
 const args = process.argv.slice(2);
 if (args.some(a => !['--models', '--strict', '--heldout'].includes(a.split('=')[0]) || (a.startsWith('--models') && !a.startsWith('--models=')))) throw new Error('用法: node scripts/evaluate.js [--models=qwen2.5:7b,qwen2.5:1.5b] [--strict] [--heldout]');
@@ -17,6 +17,14 @@ const raw = await readFile(new URL(heldout ? '../data/evaluation/cases-heldout.j
 const dataset = validateDataset(JSON.parse(raw), departments);
 const before = await fingerprint();
 const status = requestedModels.length ? await modelStatus() : { available: false, models: [], details: [] };
+if (requestedModels.length) {
+  const lock = JSON.parse(await readFile(new URL('../data/installed-models.json', import.meta.url), 'utf8'));
+  for (const name of requestedModels) {
+    const expected = lock.models.find(m => m.name === name)?.digest;
+    const actual = status.details.find(m => m.name === name)?.digest;
+    if (!expected || !actual || actual !== expected) throw new Error('模型版本未匹配已记录digest: ' + name + '，请核查模型，不得用名称替代版本核验。');
+  }
+}
 const report = {
   schemaVersion: 1, startedAt: new Date().toISOString(), completedAt: null,
   note: dataset.provenance,
@@ -52,10 +60,10 @@ await mkdir(new URL('../data/evaluation/runs/', import.meta.url), { recursive: t
 const content = JSON.stringify(report, null, 2) + '\n';
 const runName = report.completedAt.replace(/[:.]/g, '-') + (heldout ? '.heldout' : '') + '.json';
 await writeFile(new URL('../data/evaluation/runs/' + runName, import.meta.url), content);
-const outUrl = heldout ? new URL('../data/evaluation/heldout-latest.json', import.meta.url) : reportUrl;
+const outUrl = heldout ? new URL('../data/evaluation/heldout-latest.json', import.meta.url) : requestedModels.length ? reportUrl : quickReportUrl;
 const temporary = fileURLToPath(outUrl) + '.tmp';
 await writeFile(temporary, content);
 await rename(temporary, outUrl);
-console.log('结果已保存: data/evaluation/' + (heldout ? 'heldout-latest.json' : 'latest.json') + '（含全部案例、失败和逐轮轨迹）');
+console.log('结果已保存: ' + fileURLToPath(outUrl) + '（含全部案例、失败和逐轮轨迹）');
 console.log('合成工程测试，不是临床准确率。人工转接率不以越低越好。');
-if (report.skipped.length || !heldout && report.modes.some(m => m.metrics.modelFailures || m.metrics.errors || m.regression.passed !== m.regression.total || args.includes('--strict') && m.metrics.passed !== m.metrics.total)) process.exitCode = 1;
+if (report.skipped.length || report.modes.some(m => m.metrics.modelFailures || m.metrics.errors || (!heldout && m.regression.passed !== m.regression.total) || (args.includes('--strict') && m.metrics.passed !== m.metrics.total))) process.exitCode = 1;

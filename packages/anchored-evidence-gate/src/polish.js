@@ -3,7 +3,8 @@
  *
  * 当模型被允许改写"面向用户的问句措辞"时，如何保证它**改不出危险内容**？
  * 本模块给出一个最小、可复用的 fail-closed 把关：不合格一律返回 null，
- * 由调用方回退到配置原文——**模型改坏了只是文案不好看，不影响业务流程**。
+ * 由调用方回退到配置原文。仅有禁词检查不能保证语义等价；错误问法可能
+ * 影响用户回答。调用方可传入 originalTitle/originalDescription 启用逐字保守核验。
  *
  * 设计要点：
  * - 只允许"问题式"表述（必须含疑问特征），把陈述句/结论句挡在外面；
@@ -56,5 +57,11 @@ export function acceptPolish(parsed, opts = {}) {
     typeof parsed.description === 'string' ? parsed.description.trim().slice(0, maxDescriptionLen) : '';
   if (description && forbidden.test(description)) return null;
 
+  // 业务调用传入原问题时采用保守的同文案门禁：未经审核的自由改写不能
+  // 只凭禁词/疑问特征证明信息点等价。暂不放行语义改写，调用方回退原文。
+  if (opts.originalTitle !== undefined) {
+    if (title !== opts.originalTitle.trim()) return null;
+    if (description && description !== (opts.originalDescription || '').trim()) return null;
+  }
   return { title, description };
 }

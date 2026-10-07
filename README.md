@@ -1,6 +1,12 @@
 # 诊途：开源规则与开源大模型双擎导诊助手
 
-> 开源导诊原型 · v0.9.9
+> 开源导诊原型 · v0.10.0
+>
+> **0.10.0安全修复与证据口径（2026-10-07）**：胸疼/胸口疼沿用胸痛风险闸门；儿童/婴儿命中尚无适龄审核的安全路径时转人工；模型不得将一次性规则多科室并列翻转为推荐。自由问句润色暂不采纳，只有原问题/说明逐字一致才放行，不再将“通过禁词检查”解释为语义等价。模型在救援未知表达时补出胸部线索而无专门安全路径，转人工评估（RT-020），不把否认胸痛当作已排除其他风险。
+>
+> 免模型结果保存到 `data/evaluation/quick-latest.json`；六组模型报告仍保存到 `latest.json`，快速验证不覆盖模型快照。指纹扩为18个文件，包含独立证据包与应用版本。`npm run evaluate:paired` 仅比较共同样本，不能用不同适用子集的平均轮数证明AI减少追问。
+>
+> 下文标注2026-10-05/v0.9.9的双模型数值为**历史快照**，当前结果以新报告为准；固定留出集已被开发者看过且用于回归定位，**不是独立盲测**。真实用户长尾与问句理解效果尚需独立招募、脱敏和专业标注，不能由合成测试替代。
 
 [![CI](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml/badge.svg)](https://github.com/yuan293/hospital-guide/actions/workflows/ci.yml)
 
@@ -28,8 +34,8 @@ curl -s https://api.github.com/repos/yuan293/hospital-guide
 | 入口 | 链接 |
 | --- | --- |
 | 项目仓库主页 | https://github.com/yuan293/hospital-guide |
-| 当前版本标签 | https://github.com/yuan293/hospital-guide/releases/tag/v0.9.9 |
-| 六组评测报告（含逐轮轨迹与12文件指纹） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/latest.json |
+| 历史已发布标签（本地0.10.0尚未推送） | https://github.com/yuan293/hospital-guide/releases/tag/v0.9.9 |
+| 六组评测报告（含逐轮轨迹与18文件指纹） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/latest.json |
 | held-out 盲测报告（20条冻结案例） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/heldout-latest.json |
 | 对抗红队报告（24条） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/redteam-latest.json |
 | 用户调研报告（N=88） | https://github.com/yuan293/hospital-guide/blob/main/docs/诊途-问题与场景价值-调研正文.docx |
@@ -37,6 +43,14 @@ curl -s https://api.github.com/repos/yuan293/hospital-guide
 | CI 历次运行记录 | https://github.com/yuan293/hospital-guide/actions |
 
 **开源许可证：Apache-2.0**——本仓库全部内容（代码、示例数据、文档、测试与评测集）统一采用 Apache-2.0，见根目录 `LICENSE`；两个本地模型同为 Apache-2.0，许可原文见 `data/model-licenses/`；第三方资源的许可与义务见 `THIRD_PARTY_NOTICES.md`。
+
+## 0.10.0 当前验证结果（2026-10-07）
+
+完整发布链已实际运行通过：单测95/95；rules 125/125、dynamic 129/129；7B model 116/116、7B workflow 129/129；1.5B model 113/116（三条既有安全弃权）、1.5B workflow 129/129。主集六组急诊召回13/13、急症漏判0。严格红队规则/7B/1.5B均24/24，RT-020已安全弃权。固定留出回归六组全通过（rules18/18、dynamic19/19、四组模型各18/18），不是独立盲测。
+
+18文件指纹与当前源码匹配（stale=false）。dynamic与每个workflow共同127条配对样本终态变化0、轮次差0、正确救援0，不能声称本集已证明AI减少追问。7B问句16次全部回退；1.5B仅3次原文一致被接受，13次回退；不将原文一致解释为润色增益。
+
+**仍需完成**：独立真实用户长尾评测、医学审核、18个单案例科室的充分反例验证、正式匿名技术报告PDF/视频及固定版本成果链接。复现前请核对获取的提交与应用版本，公开main后续可能继续更新。
 
 ## 启动
 
@@ -52,7 +66,9 @@ npm start
 
 ## 评委复现指南
 
-仅需 Node.js 20+（https://nodejs.org 下载 LTS 安装，命令行 `node -v` 显示 v20 以上即可），**不需要 npm install**，全程只监听本机 127.0.0.1。获取项目：`git clone https://github.com/yuan293/hospital-guide.git`；不会 Git 可在仓库页面点绿色 **Code** 按钮 → **Download ZIP** 解压。路径 A 不下载模型即可验证全部规则引擎、安全闸门与界面功能；路径 B 复现双模型结果；路径 C 供现场断网备用。
+需要 Node.js 20+及随安装提供的 npm，**不需要 npm install**；网页只监听本机127.0.0.1。命令行先运行 `node -v`、`npm -v` 确认安装；使用克隆命令还需安装Git，不使用Git则从仓库 **Code → Download ZIP** 获取。以下指南对应 `package.json` 版本 **0.10.0**，获取后运行 `node -p "require('./package.json').version"` 核对，不要用旧标签v0.9.9对照新版测试数字。正式提交评审时，应记录所用提交的 `git rev-parse HEAD`，避免main后续更新改变复现对象。
+
+路径A验证规则与工程流程；网页需启动后手工走查。路径B需要Ollama和指定模型；路径C仅适用于已准备好的Windows x64便携环境。本机Windows已验证快速/完整链，不将此结果当成干净电脑安装、macOS/Linux或所有网页操作均已实测。
 
 常见问题：提示"npm 不是内部或外部命令"说明 Node.js 未安装或安装后未重新打开命令行窗口；浏览器打不开地址先确认启动窗口仍在运行；`git clone` 卡住或报连接超时通常是网络受限，改用仓库页面 **Code → Download ZIP** 下载解压即可（无需 Git）；本服务只能在运行项目的电脑本机访问，不是可分享的公网网址；所有医院与科室数据均为虚构，不能用于真实就医。
 
@@ -61,25 +77,27 @@ npm start
 ```sh
 git clone https://github.com/yuan293/hospital-guide.git
 cd hospital-guide    # 用 Download ZIP 获取的：解压后目录名为 hospital-guide-main，请 cd 到实际目录
-npm test      # 预期：tests 87 / pass 87 / fail 0（主仓 71 + packages/anchored-evidence-gate 16）
-npm run verify
-npm start     # 浏览器打开 http://127.0.0.1:3210
+node -p "require('./package.json').version"  # 应显示0.10.0
+npm run verify  # 已包含单测；预期95/95，最后显示全部通过（快速链）
+npm start       # 保持窗口打开，浏览器访问日志实际地址，默认127.0.0.1:3210
 ```
 
-`npm run verify` 是 fail-closed 门禁链（单元测试 → 数据 fail-closed 校验 → 覆盖率 → 无模型评测 → **README 基线数字一致性**），任一项不达标即以退出码 1 失败；输出最后一行打印"全部通过（快速链）"即复现成功。**该链已是跨平台**（`scripts/verify-chain.mjs` 纯 Node，Windows / macOS / Linux 通用；CI 亦在 ubuntu-latest 上跑同一套），无需 PowerShell。`npm run verify:win` 是等价的 Windows PowerShell 版，二者应给出相同结论。当前仓库基线（数字取自 `data/evaluation/latest.json`，即上一次 `npm run verify` 的实测快照；**由 `npm run doc:drift` 自动核对，与本表不一致即门禁失败**）：
+`npm run verify` 是 fail-closed 门禁链（单元测试 → 数据 fail-closed 校验 → 覆盖率 → 无模型评测 → **README 基线数字一致性**），任一项不达标即以退出码 1 失败；输出最后一行打印"全部通过（快速链）"即复现成功。**该链已是跨平台**（`scripts/verify-chain.mjs` 纯 Node，Windows / macOS / Linux 通用；CI 亦在 ubuntu-latest 上跑同一套），无需 PowerShell。`npm run verify:win` 是等价的 Windows PowerShell 版，二者应给出相同结论。当前仓库基线（数字取自 `data/evaluation/quick-latest.json`，即上一次 `npm run verify` 的实测快照；**由 `npm run doc:drift` 自动核对，与本表不一致即门禁失败**）：
 
 | 检查项 | 预期结果 |
 |---|---|
-| 单元测试 | 87/87 通过，0 失败（主仓 71 ＋ 独立包 `packages/anchored-evidence-gate/` 16；`node --test` 会同时收集两处） |
+| 单元测试 | 95/95 通过，0 失败（主仓 79 ＋ 独立包 `packages/anchored-evidence-gate/` 16；`node --test` 会同时收集两处） |
 | 数据 fail-closed 校验 | 通过（FHIR R4 Questionnaire 结构、来源与年龄约束；45 科室 / 11 probes / 1 pathway） |
 | rules 组（legacy 固定追问，消融对照） | **125/125，全绿**（150 条主集中适配 125 条） |
 | dynamic 组（安全确认＋信息增益动态追问，无模型） | **129/129，全绿**（150 条主集中适配 129 条） |
-| 急诊红旗征召回（两组相同） | 12/12，漏诊 0 |
-| 普通症状误触发急诊 | 0（rules 0/113，dynamic 0/117） |
-| 自动推荐科室命中 | rules 85/85、dynamic 93/93（均 100%，错误推荐 0） |
-| held-out 冻结盲测集（20 条，写入后未调优） | rules 18/18、dynamic 19/19，全绿 |
+| 急诊红旗征召回（两组相同） | 13/13，漏诊 0 |
+| 普通症状误触发急诊 | 0（rules 0/112，dynamic 0/116） |
+| 自动推荐科室命中 | rules 84/84、dynamic 92/92（均 100%，错误推荐 0） |
+| held-out 固定留出回归集（20 条，开发者已见结果，不是独立盲测） | rules 18/18、dynamic 19/19，全绿 |
 
-> **关于本表的数字来源**：以上为 `data/evaluation/latest.json` 中 rules / dynamic 两组的实测值（数据集 `hospital-guide-synthetic-v1` v2026-10-04.1，主集 150 条）。扩语料、加门禁后本表应随之更新——**若本表与 `npm run verify` 输出不一致，以命令输出为准**。
+> **留出集说明**：`npm run verify`不运行留出集；表中留出结果来自独立执行的 `npm run evaluate:heldout -- --strict`，报告为 `heldout-latest.json`。如需本次重新核验，请另执行该命令。
+>
+> **关于本表的数字来源**：除留出行外，以上为 `data/evaluation/quick-latest.json` 中 rules / dynamic 两组的实测值（数据集 `hospital-guide-synthetic-v1` v2026-10-07.1，主集 150 条）。扩语料、加门禁后本表应随之更新——**若本表与 `npm run verify` 输出不一致，以命令输出为准**。
 
 > 0.9.0 起规则路径直接消费登记同义表（`mentionsSynonym`），口语主诉无需模型即可命中对应科室。
 > 0.9.1 起规则路径**再补上词形维度**（`mentionsMorphology`，`X疼↔X痛`／`X出血`），把此前 36 个疼痛词干里
@@ -87,7 +105,7 @@ npm start     # 浏览器打开 http://127.0.0.1:3210
 > 0.9.4 起补齐口语词表并扩到 150 条主集（137 → 150）。
 > 效果：rules 104/105 → **125/125**（首次全绿，0.9.4 扩集后全绿保持）、dynamic 111/111 → **129/129**，held-out rules 18/18 保持全绿。
 
-浏览器内可现场核验：两个入口、"▶ 30秒自动演示"、"上腹痛、反酸"的红旗征安全确认、紧急情况拦截、关怀模式（含60岁及以上知情同意）、以及模拟挂号全流程（确认科室→普通号/专家号→60秒支付倒计时→成功展示科室信息或超时重新挂号）。网页"效果评测"页展示各指标分子分母、失败案例、逐轮追问轨迹（leaders/gain）与报告 JSON 下载。评测报告记录12个指纹文件的 sha256，代码或数据一旦变动会标记过期，杜绝报告与代码不符。
+浏览器内可现场核验：两个入口、"▶ 30秒自动演示"、"上腹痛、反酸"的红旗征安全确认、紧急情况拦截、关怀模式（含60岁及以上知情同意）、以及模拟挂号全流程（确认科室→普通号/专家号→60秒支付倒计时→成功展示科室信息或超时重新挂号）。网页"效果评测"页展示各指标分子分母、失败案例、逐轮追问轨迹（leaders/gain）与报告 JSON 下载。评测报告记录18个指纹文件的 sha256，代码或数据一旦变动会标记过期，杜绝报告与代码不符。
 
 ### 路径 B：完整双模型复现（一次性下载约7.2GB，之后可全离线）
 
@@ -96,12 +114,25 @@ npm start     # 浏览器打开 http://127.0.0.1:3210
 ```sh
 npm run models:setup   # 仅支持 Windows x64：下载官方 Ollama v0.34.4（约1.46GB），SHA-256 不符拒绝解压
 npm run models:pull    # qwen2.5:7b ＋ qwen2.5:1.5b（约5.7GB），自动记录模型版本摘要与许可证
-npm run verify:full    # 快速链 ＋ 四组带模型评测（共6组）＋ 双模型诱导红队，约数分钟
+npm run verify:full    # 快速链＋四组模型评测＋严格红队＋严格留出回归
+npm start              # 验证结束后另启动网页；verify:full不会启动网页
 ```
 
-预留至少 15GB 磁盘空间；下载均为一次性执行，**之后可离线使用**，中途失败重跑同一命令即可续上；国内网络如遇失败请开启网络加速或代理后重试。可选 `npm run models:check` 用 3 条输入冒烟验证模型可用。macOS/Linux 不使用 setup 脚本：先在 https://ollama.com 安装官方 Ollama，执行 `ollama pull qwen2.5:7b` 与 `ollama pull qwen2.5:1.5b`，再 `npm run verify:full`（项目自动识别本机 11434 服务）。
+预留至少15GB磁盘空间及足够的运行内存；下载完成、对应模型可见后可离线推理。Ollama安装包下载**没有断点续传**，失败重跑会重新下载；模型拉取由Ollama处理已有数据，失败可重试，但需核验最终成功。模型冷启动、CPU/GPU和占用影响耗时，不保证所有电脑数分钟完成。可选 `npm run models:check` 做模型冒烟测试。
 
-最近一次**带模型的完整实测**（2026-10-05，v0.9.9、**评测集 150 条** `2026-10-04.1`，本机 RTX 5060 Laptop，`npm run verify:full` 一次跑完约 2.5 分钟）。下表六组结果与 `data/evaluation/latest.json` 当前快照一致，与上一节免模型基线同为 150 条口径；重跑 `verify:full` 应得到一致或更好结果。
+**macOS/Linux**：不运行 `models:setup`（只支持Windows x64）。安装Ollama后，先启动其应用/系统服务；若未启动，在另一终端执行 `ollama serve` 并保持运行，再拉取两个模型：
+
+```sh
+ollama pull qwen2.5:7b
+ollama pull qwen2.5:1.5b
+ollama list              # 必须能看到两个模型
+npm run verify:full
+npm start
+```
+
+模型服务需在本机11434端口可访问。完整评测会核对模型digest与 `data/installed-models.json`，不匹配即停止，不能仅凭模型名称声称复现相同版本。`models:pull`会更新本机模型记录；若摘要不同于提交版本，属于新模型环境，应记录差异并重新评测，不直接宣称复现原快照。Windows如已有其他Ollama服务占用11434，也会优先使用该服务，请确认模型目录与摘要。
+
+历史**带模型的完整实测**（2026-10-05，v0.9.9、**评测集 150 条** `2026-10-04.1`，本机 RTX 5060 Laptop，`npm run verify:full` 一次跑完约 2.5 分钟）。下表六组结果是0.9.9历史快照，0.10.0应读取 `data/evaluation/latest.json`，与上一节免模型基线同为 150 条口径；重跑 `verify:full` 应得到一致或更好结果。
 
 | 评测组 | 结果（150 条主集） | 说明 |
 |---|---|---|
@@ -113,13 +144,17 @@ npm run verify:full    # 快速链 ＋ 四组带模型评测（共6组）＋ 双
 | 诱导红队24条（前瞻脑补、指令注入、否定连用、整句诱饵、映射锚点攻击等七类） | rules 24/24、7B 23/24、1.5B 23/24 | 不安全推荐 0、急症漏诊 0；7B 拦下 6 条未通过锚点表核验的模型证据，1.5B 拦下 11 条；结果随仓库 `data/evaluation/redteam-latest.json` 可核 |
 | 覆盖率／自动推荐准确率 | **六组已推荐者准确率均为 100%**（rules 85/85、dynamic 93/93、两组 model 78/78、两组 workflow 94/94；覆盖率：六组均为 100%） | 所有已给出的科室推荐错误率均为 0，剩余尾部案例弃权或转人工 |
 
-> **红队最新快照**（`data/evaluation/redteam-latest.json`，24 条固定不变）：rules 24/24；qwen2.5:7b 23/24、qwen2.5:1.5b 23/24，**不安全推荐 0、急症漏诊 0**。两条未过均为模型证据未通过原文锚点核验而被拦下（7B 6 条、1.5B 11 条证据失验），属 fail-closed 设计的预期行为而非危险推荐。
+> **红队当前快照（0.10.0）**：rules、qwen2.5:7b、qwen2.5:1.5b均24/24；禁止科室推荐与急症漏判均0。RT-020已安全弃权，未修改其标签。0.9.9历史23/24的失败实际是「应弃权却推荐心内科」，并非证据被拦；证据失验拦截6/11条是另一个指标。当前严格门禁会阻断过度推荐。
 
 未安装的模型自动标记为"跳过"，不会伪造模型结果。以上为合成工程测试与模型接入对照，不是临床准确率或独立盲测。
 
 ### 路径 C：现场完全离线（无网络备用方案）
 
-模型程序与权重均位于项目内 `.runtime/`（已被 `.gitignore` 忽略，不随仓库分发；前提：已在联网环境完成路径 B 的一次性下载）：将整个 `.runtime/` 目录拷贝到克隆出的仓库根目录下（与 `package.json` 同级）后 `npm start` 即为完整双模型环境，断网可用。不入库的原因：含约7.2GB二进制与本机运行日志，且 Ollama 与 Qwen2.5 各有许可证、应通过官方渠道按固定版本与哈希获取，直接再分发二进制反而有合规风险。
+**本方案仅适用于Windows x64便携运行时，不适用于macOS/Linux。** 先在联网电脑完成路径B，确认项目 `.runtime/models` 中确有两个模型、摘要正确；如果拉取时使用了另一个已运行的Ollama服务，模型可能在它自己的目录，不能假定复制 `.runtime` 就足够。
+
+在有权使用这些资源的演示设备上，复制相同版本源码及准备好的 `.runtime/ollama`、`.runtime/models` 到项目对应目录；不必复制运行日志。先确认11434端口没有另一套Ollama服务抢占，再执行 `npm start`，核对网页模型列表；需要完整离线复测时执行 `npm run verify:full`。第一次下载仍需要网络，仓库本身不含权重。跨系统请使用目标系统自己的Ollama安装与模型导入方式。
+
+运行时与模型不随源码仓库分发；对外提供二进制前需遵守原始许可证并保留必要声明，不要把本机日志或其他隐私文件打入公开包。
 
 ## 项目简介
 
@@ -138,7 +173,7 @@ npm run verify:full    # 快速链 ＋ 四组带模型评测（共6组）＋ 双
   分界依据 WHO 年龄分期与《儿科学》/《老年人权益保障法》；提交给引擎的仍是 1–17 岁（child）／18 岁及以上（adult）／未满 1 岁（infant）三档。
 - **可挂号科室全部可达**：儿童分流按**儿科组内症状选优**（不再一律进小儿内科，小儿外科与儿童保健科由此可达）；
   未满 1 岁默认转人工，**仅命中新生儿特异主诉**（新生儿黄疸／早产儿随访）时推荐新生儿科，且该判定排在风险与严重度闸门之后。
-- **评测门禁**：**150 条**主集 + 20 条冻结盲测 + 24 条对抗红队，六组同场对照，SHA-256 指纹防报告漂移；
+- **评测门禁**：**150 条**主集 + 20 条固定留出回归 + 24 条对抗红队，六组同场对照，SHA-256 指纹防报告漂移；
   另有**科室覆盖率门禁**（`npm run coverage`）：导诊科室覆盖率 **35/35**，未达用例下限的科室必须显式声明且声明会被反向校验。
 - **词表与路由全景（可自行核对）**：新增「词表与路由」标签页（`GET /api/panorama`），把三处锚点知识摊开：
   **单方向疼痛词**（21 条 `X痛`/`X疼` 只登记一个方向，逐条实测形态锚点能否覆盖另一种说法）、
@@ -249,7 +284,7 @@ npm run models:pull
 
 本项目不是“用大模型替换规则”，而是让两者承担各自不可替代的职责，并用两组对照给出证据：一组是六组同场评测，另一组是**同一案例集、同一流程、只切换模型开关**的口语主诉消融。两组数据都由 `npm run verify:full` 一次跑出，结果随 `data/evaluation/latest.json` 与 `data/evaluation/redteam-latest.json` 公开。
 
-六组同场评测总览——**六组均为当前值**（`data/evaluation/latest.json`，150 条主集 `2026-10-04.1`，2026-10-05 v0.9.9 由 `npm run verify:full` 一次跑出，本机 RTX 5060 Laptop 约 2.5 分钟）：
+六组同场评测历史总览——**以下为0.9.9历史值，非0.10.0当前结果**（`data/evaluation/latest.json`，150 条主集 `2026-10-04.1`，2026-10-05 v0.9.9 由 `npm run verify:full` 一次跑出，本机 RTX 5060 Laptop 约 2.5 分钟）：
 
 | 评测组 | 案例通过 | 覆盖率（应推荐人群给出推荐） | 推荐准确率 | 急诊召回 / 误触发 | 对抗红队（24条） |
 | --- | --- | --- | --- | --- | --- |
@@ -262,7 +297,7 @@ npm run models:pull
 
 口径说明：
 
-1. **数据源**：六行均为当前 150 条主集（`hospital-guide-synthetic-v1` v2026-10-04.1）的实测值，2026-10-05 v0.9.9 由一次 `npm run verify:full` 跑出（需已 `models:setup` + `models:pull`；免模型两行也可由 `npm run verify` 单独复现）。最新一次运行的完整结果（含全部案例的逐轮轨迹、失败清单、环境信息与12文件指纹）随仓库提交在 `data/evaluation/latest.json` 与 `data/evaluation/redteam-latest.json`，任何人可核对；`runs/` 目录只留存开发机上的历次归档（避免历史文件随仓库膨胀），同一份代码与数据用 `npm run verify:full` 即可复现出同等结果。
+1. **数据源**：六行均为0.9.9历史 150 条主集（`hospital-guide-synthetic-v1` v2026-10-04.1）的实测值，2026-10-05 v0.9.9 由一次 `npm run verify:full` 跑出（需已 `models:setup` + `models:pull`；免模型两行也可由 `npm run verify` 单独复现）。最新一次运行的完整结果（含全部案例的逐轮轨迹、失败清单、环境信息与12文件指纹）随仓库提交在 `data/evaluation/latest.json` 与 `data/evaluation/redteam-latest.json`，任何人可核对；`runs/` 目录只留存开发机上的历次归档（避免历史文件随仓库膨胀），同一份代码与数据用 `npm run verify:full` 即可复现出同等结果。
 2. **分母口径**：一次性组（rules／model）只注入安全槽回答（风险、年龄、严重程度），部位与鉴别追问的回答属于交互流程，只有 dynamic／workflow 按流程问到才会使用。这样同一批案例在各组“获得的信息”与各自的流程一致，不会出现“没问过却拿到了答案”。
 3. **覆盖率与推荐准确率**：覆盖率＝在“本应推荐科室”的人群中系统实际给出推荐的比例（其余为弃权/转人工）；推荐准确率＝已给出推荐中科室正确的比例，六组均为 100%。词表扩至 45 科室后 7B 曾出现 HG-068 越界（原文短片段“身上哪儿都别扭”被语义错配为“腹痛”），0.6.x 以分类守卫拦截，0.7.0 起由**映射锚点表**结构性杜绝——证据片段与目标词词素不相交、也无登记同义形时核验直接拒绝，该案例改走证据失验弃权，六组越界推荐现在均为 0。
 4. **对抗红队**按 rules／7B／1.5B 三个层运行（不区分 model/workflow）：rules 组 **24/24**（0.8.1 词表扩充后，原 RT-022／RT-023 的“词表无此词”前提消失，不变量改写为“不得跨症状错配、不得误升急症”，仍保留 forbid 硬约束），不安全输出 0、急症漏判 0；7B 23/24（残留 RT-020 一条“本该弃权却给出科室”，另有 6 条模型证据未通过锚点表核验而被拦下）；1.5B 23/24、拦下 11 条，残留同为 RT-020 一条，未触及禁止科室、也未漏判急症，作为可见挑战保留。注：**0.9.0 起规则层消费登记同义表、0.9.1 起再补词形**（`mentionsMorphology`），如「心口疼」这类安全路径锚点在规则层仍必须先走红旗征确认，红队对此新增保护（原 HG-119／120 回归已修）。
@@ -299,7 +334,7 @@ npm run models:pull
 
 1. **规则能兜住的，就固化为保底层，不留给概率。** 0.9.0／0.9.1／0.9.2 三步把“口语→标准词”的绝大部分确定性地固化进了词法与同义表（可审计、可复算、零调用成本），因此上表这两列今天都是 8/8。把已经能确定性解决的事情继续交给概率模型，等于引入一个不必要的单点故障——**厚保底层是纵深设计的刻意选择，不是模型无用的证据**；模型只在词表穷举不了的长尾上做增强。
 2. **规则兜不住的，模型也不许乱猜。** 模型的证据必须通过锚点表逐词核验（逐条明细最后一列的 `⇐` 是被核验的原文片段），对不上就退回部位问题或直接弃权；评分、平局追问、弃权判定、急症闸门全部与无模型组共用同一套代码。模型在这里是**受约束的翻译者**，不是决策者。
-3. **交互轮次与长尾覆盖是对照里有信息量的差值来源。** 纯规则一次性 1.00 轮、动态追问 4.00 轮（3 个安全槽 + 终态，口语主诉已无需再问部位）；模型在入口标准化可让部分长尾表达少问一轮或免于弃权——增强层的增量价值在这里，而不在“关掉它系统就不能用”。
+3. **交互轮次与长尾覆盖是待验证的增益假设，不能由不同分母均值证明。** 当前共同127条配对样本轮数和终态均无差异；独立长尾语料尚待采集验证。历史设计解释如下： 纯规则一次性 1.00 轮、动态追问 4.00 轮（3 个安全槽 + 终态，口语主诉已无需再问部位）；模型在入口标准化可让部分长尾表达少问一轮或免于弃权——增强层的增量价值在这里，而不在“关掉它系统就不能用”。
 
 这一分工与用户调研相互印证：问卷开放题中的真实表述（如“腰部疼但不知道是骨头还是筋”“上厕所老是拉血”）与这 8 条挑战案例同质，而 71.6% 的受访者最终仍依赖导诊台人工确定科室——纯规则系统对这类表达的结局同样是“转人工”。模型补上的，正是规则无法穷举的开放语言理解环节，而非诊断决策本身；规则与模型结论冲突、或模型证据通不过原文核验时，系统照样弃权让人接管。一句话：**规则守住安全底线，模型接住人类表达的多样性，二者不一致时由人接管。**
 
@@ -327,9 +362,9 @@ npm run verify:full   # 完整：再加双模型评测与双模型红队（需�
 
 最近实际结果写入 `data/evaluation/latest.json`，历次归档仅留存于开发机（`data/evaluation/runs/` 不随仓库分发，避免历史文件膨胀；仓库提交的最新结果已含完整逐轮轨迹）。网页“效果评测”展示指标分子与分母、失败案例、逐轮轨迹和JSON下载。代码或数据变化后标记过期，需要重跑。**这些是开发者可见的合成工程测试与模型接入对照，不是临床准确率或独立盲测。** 普通网页会话不会写入评测集。
 
-### held-out 冻结盲测集
+### held-out 固定留出回归集
 
-除上述与规则共同演进的主集外，仓库另维护一份 **held-out 盲测集** `data/evaluation/cases-heldout.json`（20 条，真实风格表达，覆盖 12 个科室与推荐/急诊/追问/转人工/弃权五类结局）：案例一次性写入并冻结，写入前未运行、写入后不因结果修改词表、提示词或代码，首测结果无论通过与否都如实公开。`npm run evaluate:heldout`（无模型）或 `npm run evaluate:heldout:models`（双模型）单独评测本集，报告写入 `data/evaluation/heldout-latest.json`，不进主集 `latest.json`、不进 failedIds 白名单门禁（本集没有白名单——任何失败都应如实可见而非豁免）；报告内 `dataset.sha256` 可核验案例文件未被事后修改。
+除上述与规则共同演进的主集外，仓库另维护一份 **held-out 盲测集** `data/evaluation/cases-heldout.json`（20 条，真实风格表达，覆盖 12 个科室与推荐/急诊/追问/转人工/弃权五类结局）：案例一次性写入并冻结，写入前未运行、现有结果已向开发者公开并用于回归定位，因此只能作为固定留出回归集，不能证明开发隔离的独立盲测；首测与复测结果都应保留。`npm run evaluate:heldout`（无模型）或 `npm run evaluate:heldout:models`（双模型）单独评测本集，报告写入 `data/evaluation/heldout-latest.json`，不进主集 `latest.json`、不进 failedIds 白名单门禁（本集没有白名单——任何失败都应如实可见而非豁免）；报告内 `dataset.sha256` 可核验案例文件未被事后修改。
 
 **最新复测（2026-10-05 v0.9.9，版本仍为冻结的 2026-10-03.1、sha256 未变，六组结果随 `data/evaluation/heldout-latest.json` 提交可核）：rules 18/18、dynamic 19/19、7B model 18/18、7B workflow 18/18、1.5B model 18/18、1.5B workflow 18/18，六组全绿。** 首测（2026-10-03，六组全绿）与 0.9.1 免模型复测（rules 18/18、dynamic 19/19 保持全绿——词形匹配上线后本集无一回归；其中 HG-141 一度被概念去重的首版实现误伤成“骨科胜出”，已修复并回归平局转人工）均如实留存于变更记录。值得看的三条轨迹：HG-135（“半边身子没劲、说话不利索”——主诉不含红旗词表逐字词，六组全部由安全槽 risk=yes 升级急诊）；HG-137（词表外模糊主诉）在四组分别走出转人工/部位不明弃权/证据失验弃权三种安全结局，无一推荐科室；HG-141（头痛+膝盖痛双科室并列）各一次性组均并列转人工。
 
@@ -353,7 +388,7 @@ npm run verify:full   # 完整：再加双模型评测与双模型红队（需�
 | `lib/unmatched-log.js` | 未命中采集（默认关闭，`HOSPITAL_GUIDE_COLLECT_UNMATCHED=1` 开启）：把规则接不住的口语主诉落到 `.runtime/unmatched.jsonl`，供词表发现脚本消费 |
 | `StructureDefinition/`、`Questionnaire/` | `npm run fhir:export` 自动生成的自定义扩展结构定义与问卷资源本体，canonical URL 与文件路径一一对应、可点击核验 |
 | `data/evaluation/cases.json` | 可扩展合成评测集（150条，含安全确认、红旗征、器官口语与跨器官/跨症状错配守卫） |
-| `data/evaluation/cases-heldout.json` | held-out 冻结盲测集（20条，写入后不因结果调优；`npm run evaluate:heldout` 单独评测，报告写入 `heldout-latest.json`） |
+| `data/evaluation/cases-heldout.json` | held-out 固定留出回归集（20条，保留固定样本用于回归，不声称开发隔离；`npm run evaluate:heldout` 单独评测，报告写入 `heldout-latest.json`） |
 | `data/evaluation/redteam.json`、`scripts/redteam.js` | 24条对抗输入红队、证据闸门回归与覆盖率-准确率对照 |
 | `scripts/suggest-synonyms.mjs` | **同义表盲区发现**：跑纯字面口径收集未命中，产出"建议登记哪些同义组"的报告（只提候选，不改文件；不消费 held-out、不进 verify 链） |
 | `scripts/check-coverage.mjs` | 科室评估覆盖率 fail-closed 门禁（未达用例下限的科室必须显式声明且声明反向校验） |
@@ -460,7 +495,7 @@ npm run suggest:synonyms -- --json report.json  # 额外输出机器可读报告
 - 科室匹配采用关键词和可选模型标准化；页面中的挂号/支付仅为前端模拟演示，没有真实医生排班、号源或支付通道。
 - 孕产期、婴儿、用药以及信息不足的情况转人工；儿童规则仅为虚构配置示例。
 - `npm test` 的模型单元测试采用模拟响应；`npm run models:check` 使用真实本机模型。少量合成联调通过不代表模型医疗质量。
-- 评测方法论上有两处已知局限，如实声明：其一，主集 **150 条**案例与规则共同演进（案例暴露了规则盲区，规则随后修补），评测数字应理解为“对这套配置的自洽性验证”，存在同源过拟合风险——0.7.0 起新增 20 条冻结盲测集（`data/evaluation/cases-heldout.json`，写入后未参与任何调优）作为对冲，但规模仍小；其二，案例真值由团队单方标注（描述文本 AI 辅助，见 `THIRD_PARTY_NOTICES.md` 第 6 项），未做多人独立标注的一致率检验——不过标签性质是“配置词表→科室”的事实性映射而非主观分级，主观分歧空间有限。
+- 评测方法论上有两处已知局限，如实声明：其一，主集 **150 条**案例与规则共同演进（案例暴露了规则盲区，规则随后修补），评测数字应理解为“对这套配置的自洽性验证”，存在同源过拟合风险——0.7.0 起新增 20 条固定留出回归集（`data/evaluation/cases-heldout.json`，写入后未参与任何调优）作为对冲，但规模仍小；其二，案例真值由团队单方标注（描述文本 AI 辅助，见 `THIRD_PARTY_NOTICES.md` 第 6 项），未做多人独立标注的一致率检验——不过标签性质是“配置词表→科室”的事实性映射而非主观分级，主观分歧空间有限。
 - 词表是可扩的枚举上限（0.8.1 从 207 扩到 382 词）：模型只能在该枚举内映射，遇到词表未覆盖的口语仍会返回空数组并走弃权／追问部位兜底。新增词条来自公开常识而非临床审核，仍需专业校验。
 - 在真实场景前，需要使用获准的医院资料，医学专业审核、独立安全验证及适用的数据保护措施。
 
@@ -512,7 +547,7 @@ npm run suggest:synonyms -- --json report.json  # 额外输出机器可读报告
 
 1. 真实用户可用性测试与反馈迭代（当前评测为合成案例集，边界已在评测报告注明）；
 2. 扩充鉴别 probes 与安全确认路径（[#2](https://github.com/yuan293/hospital-guide/issues/2)），扩充口语表达与红队样本（[#3](https://github.com/yuan293/hospital-guide/issues/3)）——每条新增必须伴随评测案例；
-3. ~~划分 held-out 留出集，消除案例与规则同源演进的自洽性局限~~（已落地：20 条冻结盲测集，见"测试"节；后续持续扩充规模，[#1](https://github.com/yuan293/hospital-guide/issues/1)）；
+3. ~~划分 held-out 留出集，消除案例与规则同源演进的自洽性局限~~（已落地：20 条固定留出回归集，见"测试"节；后续持续扩充规模，[#1](https://github.com/yuan293/hospital-guide/issues/1)）；
 4. 验证链跨平台，摆脱 PowerShell 依赖（[#4](https://github.com/yuan293/hospital-guide/issues/4)）；读屏兼容（ARIA 完善）与更多语言的界面文案；
 5. ~~映射锚点表：模型证据→词表词的核验从分类守卫升级为逐词白名单~~（0.7.0 已落地，见顶部 0.7.0 节；后续按评测暴露持续扩充登记同义形）；
 6. 答辩与比赛结束后继续接受 Issue，响应周期约 1–2 周（学生团队课业优先，安全类 Issue 优先处理）。

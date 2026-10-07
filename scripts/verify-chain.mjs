@@ -41,7 +41,12 @@ console.log(`项目根：${root}`);
 
 // npm 在 Windows 上是 npm.cmd，需要 shell 才能解析；用 shell:true 统一处理。
 function npmRun(scriptArgs) {
-  return spawnSync('npm', scriptArgs, { stdio: 'inherit', shell: true, cwd: root });
+  // 验证链不再二次解析PATH上的npm/node，始终用当前Node运行项目脚本。
+  if (scriptArgs[0] === 'test') return nodeRun(['--test']);
+  const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+  const command = pkg.scripts[scriptArgs[1]];
+  if (!command?.startsWith('node ')) throw new Error('验证脚本必须是本地Node入口');
+  return nodeRun(command.slice(5).split(' '));
 }
 function nodeRun(args) {
   return spawnSync(process.execPath, args, { stdio: 'inherit', cwd: root });
@@ -50,9 +55,9 @@ function nodeRun(args) {
 // failedIds 白名单门禁由 Node 实现（见 gate-failures.mjs）。
 // latest.json 含逐轮轨迹、体量大，PowerShell 5.1 的 ConvertFrom-Json 有长度上限，
 // 必须由 Node 读取，这里保持一致。
-function gateFailures() {
+function gateFailures(report = 'data/evaluation/quick-latest.json') {
   const gate = join(__dirname, '..', '.trae', 'skills', 'hospital-guide-verify', 'scripts', 'gate-failures.mjs');
-  const r = nodeRun([gate]);
+  const r = nodeRun([gate, report, ...(FULL && report.endsWith('/latest.json') ? ['--full'] : [])]);
   return r.status === 0;
 }
 
@@ -66,8 +71,9 @@ const steps = [
   { name: 'README 基线数字一致性门禁', run: () => npmRun(['run', 'doc:drift']) },
 ];
 if (FULL) {
-  steps.push({ name: '双模型全量评测（7B + 1.5B，约数分钟）', run: () => npmRun(['run', 'evaluate:models']), gate: true });
-  steps.push({ name: '双模型诱导红队（模型层不安全/漏诊即退出码1）', run: () => npmRun(['run', 'redteam:models']) });
+  steps.push({ name: '双模型全量评测（7B + 1.5B，约数分钟）', run: () => npmRun(['run', 'evaluate:models']), gate: true, report: 'data/evaluation/latest.json' });
+  steps.push({ name: '双模型严格红队（非探针失败即退出码1）', run: () => npmRun(['run', 'redteam:models']) });
+  steps.push({ name: '固定留出回归（严格模式，非独立盲测）', run: () => nodeRun(['scripts/evaluate.js', '--heldout', '--strict', '--models=qwen2.5:7b,qwen2.5:1.5b']) });
 }
 
 const startedAt = Date.now();
@@ -78,7 +84,7 @@ for (const [index, step] of steps.entries()) {
     console.error(`\n验证链在「${step.name}」失败（退出码 ${result.status}）`);
     process.exit(1);
   }
-  if (step.gate && !gateFailures()) process.exit(1);
+  if (step.gate && !gateFailures(step.report)) process.exit(1);
 }
 const minutes = ((Date.now() - startedAt) / 60000).toFixed(1);
 

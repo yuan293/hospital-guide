@@ -128,6 +128,37 @@ test('rule/model department conflicts abstain instead of choosing either side', 
   assert.equal(result.department, null);
   assert.equal(result.model.used, true);
 });
+test('model-only chest rescue requires human safety assessment', async () => {
+  const result = await runTriage({ chief: '我没有胸痛，就是胸口有点闷闷的，不喘', answers, model: 'fixture' }, {
+    interactive: false,
+    normalizer: async () => ({ matches: [{ keyword: '胸闷', evidence: '胸口有点闷闷的' }], rawCount: 1 }),
+  });
+  assert.equal(result.status, 'uncertain');
+  assert.equal(result.reasonCode, 'model_chest_safety');
+  assert.equal(result.department, null);
+  const normalizer = async () => ({ matches: [{ keyword: '胸痛', evidence: '心口疼' }], rawCount: 1 });
+  const screened = await runTriage({ chief: '心口疼', answers: { ...answers, rf_gi_bleed: 'no', rf_epigastric_cardiac: 'no', rf_epigastric_acute: 'no' }, model: 'fixture' }, { normalizer });
+  assert.equal(screened.department, 'cardiology');
+  const pending = await runTriage({ chief: '心口疼', answers, model: 'fixture' }, { normalizer });
+  assert.equal(pending.status, 'question');
+  assert.equal(pending.question.id, 'rf_gi_bleed');
+});
+test('model cannot convert ambiguous rule evidence into a recommendation', async () => {
+  const result = await runTriage({ chief: '头痛，胸闷', answers, model: 'fixture' }, {
+    interactive: false,
+    normalizer: async () => ({ matches: [{ keyword: '胸闷', evidence: '胸闷' }], rawCount: 1 }),
+  });
+  assert.notEqual(result.status, 'recommendation');
+  assert.equal(result.department, null);
+});
+test('unrelated fluent questions fail semantic preservation at the application boundary', async () => {
+  const result = await runTriage({ chief: '发热，头痛', answers, model: 'fixture' }, {
+    polish: async () => ({ title: '您今天早餐吃了什么？' }),
+  });
+  assert.equal(result.question.wording.reason, 'rejected');
+  const spec = (await import('../data/hospital.js')).probes.find(p => p.id === result.question.id);
+  assert.equal(result.question.title, spec.title);
+});
 test('model-free rules still fall back through synonyms when the model yields no evidence', async () => {
   // 不变量二：带模型时 first（含同义）仍是兜底 —— 口语主诉不因模型的弱表现而退化。
   // 1.5B 对「眼睛发干」可能自报若干条却全部失验（matches 为空），此时规则兜底应给眼科，
@@ -171,8 +202,9 @@ test('model polishes a differential question title while options and weights sta
   });
   assert.equal(result.status, 'question');
   const spec = (await import('../data/hospital.js')).probes.find(p => p.id === result.question.id);
-  assert.notEqual(result.question.title, spec.title);
-  assert.equal(result.question.wording.polished, true);
+  assert.equal(result.question.title, spec.title);
+  assert.equal(result.question.wording.polished, false);
+  assert.equal(result.question.wording.reason, 'rejected');
   // 选项取值与文案必须与配置逐字一致——模型无权改动选项。
   assert.deepEqual(result.question.options, spec.options);
 });
