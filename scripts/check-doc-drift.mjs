@@ -27,7 +27,7 @@ function fail(msg) {
   process.exit(1);
 }
 
-const latestPath = join(root, 'data', 'evaluation', 'quick-latest.json');
+const latestPath = join(root, 'data', 'evaluation', 'latest.json');
 const readmePath = join(root, 'README.md');
 for (const p of [latestPath, readmePath]) {
   if (!existsSync(p)) fail(`缺少文件：${p}`);

@@ -1,39 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { evaluateCase, summarize, validateDataset, comparePaired } from '../lib/evaluation.js';
+import { evaluateCase, summarize, validateDataset } from '../lib/evaluation.js';
 import { departments } from '../data/hospital.js';
-import { fingerprint } from '../lib/evaluation-store.js';
-import { validateReportGate } from '../.trae/skills/hospital-guide-verify/scripts/gate-failures.mjs';
-test('fingerprints cover version, model lock and actual independent package sources', async () => {
-  const f = await fingerprint();
-  for (const name of ['package.json', 'data/installed-models.json', 'packages/anchored-evidence-gate/src/anchors.js', 'packages/anchored-evidence-gate/src/polish.js', 'packages/anchored-evidence-gate/src/synonyms.js']) assert.ok(f.files.includes(name));
-  assert.match(f.sha256, /^[a-f0-9]{64}$/);
-});
-test('release gate rejects missing groups and unsafe outcomes on allowlisted ids', () => {
-  const check = report => validateReportGate(report).length ? 1 : 0;
-  assert.equal(check({ dataset: { cases: 1 }, modes: [] }), 1);
-  const mode = id => ({ id, metrics: {}, rows: [{ id: 'HG-018', pass: true, actual: { status: 'human', department: null } }] });
-  const report = { dataset: { cases: 1 }, modes: [mode('rules'), mode('dynamic'), mode('model:qwen2.5:1.5b')] };
-  report.modes[2].rows[0].pass = false;
-  assert.equal(check(report), 0);
-  report.modes[2].rows[0].actual = { status: 'recommendation', department: 'cardiology' };
-  assert.equal(check(report), 1);
-});
 const answers = { risk: 'no', age: 'adult', duration: 'days', severity: 'mild' };
-test('paired comparisons reject mismatches and exclude different applicable populations', () => {
-  const row = (id, turns = 4) => ({ id, chief: '咳嗽', expected: { status: 'recommendation', department: 'respiratory' }, actual: { status: 'recommendation', department: 'respiratory' }, turns });
-  const result = comparePaired([row('a'), row('b', 9)], [row('a'), row('c', 1)]);
-  assert.equal(result.commonCount, 1);
-  assert.equal(result.turns.avgDelta, 0);
-  assert.deepEqual(result.baselineOnlyIds, ['b']);
-  assert.deepEqual(result.modelOnlyIds, ['c']);
-  assert.throws(() => comparePaired([row('a'), row('a')], []));
-  assert.throws(() => comparePaired([row('a')], [{ ...row('a'), chief: '头痛' }]));
-  assert.equal(comparePaired([], []).turns.avgDelta, null);
-  const wrong = { ...row('a'), actual: { status: 'recommendation', department: 'eye' } };
-  const handoff = { ...row('a'), actual: { status: 'human', department: null } };
-  assert.equal(comparePaired([handoff], [wrong]).recommendationRescues.count, 0);
-});
 test('workflow evaluation follows dynamic production question order', async () => {
   const row = { id: 'x', suite: 'regression', category: 'test', input: { chief: '咳嗽', answers }, expected: { status: 'recommendation', department: 'respiratory' } };
   const result = await evaluateCase(row, 'workflow', '');

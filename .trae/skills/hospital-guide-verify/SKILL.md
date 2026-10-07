@@ -41,7 +41,7 @@ npm run verify:full    # 完整（约数分钟，需 .runtime 里 Ollama 就绪�
 
 ## 指纹文件与"评测过期"
 
-18 个指纹文件（见 `lib/evaluation-store.js`）：`package.json`、`data/installed-models.json`、`data/hospital.json`、`data/sources.json`、`data/hospital.js`、`data/evaluation/cases.json`、`lib/triage.js`、`lib/model.js`、`lib/flow.js`、`lib/data-validation.js`、`lib/evaluation.js`、`lib/evaluation-store.js`、`scripts/evaluate.js`、`server.js`、`packages/anchored-evidence-gate/index.js`、`packages/anchored-evidence-gate/src/anchors.js`、`packages/anchored-evidence-gate/src/polish.js`、`packages/anchored-evidence-gate/src/synonyms.js`。
+12 个指纹文件（见 `lib/evaluation-store.js`）：`data/hospital.json`、`data/sources.json`、`data/hospital.js`、`data/evaluation/cases.json`、`lib/triage.js`、`lib/model.js`、`lib/flow.js`、`lib/data-validation.js`、`lib/evaluation.js`、`lib/evaluation-store.js`、`scripts/evaluate.js`、`server.js`。
 
 改动其中任何一个，必须重跑 `evaluate:models` 刷新 `data/evaluation/latest.json`，否则网页评测页提示报告过期。`public/*`、README、`redteam*`、`LICENSE` 不在指纹内。
 

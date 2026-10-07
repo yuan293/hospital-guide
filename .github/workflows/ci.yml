@@ -26,4 +26,4 @@ jobs:
       - name: 红队规则层安全断言
         run: npm run redteam
       - name: failedIds 白名单门禁
-        run: node .trae/skills/hospital-guide-verify/scripts/gate-failures.mjs data/evaluation/quick-latest.json
+        run: node .trae/skills/hospital-guide-verify/scripts/gate-failures.mjs

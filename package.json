@@ -1,6 +1,6 @@
 {
   "name": "hospital-guide-prototype",
-  "version": "0.10.0",
+  "version": "0.9.9",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -31,7 +31,6 @@
     "verify:win:full": "powershell -ExecutionPolicy Bypass -File .trae/skills/hospital-guide-verify/scripts/verify-chain.ps1 -Full",
     "data:validate": "node scripts/validate-data.js",
     "coverage": "node scripts/check-coverage.mjs",
-    "evaluate:paired": "node scripts/compare-paired.mjs",
     "doc:drift": "node scripts/check-doc-drift.mjs",
     "suggest:synonyms": "node scripts/suggest-synonyms.mjs",
     "fhir:export": "node scripts/export-fhir-resources.js",
