@@ -16,6 +16,6 @@ export const probes = probesFromQuestionnaire(data.questionnaire);
 export const pathways = pathwaysFromQuestionnaire(data.questionnaire);
 export const dataInfo = {
   files: ['data/hospital.json', 'data/sources.json'],
-  sha256: createHash('sha256').update(rawHospital).update(rawSources).digest('hex'),
+  sha256: createHash('sha256').update(rawHospital.replace(/\r\n/g, '\n')).update(rawSources.replace(/\r\n/g, '\n')).digest('hex'),
   validation,
 };

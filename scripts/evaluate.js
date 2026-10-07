@@ -21,7 +21,7 @@ const report = {
   schemaVersion: 1, startedAt: new Date().toISOString(), completedAt: null,
   note: dataset.provenance,
   limitations: [...dataset.limitations, '单机顺序运行一次；耗时含模型冷启动影响，不是并发或生产性能测试。', '所有模式共用风险规则；模型辅助只改变症状标准化，完整流程检验逐轮状态转换。', 'rules 为 legacy 固定追问消融基线；dynamic/workflow 启用信息增益追问与存疑弃权，弃权率不以越低越好。'],
-  dataset: { id: dataset.id, version: dataset.version, sha256: createHash('sha256').update(raw).digest('hex'), cases: dataset.cases.length },
+  dataset: { id: dataset.id, version: dataset.version, sha256: createHash('sha256').update(raw.replace(/\r\n/g, '\n')).digest('hex'), cases: dataset.cases.length },
   fingerprint: before, dataSha256: dataInfo.sha256,
   environment: { node: process.version, platform: platform(), arch: arch(), cpu: cpus()[0]?.model },
   modes: [], skipped: [],
