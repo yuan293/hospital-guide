@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-05T02:17:27.086Z",
+  "recordedAt": "2026-10-07T13:35:42.200Z",
   "note": "Six synthetic integration checks only, not clinical accuracy or independent evaluation.",
   "rows": [
     {
@@ -15,7 +15,7 @@
       "department": "digestive",
       "expected": "digestive",
       "passed": true,
-      "elapsedMs": 5922
+      "elapsedMs": 132
     },
     {
       "model": "qwen2.5:1.5b",
@@ -30,7 +30,7 @@
       "department": "neurology",
       "expected": "neurology",
       "passed": true,
-      "elapsedMs": 151
+      "elapsedMs": 120
     },
     {
       "model": "qwen2.5:1.5b",
@@ -40,7 +40,7 @@
       "department": null,
       "expected": null,
       "passed": true,
-      "elapsedMs": 135
+      "elapsedMs": 120
     },
     {
       "model": "qwen2.5:7b",
@@ -55,7 +55,7 @@
       "department": "digestive",
       "expected": "digestive",
       "passed": true,
-      "elapsedMs": 9457
+      "elapsedMs": 5827
     },
     {
       "model": "qwen2.5:7b",
@@ -70,7 +70,7 @@
       "department": "neurology",
       "expected": "neurology",
       "passed": true,
-      "elapsedMs": 303
+      "elapsedMs": 284
     },
     {
       "model": "qwen2.5:7b",
@@ -80,7 +80,7 @@
       "department": null,
       "expected": null,
       "passed": true,
-      "elapsedMs": 189
+      "elapsedMs": 192
     }
   ]
 }
