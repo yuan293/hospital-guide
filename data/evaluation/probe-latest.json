@@ -1,0 +1,4186 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-10-08T02:47:11.215Z",
+  "completedAt": "2026-10-08T02:47:45.107Z",
+  "note": "AI辅助编写的合成对照探针（非门禁诊断集）：同一批常见症状全部改用词表与同义表未登记的口语说法，用于量化「规则层 vs 规则+模型层」的表达泛化差距，为「AI 必要性」提供可复算证据。已剔除 2 条临床并存、无唯一正解的口语（'整宿整宿睡不着'神经内科/心理科并存、'胸脯子发闷喘不上气'呼吸科/心内科并存），以保证「错误科室推荐」可被脚本客观判定。",
+  "limitations": [
+    "对照探针，不是临床准确率，也不是独立盲测；案例由同一开发方单方编写、AI 辅助文字表达。",
+    "不属于门禁集：不进主集 latest.json、不进 failedIds 白名单、不进 verify 链、不进 12 文件指纹。",
+    "仅用于量化模型在「词表未覆盖表达」上的增量，不用于评价医学质量或科室判断的临床正确性。",
+    "报告（probe-latest.json）内的 dataset.sha256 用于核验案例文件未被事后修改。",
+    "同一批主诉只切换「有没有模型」，未做多轮重复运行，模型侧结果受本机推理影响。"
+  ],
+  "dataset": {
+    "id": "hospital-guide-probe-v1",
+    "version": "2026-10-08.1",
+    "sha256": "67f8805ef6fb87ae86e2bc1c12ad3fd88b44342eec40c8af81ce10aad8de0f99",
+    "cases": 16
+  },
+  "plans": [
+    {
+      "id": "rules-only",
+      "label": "规则层（无模型 · 动态追问）",
+      "mode": "dynamic",
+      "model": "",
+      "metrics": {
+        "total": 16,
+        "passed": 5,
+        "skipped": 0,
+        "exactMatch": {
+          "numerator": 5,
+          "denominator": 16,
+          "value": 0.3125
+        },
+        "departmentAccuracy": {
+          "numerator": 5,
+          "denominator": 16,
+          "value": 0.3125
+        },
+        "emergencyRecall": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "emergencyMisses": 0,
+        "falseEmergencyRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "humanTransferRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "humanRecall": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "abstentionRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "conflictRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "evidenceInvalidRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "avgTurns": 4,
+        "modelAttempts": 0,
+        "modelSuccesses": 0,
+        "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
+        "errors": 0,
+        "meanMs": 1,
+        "p95Ms": 3,
+        "categories": [
+          {
+            "category": "口语复述",
+            "passed": 5,
+            "total": 16
+          }
+        ],
+        "failedIds": [
+          "PX-01",
+          "PX-02",
+          "PX-05",
+          "PX-07",
+          "PX-08",
+          "PX-09",
+          "PX-10",
+          "PX-12",
+          "PX-14",
+          "PX-16",
+          "PX-17"
+        ]
+      },
+      "wrongRecommendations": [],
+      "unconvergedIds": [
+        "PX-01",
+        "PX-02",
+        "PX-05",
+        "PX-07",
+        "PX-08",
+        "PX-09",
+        "PX-10",
+        "PX-12",
+        "PX-14",
+        "PX-16",
+        "PX-17"
+      ],
+      "rows": [
+        {
+          "id": "PX-01",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "脑门子一跳一跳地疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 2.6,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-02",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "脑袋瓜嗡嗡发胀",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.68,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-03",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "喉咙跟刀割一样疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "ent",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1.35,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "ent",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-04",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "眼睛涩得睁不开",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "eye"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "eye",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.44,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "eye",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-05",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "鼻子老淌血",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.36,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-06",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "嗓子眼儿老痒痒想咳",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "respiratory"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "respiratory",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.33,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "respiratory",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-07",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "心窝子烧得慌",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.5,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-08",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "肚皮里咕咕叫还跑肚",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.2,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-09",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "小便跟针扎似的",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "urology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.22,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-10",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "心口突突直跳",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "cardiology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.21,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-11",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "身上起了一片痒疙瘩",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "dermatology"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "dermatology",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.34,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "dermatology",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-12",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "腿弯子又酸又沉",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "orthopedics"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.2,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-13",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "耳朵里嗡嗡响个不停",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "ent",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.2,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "ent",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-14",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "好几天解不出大手",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.15,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-16",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "后槽牙一咬就钻心疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "stomatology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.15,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-17",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "一起身就天旋地转",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 0.27,
+          "modelAttempts": 0,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "with:qwen2.5:7b",
+      "label": "规则+模型（完整流程 · qwen2.5:7b）",
+      "mode": "workflow",
+      "model": "qwen2.5:7b",
+      "metrics": {
+        "total": 16,
+        "passed": 7,
+        "skipped": 0,
+        "exactMatch": {
+          "numerator": 7,
+          "denominator": 16,
+          "value": 0.4375
+        },
+        "departmentAccuracy": {
+          "numerator": 7,
+          "denominator": 16,
+          "value": 0.4375
+        },
+        "emergencyRecall": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "emergencyMisses": 0,
+        "falseEmergencyRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "humanTransferRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "humanRecall": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "abstentionRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "conflictRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "evidenceInvalidRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "avgTurns": 4,
+        "modelAttempts": 16,
+        "modelSuccesses": 7,
+        "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
+        "errors": 0,
+        "meanMs": 1655,
+        "p95Ms": 5781,
+        "categories": [
+          {
+            "category": "口语复述",
+            "passed": 7,
+            "total": 16
+          }
+        ],
+        "failedIds": [
+          "PX-01",
+          "PX-02",
+          "PX-08",
+          "PX-09",
+          "PX-10",
+          "PX-12",
+          "PX-14",
+          "PX-16",
+          "PX-17"
+        ]
+      },
+      "wrongRecommendations": [],
+      "unconvergedIds": [
+        "PX-01",
+        "PX-02",
+        "PX-08",
+        "PX-09",
+        "PX-10",
+        "PX-12",
+        "PX-14",
+        "PX-16",
+        "PX-17"
+      ],
+      "rows": [
+        {
+          "id": "PX-01",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "脑门子一跳一跳地疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 5780.84,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 5781,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-02",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "脑袋瓜嗡嗡发胀",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1236.04,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1235,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-03",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "喉咙跟刀割一样疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "ent",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1370.61,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "ent",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [
+                  {
+                    "keyword": "咽痛",
+                    "evidence": "喉咙跟刀割一样疼"
+                  }
+                ],
+                "elapsedMs": 1369,
+                "phase": "terminal",
+                "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-04",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "眼睛涩得睁不开",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "eye"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "eye",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1310.18,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "eye",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1308,
+                "phase": "terminal",
+                "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-05",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "鼻子老淌血",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "ent",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1187.32,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "ent",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [
+                  {
+                    "keyword": "鼻出血",
+                    "evidence": "鼻子老淌血"
+                  }
+                ],
+                "elapsedMs": 1186,
+                "phase": "entry",
+                "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-06",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "嗓子眼儿老痒痒想咳",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "respiratory"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "respiratory",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1445.02,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "respiratory",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1443,
+                "phase": "terminal",
+                "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-07",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "心窝子烧得慌",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "digestive",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1350.7,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "digestive",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [
+                  {
+                    "keyword": "烧心",
+                    "evidence": "心窝子烧得慌"
+                  }
+                ],
+                "elapsedMs": 1350,
+                "phase": "entry",
+                "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-08",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "肚皮里咕咕叫还跑肚",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 2042.72,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 2042,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-09",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "小便跟针扎似的",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "urology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1378.91,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1378,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-10",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "心口突突直跳",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "cardiology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1386.4,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1386,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-11",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "身上起了一片痒疙瘩",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "dermatology"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "dermatology",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1440.28,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "dermatology",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1439,
+                "phase": "terminal",
+                "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-12",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "腿弯子又酸又沉",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "orthopedics"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1505.12,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1504,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-13",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "耳朵里嗡嗡响个不停",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "ent",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1270.57,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "ent",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [
+                  {
+                    "keyword": "耳鸣",
+                    "evidence": "耳朵里嗡嗡响"
+                  }
+                ],
+                "elapsedMs": 1269,
+                "phase": "terminal",
+                "note": "qwen2.5:7b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-14",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "好几天解不出大手",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1153.39,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1153,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-16",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "后槽牙一咬就钻心疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "stomatology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1495.3,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1495,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-17",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "一起身就天旋地转",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 1133.41,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:7b",
+                "matches": [],
+                "elapsedMs": 1132,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "with:qwen2.5:1.5b",
+      "label": "规则+模型（完整流程 · qwen2.5:1.5b）",
+      "mode": "workflow",
+      "model": "qwen2.5:1.5b",
+      "metrics": {
+        "total": 16,
+        "passed": 6,
+        "skipped": 0,
+        "exactMatch": {
+          "numerator": 6,
+          "denominator": 16,
+          "value": 0.375
+        },
+        "departmentAccuracy": {
+          "numerator": 6,
+          "denominator": 16,
+          "value": 0.375
+        },
+        "emergencyRecall": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "emergencyMisses": 0,
+        "falseEmergencyRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "humanTransferRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "humanRecall": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "abstentionRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "conflictRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "evidenceInvalidRate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0
+        },
+        "avgTurns": 4,
+        "modelAttempts": 16,
+        "modelSuccesses": 7,
+        "modelFailures": 0,
+        "wording": {
+          "applicable": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "unavailable": 0,
+          "models": []
+        },
+        "errors": 0,
+        "meanMs": 462,
+        "p95Ms": 2797,
+        "categories": [
+          {
+            "category": "口语复述",
+            "passed": 6,
+            "total": 16
+          }
+        ],
+        "failedIds": [
+          "PX-01",
+          "PX-02",
+          "PX-07",
+          "PX-08",
+          "PX-09",
+          "PX-10",
+          "PX-12",
+          "PX-14",
+          "PX-16",
+          "PX-17"
+        ]
+      },
+      "wrongRecommendations": [
+        {
+          "id": "PX-07",
+          "chief": "心窝子烧得慌",
+          "department": "cardiology"
+        }
+      ],
+      "unconvergedIds": [
+        "PX-01",
+        "PX-02",
+        "PX-08",
+        "PX-09",
+        "PX-10",
+        "PX-12",
+        "PX-14",
+        "PX-16",
+        "PX-17"
+      ],
+      "rows": [
+        {
+          "id": "PX-01",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "脑门子一跳一跳地疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 2796.96,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 2796,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-02",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "脑袋瓜嗡嗡发胀",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 419.53,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 419,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-03",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "喉咙跟刀割一样疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "ent",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 258.92,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "ent",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [
+                  {
+                    "keyword": "喉咙痛",
+                    "evidence": "喉咙跟刀割一样疼"
+                  }
+                ],
+                "elapsedMs": 258,
+                "phase": "terminal",
+                "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-04",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "眼睛涩得睁不开",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "eye"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "eye",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 203.11,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "eye",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 202,
+                "phase": "terminal",
+                "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-05",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "鼻子老淌血",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "ent",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 250.55,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "ent",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [
+                  {
+                    "keyword": "鼻出血",
+                    "evidence": "鼻子老淌血"
+                  }
+                ],
+                "elapsedMs": 250,
+                "phase": "entry",
+                "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-06",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "嗓子眼儿老痒痒想咳",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "respiratory"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "respiratory",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 414.46,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "respiratory",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 413,
+                "phase": "terminal",
+                "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-07",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "心窝子烧得慌",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "cardiology",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 246.06,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "cardiology",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [
+                  {
+                    "keyword": "心慌",
+                    "evidence": "心窝子烧得慌"
+                  }
+                ],
+                "elapsedMs": 245,
+                "phase": "entry",
+                "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-08",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "肚皮里咕咕叫还跑肚",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 326.12,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 326,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-09",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "小便跟针扎似的",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "urology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 373.66,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 373,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-10",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "心口突突直跳",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "cardiology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 248.95,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 249,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-11",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "身上起了一片痒疙瘩",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "dermatology"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "dermatology",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 264.95,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "dermatology",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 264,
+                "phase": "terminal",
+                "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-12",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "腿弯子又酸又沉",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "orthopedics"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 351.06,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 351,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-13",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "耳朵里嗡嗡响个不停",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "ent"
+          },
+          "actual": {
+            "status": "recommendation",
+            "department": "ent",
+            "question": null,
+            "reasonCode": null
+          },
+          "pass": true,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 297.38,
+          "modelAttempts": 1,
+          "modelSuccesses": 1,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "recommendation",
+              "department": "ent",
+              "question": null,
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": true,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 297,
+                "phase": "terminal",
+                "note": "qwen2.5:1.5b 已参与症状标准化；风险分流仍由规则处理。"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-14",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "好几天解不出大手",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "digestive"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 232.96,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 233,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-16",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "后槽牙一咬就钻心疼",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "stomatology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 360.78,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 360,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        },
+        {
+          "id": "PX-17",
+          "suite": "challenge",
+          "category": "口语复述",
+          "chief": "一起身就天旋地转",
+          "skipped": false,
+          "expected": {
+            "status": "recommendation",
+            "department": "neurology"
+          },
+          "actual": {
+            "status": "question",
+            "department": null,
+            "question": "p_location",
+            "reasonCode": null
+          },
+          "pass": false,
+          "error": null,
+          "labelNote": null,
+          "elapsedMs": 339.03,
+          "modelAttempts": 1,
+          "modelSuccesses": 0,
+          "modelFailures": 0,
+          "turns": 4,
+          "trace": [
+            {
+              "status": "question",
+              "department": null,
+              "question": "risk",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "age",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "severity",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false
+              },
+              "wording": null
+            },
+            {
+              "status": "question",
+              "department": null,
+              "question": "p_location",
+              "gain": null,
+              "leaders": null,
+              "reasonCode": null,
+              "model": {
+                "used": false,
+                "attempted": true,
+                "name": "qwen2.5:1.5b",
+                "matches": [],
+                "elapsedMs": 339,
+                "phase": "entry",
+                "note": "本地模型没有给出通过核验的症状线索，继续按规则询问不适部位。",
+                "outcome": "no_evidence"
+              },
+              "wording": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -23,6 +23,8 @@
     "evaluate:models": "node scripts/evaluate.js --models=qwen2.5:7b,qwen2.5:1.5b",
     "evaluate:heldout": "node scripts/evaluate.js --heldout",
     "evaluate:heldout:models": "node scripts/evaluate.js --heldout --models=qwen2.5:7b,qwen2.5:1.5b",
+    "evaluate:probe": "node scripts/evaluate-probe.mjs",
+    "evaluate:probe:models": "node scripts/evaluate-probe.mjs --models=qwen2.5:7b,qwen2.5:1.5b",
     "redteam": "node scripts/redteam.js",
     "redteam:models": "node scripts/redteam.js --models=qwen2.5:7b,qwen2.5:1.5b",
     "verify": "node scripts/verify-chain.mjs",

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "hospital-guide-probe-v1",
+  "version": "2026-10-08.1",
+  "createdAt": "2026-10-08",
+  "provenance": "AI辅助编写的合成对照探针（非门禁诊断集）：同一批常见症状全部改用词表与同义表未登记的口语说法，用于量化「规则层 vs 规则+模型层」的表达泛化差距，为「AI 必要性」提供可复算证据。已剔除 2 条临床并存、无唯一正解的口语（'整宿整宿睡不着'神经内科/心理科并存、'胸脯子发闷喘不上气'呼吸科/心内科并存），以保证「错误科室推荐」可被脚本客观判定。",
+  "reviewStatus": "diagnostic",
+  "limitations": [
+    "对照探针，不是临床准确率，也不是独立盲测；案例由同一开发方单方编写、AI 辅助文字表达。",
+    "不属于门禁集：不进主集 latest.json、不进 failedIds 白名单、不进 verify 链、不进 12 文件指纹。",
+    "仅用于量化模型在「词表未覆盖表达」上的增量，不用于评价医学质量或科室判断的临床正确性。",
+    "报告（probe-latest.json）内的 dataset.sha256 用于核验案例文件未被事后修改。"
+  ],
+  "cases": [
+    { "id": "PX-01", "suite": "challenge", "category": "口语复述", "input": { "chief": "脑门子一跳一跳地疼", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "neurology" } },
+    { "id": "PX-02", "suite": "challenge", "category": "口语复述", "input": { "chief": "脑袋瓜嗡嗡发胀", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "neurology" } },
+    { "id": "PX-03", "suite": "challenge", "category": "口语复述", "input": { "chief": "喉咙跟刀割一样疼", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "ent" } },
+    { "id": "PX-04", "suite": "challenge", "category": "口语复述", "input": { "chief": "眼睛涩得睁不开", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "eye" } },
+    { "id": "PX-05", "suite": "challenge", "category": "口语复述", "input": { "chief": "鼻子老淌血", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "ent" } },
+    { "id": "PX-06", "suite": "challenge", "category": "口语复述", "input": { "chief": "嗓子眼儿老痒痒想咳", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "respiratory" } },
+    { "id": "PX-07", "suite": "challenge", "category": "口语复述", "input": { "chief": "心窝子烧得慌", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "digestive" } },
+    { "id": "PX-08", "suite": "challenge", "category": "口语复述", "input": { "chief": "肚皮里咕咕叫还跑肚", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "digestive" } },
+    { "id": "PX-09", "suite": "challenge", "category": "口语复述", "input": { "chief": "小便跟针扎似的", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "urology" } },
+    { "id": "PX-10", "suite": "challenge", "category": "口语复述", "input": { "chief": "心口突突直跳", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "cardiology" } },
+    { "id": "PX-11", "suite": "challenge", "category": "口语复述", "input": { "chief": "身上起了一片痒疙瘩", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "dermatology" } },
+    { "id": "PX-12", "suite": "challenge", "category": "口语复述", "input": { "chief": "腿弯子又酸又沉", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "orthopedics" } },
+    { "id": "PX-13", "suite": "challenge", "category": "口语复述", "input": { "chief": "耳朵里嗡嗡响个不停", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "ent" } },
+    { "id": "PX-14", "suite": "challenge", "category": "口语复述", "input": { "chief": "好几天解不出大手", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "digestive" } },
+    { "id": "PX-16", "suite": "challenge", "category": "口语复述", "input": { "chief": "后槽牙一咬就钻心疼", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "stomatology" } },
+    { "id": "PX-17", "suite": "challenge", "category": "口语复述", "input": { "chief": "一起身就天旋地转", "answers": { "risk": "no", "age": "adult", "duration": "days", "severity": "mild" } }, "expected": { "status": "recommendation", "department": "neurology" } }
+  ]
+}
