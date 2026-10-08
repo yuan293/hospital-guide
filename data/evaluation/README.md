@@ -13,9 +13,11 @@ npm run data:validate
 npm test
 npm run evaluate
 npm run evaluate:models
+npm run evaluate:probe
+npm run evaluate:probe:models
 ```
 
-最后一个命令顺序运行：legacy规则基线、无模型动态追问、7B模型辅助、7B完整多轮（动态追问）、1.5B模型辅助、1.5B完整多轮。需要本机安装这两个模型，不会自动下载。也可使用 `node scripts/evaluate.js --models=qwen2.5:7b`。
+`evaluate:models` 顺序运行：legacy规则基线、无模型动态追问、7B模型辅助、7B完整多轮（动态追问）、1.5B模型辅助、1.5B完整多轮。需要本机安装这两个模型，不会自动下载。也可使用 `node scripts/evaluate.js --models=qwen2.5:7b`。`evaluate:probe` / `evaluate:probe:models` 则针对词表未覆盖的口语探针集单列对照（见下文“AI 必要性对照探针”）。
 
 - `rules`（legacy基线）：直接输入案例提供的回答，固定追问 risk→age→duration→severity，平局与零候选直接转人工；作为消融对照保留。
 - `dynamic`：默认策略，不强制询问 duration；安全槽之后先完成命中的安全确认（上腹痛：3项红旗征，按 `probe-order` 顺序，阳性直接升级急诊、“不确定”转人工），再按信息增益提出鉴别问题（预算2问），零候选先问部位；追问后仍无法判定则返回存疑弃权。不调用模型。
@@ -32,6 +34,8 @@ npm run evaluate:models
 结果在 latest.json 和 runs/ 时间戳文件中保存；网页“效果评测”可以逐条核验和下载JSON。只展示实际运行组，模型缺失明确标记为跳过。代码、数据、提示词的SHA-256指纹用于发现过期结果；修改后须重跑。无模型评测会覆盖最近结果，但历史保留。
 
 **冻结盲测集（held-out）**：`npm run evaluate:heldout`（无模型）或 `npm run evaluate:heldout:models`（双模型）单独评测 `cases-heldout.json`（20条），报告写入 `heldout-latest.json`，**不进主集 `latest.json`、不进 failedIds 白名单门禁**——本集没有白名单，任何失败都应如实可见而非豁免；报告内 `dataset.sha256` 可核验案例文件未被事后修改。
+
+**AI 必要性对照探针（`cases-probe.json`，16 条，非门禁）**：把一批常见症状全部改用词表与同义表**未登记**的口语说法（“脑门子一跳一跳地疼”“心窝子烧得慌”等），`npm run evaluate:probe`（规则层）或 `npm run evaluate:probe:models`（规则 + 7B/1.5B）单列对照“规则层 vs 规则+模型层”的表达泛化差距，报告写入 `probe-latest.json`（含逐条实际结局与 `dataset.sha256`）。它回答的是“AI 到底还需不需要”：在词表已覆盖的 8 条口语（HG-039~046）上四组均 8/8（保底层成立），而在词表未覆盖的这 16 条上规则层明显低于接入模型组，且未收敛项全部是安全弃权/追问——模型是唯一能读懂未登记表述的组件，增量受证据核验闸门约束但不为零。**错误推荐按组核实、如实分列**：规则层 0 条、7B 组 0 条；**1.5B 组有 1 条**——`PX-07「心窝子烧得慌」`被 1.5B 判为心血管内科（期望消化内科），该条在门禁集（主集/红队/盲测）中不出现，属探针集暴露的弱模型长尾误判，如实保留不作调优。本集为**诊断性对照**，不进 `latest.json`、不进 failedIds 白名单、不进 verify 链、不进 12 文件指纹；案例由同一开发方单方编写、AI 辅助文字表达，不是临床准确率，也不是独立盲测。
 
 ## 指标
 

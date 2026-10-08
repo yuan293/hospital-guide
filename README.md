@@ -31,6 +31,7 @@ curl -s https://api.github.com/repos/yuan293/hospital-guide
 | 当前版本标签 | https://github.com/yuan293/hospital-guide/releases/tag/v0.9.9 |
 | 六组评测报告（含逐轮轨迹与12文件指纹） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/latest.json |
 | held-out 盲测报告（20条冻结案例） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/heldout-latest.json |
+| AI 必要性对照探针报告（16条词表外口语） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/probe-latest.json |
 | 对抗红队报告（24条） | https://github.com/yuan293/hospital-guide/blob/main/data/evaluation/redteam-latest.json |
 | 用户调研报告（N=88） | https://github.com/yuan293/hospital-guide/blob/main/docs/诊途-问题与场景价值-调研正文.docx |
 | 可用性测试报告（N=8） | https://github.com/yuan293/hospital-guide/blob/main/docs/诊途-可用性测试报告.docx |
@@ -127,7 +128,7 @@ npm run verify:full    # 快速链 ＋ 四组带模型评测（共6组）＋ 双
 
 **当前版本 0.9.9 的核心状态：**
 
-- **科室与词表**：45 个科室、八大类，症状词表 382+ 词；7 个医技科室（放射/检验/药剂等）标注「医生开单/转诊」，不进导诊推荐。
+- **科室与词表**：45 个科室、八大类，症状词表 **406** 词；7 个医技科室（放射/检验/药剂等）标注「医生开单/转诊」，不进导诊推荐。
 - **导诊链路**：安全确认（红旗征）→ 多轮信息增益追问 → 科室匹配 → 依据展示 → 可选弃权转人工；全程不诊断、不开药。
 - **模型位置（双向受约束）**：只做「把口语标准化为词表内症状词」与「把追问改写成更自然的问法」两件事，输出受 schema 与 fail-closed 核验双重约束，模型无法触发或覆盖急症分流。
 - **口语兜底（规则层，无需模型）**：规则路径与模型路径共用同一份锚点知识——字面词 → 词形（`X疼↔X痛`／`X出血`）→ 登记同义形，
@@ -213,6 +214,8 @@ npm run verify:full    # 快速链 ＋ 四组带模型评测（共6组）＋ 双
 | 云端大模型 API 问答 | 病情描述离开本机、依赖联网与第三方服务条款 | 全本地 Apache-2.0 双模型，无云端依赖、无遥测，数据不出本机；未装模型时规则模式仍是完整可演示的产品 |
 
 核心创新是**“规则守底线、模型接多样性、不一致时由人接管”的职责切分**，且融合是**双向**的——模型既把患者口语“读懂”为标准词（入口翻译），也在受约束下把系统追问“说人话”（措辞润色）。系统在证据不足时主动说“不知道”并转人工，是刻意设计的安全特性，不是缺陷。下方“规则与模型的分工”一节给出了这套架构的消融证据。
+
+与同类**开源项目**的横向对比（含可复核的 GitHub 公开 API 抓取方法）见 [docs/横向对比-创新性差异化论证-2026-10-03.md](docs/横向对比-创新性差异化论证-2026-10-03.md)。对比对象为 Triage-Assist-AI（云端 API 路线）与 Intelligent-guidance（交付物形态路线）；经 2026-10-03 抓取核验，同类开源项目中尚无同时具备「冻结盲测＋对抗红队＋指纹防漂移＋失败白名单门禁」完整评测体系者。三者面向就诊流程的不同环节，非替代关系。
 
 ## 本地大模型
 
@@ -354,6 +357,7 @@ npm run verify:full   # 完整：再加双模型评测与双模型红队（需�
 | `StructureDefinition/`、`Questionnaire/` | `npm run fhir:export` 自动生成的自定义扩展结构定义与问卷资源本体，canonical URL 与文件路径一一对应、可点击核验 |
 | `data/evaluation/cases.json` | 可扩展合成评测集（150条，含安全确认、红旗征、器官口语与跨器官/跨症状错配守卫） |
 | `data/evaluation/cases-heldout.json` | held-out 冻结盲测集（20条，写入后不因结果调优；`npm run evaluate:heldout` 单独评测，报告写入 `heldout-latest.json`） |
+| `data/evaluation/cases-probe.json`、`scripts/evaluate-probe.mjs` | AI 必要性对照探针（16条词表未覆盖口语）：`npm run evaluate:probe` 跑规则层、`npm run evaluate:probe:models` 加跑规则+模型，报告写入 `probe-latest.json`；非门禁诊断集，不进 verify 链与指纹。**错误推荐如实分列**：规则层 0 条、7B 0 条、1.5B 1 条（`PX-07「心窝子烧得慌」`被判为心血管内科），该条不在门禁集内，作为弱模型长尾误判保留不作调优 |
 | `data/evaluation/redteam.json`、`scripts/redteam.js` | 24条对抗输入红队、证据闸门回归与覆盖率-准确率对照 |
 | `scripts/suggest-synonyms.mjs` | **同义表盲区发现**：跑纯字面口径收集未命中，产出"建议登记哪些同义组"的报告（只提候选，不改文件；不消费 held-out、不进 verify 链） |
 | `scripts/check-coverage.mjs` | 科室评估覆盖率 fail-closed 门禁（未达用例下限的科室必须显式声明且声明反向校验） |
@@ -461,7 +465,7 @@ npm run suggest:synonyms -- --json report.json  # 额外输出机器可读报告
 - 孕产期、婴儿、用药以及信息不足的情况转人工；儿童规则仅为虚构配置示例。
 - `npm test` 的模型单元测试采用模拟响应；`npm run models:check` 使用真实本机模型。少量合成联调通过不代表模型医疗质量。
 - 评测方法论上有两处已知局限，如实声明：其一，主集 **150 条**案例与规则共同演进（案例暴露了规则盲区，规则随后修补），评测数字应理解为“对这套配置的自洽性验证”，存在同源过拟合风险——0.7.0 起新增 20 条冻结盲测集（`data/evaluation/cases-heldout.json`，写入后未参与任何调优）作为对冲，但规模仍小；其二，案例真值由团队单方标注（描述文本 AI 辅助，见 `THIRD_PARTY_NOTICES.md` 第 6 项），未做多人独立标注的一致率检验——不过标签性质是“配置词表→科室”的事实性映射而非主观分级，主观分歧空间有限。
-- 词表是可扩的枚举上限（0.8.1 从 207 扩到 382 词）：模型只能在该枚举内映射，遇到词表未覆盖的口语仍会返回空数组并走弃权／追问部位兜底。新增词条来自公开常识而非临床审核，仍需专业校验。
+- 词表是可扩的枚举上限（0.8.1 从 207 扩到 382 词，其后随科室与口语补充继续增长，当前 **406** 词）：模型只能在该枚举内映射，遇到词表未覆盖的口语仍会返回空数组并走弃权／追问部位兜底。新增词条来自公开常识而非临床审核，仍需专业校验。
 - 在真实场景前，需要使用获准的医院资料，医学专业审核、独立安全验证及适用的数据保护措施。
 
 ## 维护与开放计划
