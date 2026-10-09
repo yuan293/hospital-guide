@@ -47,6 +47,36 @@ function nodeRun(args) {
   return spawnSync(process.execPath, args, { stdio: 'inherit', cwd: root });
 }
 
+// --- npm 不可用时的回退：直接调 node，绕开 npm ---
+// 便携版 Node（.runtime/node/node.exe，随提交材料分发）只含 node.exe、不含 npm。
+// 为让评委在「完全不安装 Node.js」的环境下也能跑通本链，这里把每个 npm script
+// 映射到 package.json 中的等价命令（全部为 `node <脚本>` 形式）。
+// 有 npm 时行为不变（走上面分支），仅在 npm 缺失时启用回退。
+const npmAvailable = (() => {
+  const probe = spawnSync('npm', ['--version'], { stdio: 'ignore', shell: true });
+  return !probe.error && probe.status === 0;
+})();
+if (!npmAvailable) {
+  console.log('未检测到 npm，改用便携版 Node 直接执行各步骤（等价命令）');
+}
+
+const SCRIPT_FALLBACK = {
+  'test': ['--test'],
+  'run data:validate': ['scripts/validate-data.js'],
+  'run coverage': ['scripts/check-coverage.mjs'],
+  'run evaluate': ['scripts/evaluate.js'],
+  'run doc:drift': ['scripts/check-doc-drift.mjs'],
+  'run evaluate:models': ['scripts/evaluate.js', '--models=qwen2.5:7b,qwen2.5:1.5b'],
+  'run redteam:models': ['scripts/redteam.js', '--models=qwen2.5:7b,qwen2.5:1.5b'],
+};
+function run(scriptArgs) {
+  if (npmAvailable) return npmRun(scriptArgs);
+  const key = scriptArgs.join(' ');
+  const fallback = SCRIPT_FALLBACK[key];
+  if (!fallback) throw new Error(`npm 不可用，且该步骤没有 node 等价命令：npm ${key}`);
+  return nodeRun(fallback);
+}
+
 // failedIds 白名单门禁由 Node 实现（见 gate-failures.mjs）。
 // latest.json 含逐轮轨迹、体量大，PowerShell 5.1 的 ConvertFrom-Json 有长度上限，
 // 必须由 Node 读取，这里保持一致。
@@ -57,17 +87,17 @@ function gateFailures() {
 }
 
 const steps = [
-  { name: '单元测试（node --test）', run: () => npmRun(['test']) },
-  { name: '数据 fail-closed 校验', run: () => npmRun(['run', 'data:validate']) },
-  { name: '科室评估覆盖率门禁', run: () => npmRun(['run', 'coverage']) },
-  { name: '无模型评测（rules + dynamic）', run: () => npmRun(['run', 'evaluate']), gate: true },
+  { name: '单元测试（node --test）', run: () => run(['test']) },
+  { name: '数据 fail-closed 校验', run: () => run(['run', 'data:validate']) },
+  { name: '科室评估覆盖率门禁', run: () => run(['run', 'coverage']) },
+  { name: '无模型评测（rules + dynamic）', run: () => run(['run', 'evaluate']), gate: true },
   // 放在 evaluate 之后：本步读的是 evaluate 刚写出的 latest.json，
   // 用来拦住「代码先跑、README 基线数字掉队」的文档漂移。
-  { name: 'README 基线数字一致性门禁', run: () => npmRun(['run', 'doc:drift']) },
+  { name: 'README 基线数字一致性门禁', run: () => run(['run', 'doc:drift']) },
 ];
 if (FULL) {
-  steps.push({ name: '双模型全量评测（7B + 1.5B，约数分钟）', run: () => npmRun(['run', 'evaluate:models']), gate: true });
-  steps.push({ name: '双模型诱导红队（模型层不安全/漏诊即退出码1）', run: () => npmRun(['run', 'redteam:models']) });
+  steps.push({ name: '双模型全量评测（7B + 1.5B，约数分钟）', run: () => run(['run', 'evaluate:models']), gate: true });
+  steps.push({ name: '双模型诱导红队（模型层不安全/漏诊即退出码1）', run: () => run(['run', 'redteam:models']) });
 }
 
 const startedAt = Date.now();

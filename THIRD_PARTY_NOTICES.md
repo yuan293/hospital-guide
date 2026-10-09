@@ -10,7 +10,7 @@
 
 | 序号 | 资源名称及类型 | 版本/来源 | 许可证/授权类型 | 使用/开放方式 | 关键义务/限制 | 团队自主修改或开发内容 | 合规状态 |
 | ---: | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Node.js（开源软件／运行时） | 20 及以上；https://nodejs.org/ | MIT（主体；运行时内含其他第三方组件，以实际版本 LICENSE 为准） | 本机运行服务端与测试；**不随仓库分发运行时** | 若对外分发运行时，须保留 MIT 许可与版权声明 | 未修改；仅使用内置模块（http、fs、crypto、child_process 等） | 已核验 |
+| 1 | Node.js（开源软件／运行时） | v22.22.2（win-x64）；https://nodejs.org/dist/v22.22.2/ | MIT（主体；分发包内 npm 等第三方组件遵循各自许可，随包 `LICENSE` 为准） | 本机运行服务端与测试；**不随源码仓库分发**，但作为**提交材料的便携运行时**（`.runtime/node/node.exe` + `LICENSE`）经网盘分发，供评委免安装复现 | 分发运行时须保留 MIT 许可与版权声明；不得暗示官方背书 | 未修改程序；仅提取官方 zip 中的 `node.exe`，并按 `download-source.json` 记录版本、下载地址与 SHA-256 供核验 | 已核验 |
 | 2 | Ollama（开源软件／推理运行时） | v0.34.4；https://github.com/ollama/ollama/releases/tag/v0.34.4 | MIT（主体；分发包内推理库等遵循各自许可，以随包 LICENSE 为准） | 便携化启动本机推理服务；`scripts/setup-runtime.js` 从官方发布下载并校验 SHA-256（`535193f3…06fa62`）；**不随仓库分发** | 再分发便携包须保留原始许可与 NOTICE；不得暗示官方背书；启动参数中已关闭云端功能 | 未修改程序；仅以固定参数启动（本机地址、模型目录、`OLLAMA_NO_CLOUD=1`、并发 1、上下文 2048、空闲 5 分钟释放） | 已核验 |
 | 3 | Qwen2.5 7B（模型／Q4_K_M） | 7.6B；https://ollama.com/library/qwen2.5 ；摘要 `845dbda0…0b697e` | Apache-2.0（许可原文随仓库：`data/model-licenses/qwen2.5-7b.txt`） | 本机加载，用于把口语症状映射到配置词表；**不随仓库分发权重** | 再分发权重须附许可副本、保留 NOTICE、标注修改；不得以 Qwen 名义背书 | 无权重修改、无微调；提示词、词表约束、原文连续片段核验规则由团队自研 | 已核验 |
 | 4 | Qwen2.5 1.5B（模型／Q4_K_M） | 1.5B；同上来源；摘要 `65ec0654…ddc57b` | Apache-2.0（`data/model-licenses/qwen2.5-1.5b.txt`） | 本机加载，作为轻量对照模型，不参与生产流程 | 同第 3 项 | 同第 3 项 | 已核验 |
@@ -32,9 +32,10 @@
 - 应用**无 npm 运行依赖**：`package.json` 无 `dependencies` 与 `devDependencies`，仅使用 Node.js 内置模块。
 - **无 CDN 脚本、无外部字体文件、无云端模型调用**；模型推理全部经由本机 Ollama 服务（默认 `127.0.0.1:11434`，代码层禁止配置远程地址）。
 
-**未随仓库分发的内容**
+**未随源码仓库分发的内容**
 
-- `.runtime/`（Ollama 便携运行时约 1.8GB、两个模型权重约 5.7GB）已被 `.gitignore` 排除，由 `npm run models:setup` 与 `npm run models:pull` 按清单第 2–4 项自行下载并校验。
+- `.runtime/`（Node 便携运行时约 83MB、Ollama 便携运行时约 1.8GB、两个模型权重约 5.3GB）已被 `.gitignore` 排除。Ollama 与模型由 `npm run models:setup` 与 `npm run models:pull` 自行下载并校验；Node 便携运行时按第 1 项由官方发布提取，来源与哈希记录于 `.runtime/node/download-source.json`。
+- 上述 `.runtime/` 整体作为**提交材料**经网盘提供（`05-离线运行时-runtime.zip`），用途是让评委在**不安装任何软件**的环境下复现；该分发方式下 Node.js（MIT）与 Ollama（MIT）、Qwen2.5（Apache-2.0）的许可原文均已随包附上，并保留各项目版权声明。
 - 不含个人密钥、访问凭据、患者数据或真实医院资料。
 
 **团队自建、并单独开放复用的成果**
@@ -50,8 +51,9 @@
 
 - 本仓库自身：根目录 `LICENSE`（Apache-2.0，覆盖代码、示例数据、文档、测试与评测集）。
 - 独立包：`packages/anchored-evidence-gate/LICENSE`（与根目录一致，随包分发）。
+- 便携运行时：`.runtime/node/LICENSE`（Node.js，MIT）、`.runtime/ollama/`（Ollama，随包 LICENSE）。
 - 两个模型：`data/model-licenses/qwen2.5-7b.txt`、`qwen2.5-1.5b.txt`。
-- 模型版本、摘要与量化方式：`data/installed-models.json`（由安装脚本自动记录）。
+- 模型版本、摘要与量化方式：`data/installed-models.json`（由安装脚本自动记录）；便携运行时版本与哈希：`.runtime/node/download-source.json`、`.runtime/ollama/download-source.json`。
 
 **维护约定**
 

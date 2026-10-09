@@ -43,6 +43,8 @@ curl -s https://api.github.com/repos/yuan293/hospital-guide
 
 需要 Node.js 20 或以上，不需要 npm install。Windows 双击 `start.cmd`，保持窗口打开，在浏览器中打开窗口给出的地址，默认 `http://127.0.0.1:3210`。端口被占用时自动尝试下一个端口。
 
+> **免安装启动**：若 `.runtime/` 目录下存在便携版 `node/node.exe`（提交材料的 `05-离线运行时-runtime.zip` 内含），`start.cmd` 会**优先使用它**，本机无需安装 Node.js。查找顺序为：项目自带便携版 → 系统已安装的 Node → 都没有才提示获取方式。
+
 也可以在项目目录执行：
 
 ```sh
@@ -53,7 +55,9 @@ npm start
 
 ## 评委复现指南
 
-仅需 Node.js 20+（https://nodejs.org 下载 LTS 安装，命令行 `node -v` 显示 v20 以上即可），**不需要 npm install**，全程只监听本机 127.0.0.1。获取项目：`git clone https://github.com/yuan293/hospital-guide.git`；不会 Git 可在仓库页面点绿色 **Code** 按钮 → **Download ZIP** 解压。路径 A 不下载模型即可验证全部规则引擎、安全闸门与界面功能；路径 B 复现双模型结果；路径 C 供现场断网备用。
+仅需 Node.js 20+（https://nodejs.org 下载 LTS 安装，命令行 `node -v` 显示 v20 以上即可）——**若已按路径 C 解压 `.runtime/`（内含便携版 Node），则本机无需安装任何软件**；**不需要 npm install**，全程只监听本机 127.0.0.1。获取项目：`git clone https://github.com/yuan293/hospital-guide.git`；不会 Git 可在仓库页面点绿色 **Code** 按钮 → **Download ZIP** 解压。路径 A 不下载模型即可验证全部规则引擎、安全闸门与界面功能；路径 B 复现双模型结果；路径 C 供现场断网备用。免安装时可用 `run.cmd <命令>` 代替 `npm run <命令>`（如 `run.cmd test`、`run.cmd verify`）。
+
+完整的分步复现指引（含逐条预期输出与判定标准）见 **[`docs/诊途-评委复现说明.md`](docs/诊途-评委复现说明.md)**，同时以 PDF 形式随提交材料提供。
 
 常见问题：提示"npm 不是内部或外部命令"说明 Node.js 未安装或安装后未重新打开命令行窗口；浏览器打不开地址先确认启动窗口仍在运行；`git clone` 卡住或报连接超时通常是网络受限，改用仓库页面 **Code → Download ZIP** 下载解压即可（无需 Git）；本服务只能在运行项目的电脑本机访问，不是可分享的公网网址；所有医院与科室数据均为虚构，不能用于真实就医。
 
@@ -121,6 +125,8 @@ npm run verify:full    # 快速链 ＋ 四组带模型评测（共6组）＋ 双
 ### 路径 C：现场完全离线（无网络备用方案）
 
 模型程序与权重均位于项目内 `.runtime/`（已被 `.gitignore` 忽略，不随仓库分发；前提：已在联网环境完成路径 B 的一次性下载）：将整个 `.runtime/` 目录拷贝到克隆出的仓库根目录下（与 `package.json` 同级）后 `npm start` 即为完整双模型环境，断网可用。不入库的原因：含约7.2GB二进制与本机运行日志，且 Ollama 与 Qwen2.5 各有许可证、应通过官方渠道按固定版本与哈希获取，直接再分发二进制反而有合规风险。
+
+> 同一目录下还可放便携版 Node（`.runtime/node/node.exe`，官方 v22.22.2，MIT 许可，来源与 SHA-256 见 `.runtime/node/download-source.json`），使 `start.cmd` 与 `run.cmd` 在**本机未安装 Node.js** 时仍可用。与 Ollama/模型一样，它不进入源码仓库，仅作为**提交材料**（`05-离线运行时-runtime.zip`）经网盘提供，以便评委零安装复现；分发时随附 `LICENSE`，符合 MIT 的署名要求。
 
 ## 项目简介
 
