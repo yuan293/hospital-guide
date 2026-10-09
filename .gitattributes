@@ -1,0 +1,22 @@
+# 统一换行符策略
+# 仓库内一律存 LF；检出到工作区时按平台/类型还原。
+* text=auto eol=lf
+
+# Windows 批处理必须用 CRLF：cmd.exe 对 LF 换行的 goto/括号块解析不可靠
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# 二进制文件不做换行转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.docx binary
+*.zip binary
+*.exe binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
